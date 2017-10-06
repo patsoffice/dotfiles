@@ -1,0 +1,8 @@
+# Roots of the synchronization
+root = /Users/pjl
+root = ssh://hetfield.patsoffice.com//home/pjl
+
+# Paths to synchronize
+path = workspace
+
+repeat = watch

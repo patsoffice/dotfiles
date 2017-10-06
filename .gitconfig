@@ -1,0 +1,5 @@
+[user]
+  name = Patrick Lawrence
+  email = patrick.lawrence@gmail.com
+[credential]
+  helper = osxkeychain
