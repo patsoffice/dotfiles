@@ -5,6 +5,7 @@ set nocompatible
 let mapleader = ","
 
 " Disable filetype for Vundle installation
+filetype on
 filetype off
 
 " Set the runtime path to include Vundle and initialize
