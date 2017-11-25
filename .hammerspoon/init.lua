@@ -18,6 +18,26 @@ Install:andUse("WindowGrid",
                }
 )
 
+-- http://www.hammerspoon.org/Spoons/WindowHalfsAndThirds.html
+Install:andUse("WindowHalfsAndThirds",
+               {
+                  config = {
+                     use_frame_correctness = true
+                  },
+                  hotkeys = 'default'
+               }
+)
+
+-- http://www.hammerspoon.org/Spoons/WindowScreenLeftAndRight.html
+Install:andUse("WindowScreenLeftAndRight",
+               {
+                   hotkeys = {
+                      screen_left = { cmdctrlshift, "Left" },
+                      screen_right= { cmdctrlshift, "Right" },
+                   }
+               }
+)
+
 -- http://www.hammerspoon.org/Spoons/ReloadConfiguration.html
 Install:andUse("ReloadConfiguration",
                {
@@ -26,4 +46,3 @@ Install:andUse("ReloadConfiguration",
                     start = true
                }
 )
-
