@@ -2,6 +2,7 @@ hs.logger.defaultLogLevel="info"
 
 hyper = {"ctrl", "alt", "cmd"}
 hypershift = {"ctrl", "alt", "cmd", "shift"}
+cmdctrlshift = {"cmd", "ctrl", "shift"}
 
 hs.loadSpoon("SpoonInstall")
 
