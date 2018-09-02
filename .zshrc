@@ -73,3 +73,9 @@ if [ "$kernel" = "Darwin" ]; then
     export PATH=$PATH:$GOPATH/bin
 fi
 
+alias cat='bat'
+alias cat-orig='/bin/cat'
+alias ping='prettyping --nolegend'
+alias ping-orig='/sbin/ping'
+alias du="ncdu --color dark -rr -x --exclude .git"
+alias du-orig='/usr/bin/du'
