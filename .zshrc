@@ -53,8 +53,12 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
+# Set the path and use the helper if it's available.
+if [ -x /usr/libexec/path_helper ]; then
+  eval `/usr/libexec/path_helper -s`
+else
+  export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin"
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -68,9 +72,14 @@ setopt hist_no_store
 setopt histreduceblanks
 
 if [ "$kernel" = "Darwin" ]; then
-    export EDITOR='subl -w'
-    export GOPATH=$HOME/gopath
-    export PATH=$PATH:$GOPATH/bin
+  # On the work laptop, use Atom for now
+  if [ -x /usr/libexec/path_helper ]; then
+    export EDITOR='atom -w'
+  else
+    export EDITOR='code -w'
+  fi
+  export GOPATH=$HOME/gopath
+  export PATH=$PATH:$GOPATH/bin
 fi
 
 alias cat='bat'
