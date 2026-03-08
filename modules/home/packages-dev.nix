@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.packages = with pkgs; [
-    # ── Editors ────────────────────────────────────────────────────────
+    # ── Editors (vscode on Darwin via Homebrew cask) ──────────────────
+  ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [
     vscode
+  ] ++ [
 
     # ── Terminals ─────────────────────────────────────────────────────
     wezterm
@@ -15,13 +17,14 @@
     golangci-lint
     gopls
 
-    # ── Development — Rust ─────────────────────────────────────────────
+    # ── Development — Rust (skipped on Darwin; managed by rustup) ──────
+  ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [
     cargo
     clippy
     rust-analyzer
     rustc
     rustfmt
-
+  ] ++ [
     # ── Development — Python ───────────────────────────────────────────
     pipx
     pyright
@@ -31,6 +34,9 @@
     # ── Development — C/C++ ────────────────────────────────────────────
     clang-tools # includes clang-format
     cmake
+
+    # ── Development — Infra ─────────────────────────────────────────────
+    talosctl
 
     # ── Development — Other ────────────────────────────────────────────
     hyperfine

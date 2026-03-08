@@ -51,11 +51,11 @@
       };
 
       # ── macOS hosts ───────────────────────────────────────────────────
-      # darwinConfigurations = {
-      #   pjl-mac = helpers.mkDarwinHost {
-      #     hostname = "pjl-mac";
-      #   };
-      # };
+      darwinConfigurations = {
+        pjl-mbpro = helpers.mkDarwinHost {
+          hostname = "pjl-mbpro";
+        };
+      };
 
       # ── Packages ───────────────────────────────────────────────────
       packages = {

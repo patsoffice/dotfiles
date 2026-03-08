@@ -132,14 +132,19 @@ let
     }:
     nix-darwin.lib.darwinSystem {
       inherit system;
+      specialArgs = {
+        inherit username;
+      };
       modules = [
         ../hosts/${hostname}/default.nix
         ../modules/darwin/base.nix
+        ../modules/darwin/homebrew.nix
         home-manager.darwinModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
+            backupFileExtension = "hm-backup";
             users.${username} = {
               imports =
                 coreHomeModules
