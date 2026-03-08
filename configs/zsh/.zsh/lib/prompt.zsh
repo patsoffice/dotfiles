@@ -68,10 +68,16 @@ osc7_cwd() {
     printf '\e]7;%s\a' "${url}"
 }
 
+# Set terminal title to current directory
+_set_terminal_title() {
+    printf '\e]0;%s\a' "${PWD/#$HOME/~}"
+}
+
 # Initialize prompt
 init_prompt() {
     # Set up precmd hooks only once
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd osc7_cwd
+    add-zsh-hook precmd _set_terminal_title
     _init_starship
 }

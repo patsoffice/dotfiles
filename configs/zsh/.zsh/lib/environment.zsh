@@ -3,40 +3,10 @@
 # Setup PATH environment variable
 # Order = priority (first entry wins). typeset -U deduplicates.
 setup_path() {
-    typeset -U path
+    PATH="$HOME/bin:$HOME/.local/bin:$HOME/.claude/local:$HOME/.nix-profile/bin:/etc/profiles/per-user/${USER}/bin:/run/wrappers/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
 
-    # Go environment
-    export GOPATH="${GOPATH:-$HOME/workspace/go}"
-    export GOBIN="${GOBIN:-$GOPATH/bin}"
-    export GOPROXY="${GOPROXY:-https://proxy.golang.org,direct}"
-
-    path=(
-        # User paths (highest priority)
-        "$HOME/bin"
-        "$HOME/.local/bin"
-        "$HOME/.claude/local"
-
-        # Nix profile paths
-        "$HOME/.nix-profile/bin"
-        "/etc/profiles/per-user/${USER}/bin"
-        "/run/wrappers/bin"
-        "/run/current-system/sw/bin"
-        "/nix/var/nix/profiles/default/bin"
-
-        # Language paths
-        "$GOBIN"
-
-        # Homebrew (macOS casks only — CLI tools come from nix)
-        "/opt/homebrew/bin"
-        "/opt/homebrew/sbin"
-
-        # System
-        "/usr/local/bin"
-        "/usr/local/sbin"
-
-        # Preserve existing entries
-        $path
-    )
+    # Deduplicate PATH while preserving order
+    typeset -gU path
 }
 
 # Load environment variables from .env file

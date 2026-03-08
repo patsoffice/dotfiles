@@ -44,10 +44,9 @@ claude() {
     # Save current directory
     local current_dir="$PWD"
 
-    # Find claude executable - use command to bypass any aliases/functions
+    # Find claude executable - whence -p skips functions/aliases and finds the binary
     local claude_cmd=""
-    # Use command -v to find the actual binary dynamically
-    claude_cmd=$(command -v claude 2>/dev/null)
+    claude_cmd=$(whence -p claude 2>/dev/null)
     if [[ -z "$claude_cmd" ]]; then
         echo "Error: claude command not found" >&2
         print -Pn "\e]0;%~\a"

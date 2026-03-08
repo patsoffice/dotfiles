@@ -168,7 +168,7 @@ setup_history_backup_hooks() {
     backup_on_logout() {
         # Check if we've done a backup in the last 24 hours
         local backup_dir="$HOME/.shell_history_backups"
-        local last_backup=$(ls -t "$backup_dir"/zsh_history_*.tar.gz 2>/dev/null | head -1)
+        local last_backup=$(ls -t "$backup_dir"/zsh_history_*.tar.gz(N) 2>/dev/null | head -1)
         local now=$(date +%s)
         
         # If there's no backup, create one
