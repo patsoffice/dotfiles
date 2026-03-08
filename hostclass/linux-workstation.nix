@@ -6,6 +6,25 @@
     SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
   };
 
+  # Start 1Password at login so the SSH agent socket is available immediately
+  systemd.user.services."1password-ssh-agent" = {
+    Unit = {
+      Description = "1Password SSH Agent";
+      After = [ "graphical-session.target" ];
+      StartLimitBurst = 3;
+      StartLimitIntervalSec = 30;
+    };
+    Service = {
+      ExecStart = "${pkgs._1password-gui}/bin/1password --silent";
+      Restart = "on-failure";
+      RestartSec = 5;
+      Type = "exec";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   # ── Git: use ssh-keygen for signing (no 1Password on Linux) ────
   home.file.".gitconfig.local".text = ''
     [gpg "ssh"]

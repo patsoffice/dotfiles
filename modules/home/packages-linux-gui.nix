@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  # Niri compositor config
-  xdg.configFile."niri/config.kdl".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesPath}/niri/config.kdl";
-  xdg.configFile."niri/scripts".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesPath}/niri/scripts";
+  # Niri compositor config — copied into the store so it's available before
+  # the greeter starts (mkOutOfStoreSymlink would be too late).
+  xdg.configFile."niri/config.kdl".source = ../.. + "/configs/niri/config.kdl";
+  xdg.configFile."niri/scripts".source = ../.. + "/configs/niri/scripts";
 
   services.flatpak = {
     enable = true;

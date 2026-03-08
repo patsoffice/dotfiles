@@ -28,14 +28,20 @@
 [gpg]
 	format = ssh
 
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-
 [commit]
 	gpgsign = true
 
 [push]
 	autoSetupRemote = true
 
+[include]
+	path = ~/.gitconfig.local
+
 [diff "nodiff"]
 	command = /usr/bin/true
+[credential "https://github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/pjl/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/pjl/bin/gh auth git-credential
