@@ -1,0 +1,77 @@
+#!/bin/zsh
+
+# Claude wrapper function to prevent shell exit
+claude() {
+    # Capture window ID at start to ensure cleanup targets correct window
+    local window_id=""
+    local pane_id=""
+    if [[ -n "$TMUX" ]]; then
+        window_id=$(tmux display-message -p '#{window_id}')
+        pane_id=$(tmux display-message -p '#{pane_id}')
+    fi
+
+    # Function to cleanup tmux and terminal title
+    local cleanup() {
+        # Clear custom title marker and window-level priority title
+        # Use captured IDs to ensure we target the correct window/pane
+        if [[ -n "$TMUX" && -n "$window_id" ]]; then
+            tmux set-option -t "$pane_id" -p @custom_title ""
+            tmux set-option -t "$window_id" -w @priority_title ""
+            # Immediately update window title instead of waiting for precmd
+            # This ensures title updates even if user is viewing a different pane
+            local smart_title=$(_tmux_emoji_get_dir_title 2>/dev/null || echo "$(basename "$PWD")")
+            tmux set-option -t "$pane_id" -p @dir_title "$smart_title"
+            tmux rename-window -t "$window_id" "$smart_title"
+            tmux set-window-option -t "$window_id" automatic-rename on
+        fi
+        # Reset terminal title to zsh
+        echo -ne "\033]0;zsh\007"
+    }
+
+    # Set terminal title for Ghostty
+    echo -ne "\033]0;claude\007"
+
+    # Store custom title in tmux pane option AND window-level priority title (persists across pane switches)
+    if [[ -n "$TMUX" ]]; then
+        local title="✨ $(basename "$PWD")"
+        tmux set-option -t "$pane_id" -p @custom_title "$title"
+        tmux set-option -t "$window_id" -w @priority_title "$title"
+        tmux rename-window -t "$window_id" "$title"
+        # Disable automatic-rename to prevent status-interval from overwriting with @dir_title
+        tmux set-window-option -t "$window_id" automatic-rename off
+    fi
+
+    # Save current directory
+    local current_dir="$PWD"
+
+    # Find claude executable - use command to bypass any aliases/functions
+    local claude_cmd=""
+    # Use command -v to find the actual binary dynamically
+    claude_cmd=$(command -v claude 2>/dev/null)
+    if [[ -z "$claude_cmd" ]]; then
+        echo "Error: claude command not found" >&2
+        print -Pn "\e]0;%~\a"
+        cleanup
+        return 1
+    fi
+
+    # Ensure cleanup happens even on timeout/interrupt
+    trap cleanup INT TERM EXIT
+
+    # Run claude with proper directory and shell protection
+    # Use 'command' to bypass any functions/aliases
+    (
+        cd "$current_dir"
+        # Trap EXIT to prevent shell from exiting
+        trap 'exit 0' EXIT
+        command "$claude_cmd" "$@"
+    )
+    local exit_code=$?
+
+    trap - INT TERM EXIT
+
+    # Always cleanup
+    cleanup
+
+    return $exit_code
+}

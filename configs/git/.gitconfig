@@ -1,0 +1,41 @@
+[user]
+	name = Patrick Lawrence
+	email = patrick.lawrence@gmail.com
+	signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDInsWAVOT8weHf3ifFEWVytqZbH4SilsKWV96o409nDqvwttpLu4YQOoDSmgtpAQR7Ewdkm0YTryWqk+RiddL7bxGuDj8+MsKFFf9wTjk/djWw3KmwIjVf98T7Y4tqnrfASX6tIXnKLY+LvkYZwhxsF0+AWaISsD98sthSyRN1tn8SOoJodA9Mc4NQDOxOEABUzRGbyf4OFRh9D9oYuFP2qkOXl6SijjeDG2SEXfBcXz52K4L4Kz6iEpdpXsTQZtmqhuwktYD14+6Y5zMFXefy3oH/J4FPlGNV86O1gbVh4xfEdpa+30EgiX3ZpLC3P8GhG38dHerwSH9+29QWJk4L
+
+[core]
+	excludesfile = ~/.gitignore_global
+	pager = delta
+	hooksPath = ~/.config/git/hooks
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+	syntax-theme = Dracula
+
+[merge]
+	conflictstyle = zdiff3
+
+[color]
+	branch = on
+	diff = on
+	interactive = on
+	status = on
+
+[gpg]
+	format = ssh
+
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+
+[commit]
+	gpgsign = true
+
+[push]
+	autoSetupRemote = true
+
+[diff "nodiff"]
+	command = /usr/bin/true

@@ -1,0 +1,25 @@
+# Nix build output
+result
+result-*
+
+# Secrets and local overrides
+*.local
+!configs/git/.gitconfig.local
+!configs/ssh/config.local
+
+# Claude Code
+.claude/
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Backup files from home-manager migrations
+*.bak
