@@ -143,6 +143,11 @@ if command -v direnv &>/dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
+# Mise (polyglot runtime manager)
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
 # Vivid ls colors
 if command -v vivid &>/dev/null; then
     export LS_COLORS="$(vivid generate tokyonight-night)"
