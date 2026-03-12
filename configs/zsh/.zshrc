@@ -129,7 +129,8 @@ fi
 
 # Atuin shell history (disable keybindings — fzf handles Ctrl-R)
 if command -v atuin &>/dev/null; then
-    eval "$(atuin init zsh --disable-up-arrow --disable-ctrl-r)"
+    export ATUIN_SYNC_ADDRESS=https://sh.chezlawrence.com
+    eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
 # macOS path_helper fix: Login shells may have PATH reset by /etc/zprofile
