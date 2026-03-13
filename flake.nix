@@ -25,6 +25,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +52,13 @@
         nixos-testing = helpers.mkNixosHost {
           hostname = "nixos-testing";
           class = "linux-workstation";
+        };
+        nas1 = helpers.mkNixosHost {
+          hostname = "nas1";
+          class = "linux-server";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+          ];
         };
       };
 
