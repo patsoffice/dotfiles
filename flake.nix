@@ -53,6 +53,10 @@
           hostname = "nixos-testing";
           class = "linux-workstation";
         };
+        pjl-desktop = helpers.mkNixosHost {
+          hostname = "pjl-desktop";
+          class = "linux-workstation";
+        };
         nas1 = helpers.mkNixosHost {
           hostname = "nas1";
           class = "linux-server";
