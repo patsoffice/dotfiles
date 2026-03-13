@@ -3,7 +3,7 @@
     disk = {
       ssd0 = {
         type = "disk";
-        device = "ata-KINGSTON_SA400S37480G_50026B7784E64851";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784E64851";
         content = {
           type = "gpt";
           partitions = {
@@ -32,7 +32,7 @@
       };
       ssd1 = {
         type = "disk";
-        device = "ata-KINGSTON_SA400S37480G_50026B7784E641A5";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784E641A5";
         content = {
           type = "gpt";
           partitions = {
