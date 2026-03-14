@@ -1,13 +1,9 @@
 Include config.local
 
-Host github.com
-    IdentityFile ~/.ssh/id_rsa_github.pub
-
-Host *.amazonaws.com
-    IdentityFile ~/.ssh/id_rsa_lightsail.pub
-
 Host *
     IdentityFile ~/.ssh/id_ed25519.pub
+    IdentityFile ~/.ssh/id_rsa_github.pub
+    IdentityFile ~/.ssh/id_rsa_lightsail.pub
     AddKeysToAgent no
     ServerAliveInterval 60
     ServerAliveCountMax 3

@@ -15,7 +15,7 @@
 
   # ── Static IP ──────────────────────────────────────────────────────
   networking.useDHCP = false;
-  networking.interfaces.enp5s0 = {
+  networking.interfaces.enxac1f6b988ad8 = {
     ipv4.addresses = [
       {
         address = "192.168.1.0";
@@ -30,14 +30,15 @@
   ];
 
   # Required by ZFS — generate with: head -c 8 /etc/machine-id
-  networking.hostId = "85c7ece1";
+  networking.hostId = "917c009c";
 
   # ZFS support
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.devNodes = "/dev/disk/by-id";
 
-  # Use the latest ZFS-compatible kernel instead of linuxPackages_latest from base.nix
-  boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
+  # Use ZFS 2.4 pinned to the 6.12 LTS kernel
+  boot.zfs.package = pkgs.zfs_2_4;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_12;
 
   # ZFS maintenance
   services.zfs.autoScrub.enable = true;

@@ -15,8 +15,8 @@
                 format = "vfat";
                 mountpoint = "/boot";
                 mountOptions = [
-                  "fmask=0022"
-                  "dmask=0022"
+                  "fmask=0177"
+                  "dmask=0077"
                 ];
               };
             };
@@ -44,8 +44,8 @@
                 format = "vfat";
                 mountpoint = "/boot-fallback";
                 mountOptions = [
-                  "fmask=0022"
-                  "dmask=0022"
+                  "fmask=0177"
+                  "dmask=0077"
                 ];
               };
             };
