@@ -13,21 +13,8 @@
 
   networking.hostName = "nas1";
 
-  # ── Static IP ──────────────────────────────────────────────────────
-  networking.useDHCP = false;
-  networking.interfaces.enxac1f6b988ad8 = {
-    ipv4.addresses = [
-      {
-        address = "192.168.1.0";
-        prefixLength = 21;
-      }
-    ];
-  };
-  networking.defaultGateway = "192.168.0.1";
-  networking.nameservers = [
-    "192.168.0.100"
-    "192.168.0.101"
-  ];
+  # ── Network (DHCP) ─────────────────────────────────────────────────
+  networking.useDHCP = lib.mkForce true;
 
   # Required by ZFS — generate with: head -c 8 /etc/machine-id
   networking.hostId = "917c009c";
