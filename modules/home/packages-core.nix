@@ -79,6 +79,7 @@
 
     # ── Misc CLI ───────────────────────────────────────────────────────
     direnv
+    just
     dos2unix
     glow
     hexyl

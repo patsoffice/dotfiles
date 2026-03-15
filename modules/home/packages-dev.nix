@@ -51,7 +51,6 @@
 
       # ── Development — Other ────────────────────────────────────────────
       hyperfine
-      just
       lefthook
       pre-commit
       shellcheck
