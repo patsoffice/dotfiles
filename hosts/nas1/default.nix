@@ -50,7 +50,6 @@
   #     /tmp/placeholder
   #   zpool offline tank /tmp/placeholder
   #   rm /tmp/placeholder
-  #   zfs create -o mountpoint=legacy tank/data
   #
   # Once the 8th drive is available:
   #   zpool replace tank /tmp/placeholder /dev/disk/by-id/NEW_HDD
@@ -61,11 +60,6 @@
     options = [ "zfsutil" ];
   };
 
-  fileSystems."/tank/data" = {
-    device = "tank/data";
-    fsType = "zfs";
-    options = [ "zfsutil" ];
-  };
 
   # ── Samba ───────────────────────────────────────────────────────────
   services.samba = {

@@ -7,7 +7,7 @@ Nix-based system configuration supporting multiple host classes across macOS and
 The repository is organized around three **host classes**:
 
 | Class | Platform | System | Use case |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `linux-workstation` | x86_64-linux | NixOS + home-manager | Desktop with GUI, compositor, dev tools |
 | `linux-server` | x86_64-linux | NixOS + home-manager | Headless server, core CLI only |
 | `darwin-workstation` | aarch64-darwin | nix-darwin + home-manager | macOS laptop/desktop |
@@ -23,7 +23,7 @@ my-host = helpers.mkNixosHost {
 
 ## Repository Structure
 
-```
+```text
 flake.nix                     # Flake inputs/outputs, host definitions
 lib/
   mkHost.nix                  # Host constructor helpers (mkNixosHost, mkDarwinHost)
@@ -67,6 +67,7 @@ configs/
 Dotfiles in `configs/` are symlinked into place via home-manager using `mkOutOfStoreSymlink`. This means edits to config files take effect immediately without a rebuild, similar to GNU Stow.
 
 Package modules are composed per class:
+
 - **All classes**: `packages-core.nix` (CLI tools, infra, networking)
 - **Workstations**: + `packages-dev.nix` (language toolchains, editors, media tools)
 - **Linux workstations**: + `packages-linux-gui.nix` (GUI apps, compositor, fonts)
@@ -76,6 +77,7 @@ User identity (username, home directory, state version) is defined once and deri
 ## Shell
 
 ZSH with a modular configuration adapted from [mmichie/dotfiles](https://github.com/mmichie/dotfiles):
+
 - Starship prompt with custom [plx](https://github.com/mmichie/plx) segments for path and git status
 - Modern tool aliases (eza, bat, zoxide, fzf)
 - History management, vi keybindings, completion system
