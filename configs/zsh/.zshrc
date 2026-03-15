@@ -29,6 +29,11 @@ declare -gx SHELL_CACHE_DIR="$HOME/.cache/zsh"
         "/usr/share/zsh/functions/Completion/Unix"
         "/usr/share/zsh/functions/Completion/Linux"
         "/usr/share/zsh/vendor-functions"
+        # Nix-managed completion paths
+        "$HOME/.nix-profile/share/zsh/site-functions"
+        "$HOME/.nix-profile/share/zsh/vendor-completions"
+        "/etc/profiles/per-user/$USER/share/zsh/site-functions"
+        "/run/current-system/sw/share/zsh/site-functions"
         "$SHELL_FUNCTIONS_DIR"
     )
 
@@ -41,10 +46,17 @@ declare -gx SHELL_CACHE_DIR="$HOME/.cache/zsh"
     fpath=("${zsh_paths[@]}" $fpath)
 }
 
-# Load completion system with caching and optimization
+# Load completion system with caching
 autoload -Uz compinit
-# Skip security check for faster startup
-compinit -C
+# Regenerate .zcompdump if older than 24 hours, otherwise use cache
+() {
+    local -a fresh=($HOME/.zcompdump(Nm-1))
+    if (( $#fresh )); then
+        compinit -C
+    else
+        compinit
+    fi
+}
 
 mkdir -p "$SHELL_CACHE_DIR"
 
