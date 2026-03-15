@@ -65,6 +65,7 @@
       "docker-desktop"
       "easyeda"
       "epic-games"
+      "font-hack-nerd-font"
       "freecad"
       "gimp"
       "godot"
