@@ -55,11 +55,71 @@
   # Once the 8th drive is available:
   #   zpool replace tank /tmp/placeholder /dev/disk/by-id/NEW_HDD
 
+  fileSystems."/tank" = {
+    device = "tank";
+    fsType = "zfs";
+    options = [ "zfsutil" ];
+  };
+
   fileSystems."/tank/data" = {
     device = "tank/data";
     fsType = "zfs";
     options = [ "zfsutil" ];
   };
+
+  # ── Samba ───────────────────────────────────────────────────────────
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      global = {
+        workgroup = "INT.CHEZLAWRENCE.COM";
+        "server string" = "%h server (Samba, NixOS)";
+        "multicast dns register" = "no";
+
+        # Apple / macOS interop
+        "fruit:aapl" = "yes";
+        "fruit:nfs_aces" = "yes";
+        "fruit:copyfile" = "no";
+        "fruit:model" = "MacSamba";
+
+        # POSIX ACLs & inherited permissions
+        "map acl inherit" = "yes";
+        "inherit permissions" = "yes";
+
+        # Protocol versions
+        "client min protocol" = "SMB2_02";
+        "server min protocol" = "SMB2_02";
+        "server max protocol" = "SMB3";
+
+        # Logging
+        "log file" = "/var/log/samba/log.%m";
+        "max log size" = "1000";
+        logging = "file";
+      };
+    };
+  };
+
+  # ── NFS ────────────────────────────────────────────────────────────
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /tank/backups/apps *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/backups/VolsyncKopia *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/backups/syncthing *(rw,acl,sync,no_subtree_check,sec=sys)
+    '';
+    extraNfsdConfig = ''
+      udp=n
+      tcp=y
+      vers2=n
+      vers3=n
+      vers4=y
+      vers4.0=y
+      vers4.1=y
+      vers4.2=y
+    '';
+  };
+  networking.firewall.allowedTCPPorts = [ 2049 ];
 
   # Sync primary ESP to fallback after every nixos-rebuild switch
   system.activationScripts.sync-boot-fallback = ''

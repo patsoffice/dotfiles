@@ -63,6 +63,7 @@
     doggo
     iftop
     ipmitool
+    smartmontools
     keybase
     mtr
     nmap
