@@ -49,9 +49,12 @@
     {
       # ── NixOS hosts ───────────────────────────────────────────────────
       nixosConfigurations = {
-        nixos-testing = helpers.mkNixosHost {
-          hostname = "nixos-testing";
-          class = "linux-workstation";
+        heather-desktop = helpers.mkNixosHost {
+          hostname = "heather-desktop";
+          class = "linux-server";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+          ];
         };
         pjl-desktop = helpers.mkNixosHost {
           hostname = "pjl-desktop";
