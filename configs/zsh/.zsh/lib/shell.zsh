@@ -291,6 +291,9 @@ setup_eza() {
     # Simple alias for the common pattern
     alias lstr='eza --long --all --sort=modified --reverse'
 
+    # ls should complete files/directories, not eza options
+    compdef _files _ls_command
+
     # Additional aliases for different views
     alias lm='eza --long --header --icons --git --sort=modified'
     alias lk='eza --long --header --icons --git --sort=size'
