@@ -8,9 +8,9 @@ green="[32m"
 yellow="[33m"
 blue="[34m"
 
-# Initialize starship prompt
-_init_starship() {
-    eval "$(starship init zsh)"
+# Initialize plx prompt
+_init_plx() {
+    eval "$(plx init zsh)"
 }
 
 # Display system status and information
@@ -79,5 +79,5 @@ init_prompt() {
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd osc7_cwd
     add-zsh-hook precmd _set_terminal_title
-    _init_starship
+    _init_plx
 }

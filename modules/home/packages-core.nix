@@ -39,7 +39,6 @@
     gping
     htop
     procs
-    starship
     vivid
 
     # ── Editors ────────────────────────────────────────────────────────
