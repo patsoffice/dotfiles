@@ -45,6 +45,30 @@
     };
   };
 
+  # ── Samba ───────────────────────────────────────────────────────────
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      global = {
+        workgroup = "INT.CHEZLAWRENCE.COM";
+        "server string" = "%h server (Samba, NixOS)";
+        "map to guest" = "Bad User";
+
+        # Protocol versions
+        "client min protocol" = "SMB2_02";
+        "server min protocol" = "SMB2_02";
+        "server max protocol" = "SMB3";
+      };
+      images = {
+        path = "/var/lib/libvirt/images";
+        "read only" = "no";
+        "browseable" = "yes";
+        "valid users" = "pjl";
+      };
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     virtio-win # Windows virtio drivers ISO
   ];
