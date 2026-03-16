@@ -25,6 +25,19 @@
   services.zfs.autoScrub.interval = "weekly";
   services.zfs.trim.enable = true;
 
+  # ── GPU passthrough (VFIO) ──────────────────────────────────────
+  # AMD Cezanne iGPU [1002:1638] + HDMI Audio [1002:1637]
+  boot.kernelParams = [
+    "amd_iommu=on"
+    "iommu=pt"
+    "vfio-pci.ids=1002:1638,1002:1637,1022:1639"
+  ];
+  boot.initrd.kernelModules = [
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
+  ];
+
   # ── Windows VM (libvirt/QEMU/KVM) ────────────────────────────────
   virtualisation.libvirtd = {
     enable = true;
@@ -70,9 +83,14 @@
   };
 
   environment.systemPackages = with pkgs; [
+    libvirt # virsh CLI
+    pciutils # lspci
     virt-manager # includes virt-install CLI
     virtio-win # Windows virtio drivers ISO
   ];
+
+  # VNC access to VMs from LAN
+  networking.firewall.allowedTCPPorts = [ 5900 ];
 
   users.users.pjl.extraGroups = [ "libvirtd" ];
 
