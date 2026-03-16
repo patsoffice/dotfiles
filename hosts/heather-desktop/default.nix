@@ -70,6 +70,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    virt-manager # includes virt-install CLI
     virtio-win # Windows virtio drivers ISO
   ];
 
