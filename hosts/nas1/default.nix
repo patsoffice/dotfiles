@@ -115,6 +115,17 @@
   };
   networking.firewall.allowedTCPPorts = [ 2049 ];
 
+  # ── Prometheus exporters ───────────────────────────────────────
+  services.prometheus.exporters.node = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.prometheus.exporters.smartctl = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # Sync primary ESP to fallback after every nixos-rebuild switch
   system.activationScripts.sync-boot-fallback = ''
     ${pkgs.rsync}/bin/rsync -a --delete /boot/ /boot-fallback/
