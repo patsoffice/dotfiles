@@ -102,16 +102,17 @@
       /tank/backups/VolsyncKopia *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/syncthing *(rw,acl,sync,no_subtree_check,sec=sys)
     '';
-    extraNfsdConfig = ''
-      udp=n
-      tcp=y
-      vers2=n
-      vers3=n
-      vers4=y
-      vers4.0=y
-      vers4.1=y
-      vers4.2=y
-    '';
+  };
+  services.nfs.settings = {
+    nfsd = {
+      udp = false;
+      tcp = true;
+      vers3 = false;
+      vers4 = true;
+      "vers4.0" = true;
+      "vers4.1" = true;
+      "vers4.2" = true;
+    };
   };
   networking.firewall.allowedTCPPorts = [ 2049 ];
 
