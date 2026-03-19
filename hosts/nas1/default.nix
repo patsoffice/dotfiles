@@ -149,11 +149,9 @@
       user ${config.sops.placeholder.aws_access_key_id}
       password ${config.sops.placeholder.aws_secret_access_key}
       from ${config.sops.placeholder.ses_from_address}
-
-      account default : default
     '';
     path = "/etc/msmtprc";
-    mode = "0600";
+    mode = "0644";
   };
 
   # Symlink sendmail to msmtp
