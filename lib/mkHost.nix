@@ -7,6 +7,7 @@
   dms,
   nixpkgs-stable,
   plx,
+  sops-nix,
   ...
 }:
 
@@ -101,6 +102,7 @@ let
       ]
       ++ cc.systemModules
       ++ [
+        sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
           home-manager = {

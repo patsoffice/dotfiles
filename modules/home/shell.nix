@@ -10,5 +10,4 @@
   xdg.configFile."direnv".source =
     config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesPath}/direnv";
 
-
 }

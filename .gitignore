@@ -3,6 +3,7 @@ result
 result-*
 
 # Secrets and local overrides
+age.key
 *.local
 !configs/git/.gitconfig.local
 !configs/ssh/config.local

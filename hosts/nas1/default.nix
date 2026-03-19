@@ -60,7 +60,6 @@
     options = [ "zfsutil" ];
   };
 
-
   # ── Samba ───────────────────────────────────────────────────────────
   services.samba = {
     enable = true;
@@ -126,6 +125,41 @@
     enable = true;
     openFirewall = true;
   };
+
+  # ── Secrets (sops-nix) ─────────────────────────────────────────────
+  sops.defaultSopsFile = ../../secrets/nas1.yaml;
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  sops.secrets.aws_access_key_id = { };
+  sops.secrets.aws_secret_access_key = { };
+  sops.secrets.ses_from_address = { };
+
+  # ── Mail (msmtp via Amazon SES) ────────────────────────────────────
+  environment.systemPackages = [ pkgs.msmtp ];
+
+  sops.templates."msmtprc" = {
+    content = ''
+      defaults
+      auth on
+      tls on
+      tls_starttls on
+
+      account default
+      host email-smtp.us-west-2.amazonaws.com
+      port 587
+      user ${config.sops.placeholder.aws_access_key_id}
+      password ${config.sops.placeholder.aws_secret_access_key}
+      from ${config.sops.placeholder.ses_from_address}
+
+      account default : default
+    '';
+    path = "/etc/msmtprc";
+    mode = "0600";
+  };
+
+  # Symlink sendmail to msmtp
+  systemd.tmpfiles.rules = [
+    "L+ /usr/sbin/sendmail - - - - ${pkgs.msmtp}/bin/msmtp"
+  ];
 
   # Sync primary ESP to fallback after every nixos-rebuild switch
   system.activationScripts.sync-boot-fallback = ''
