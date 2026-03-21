@@ -77,6 +77,7 @@
     plx
 
     # ── Misc CLI ───────────────────────────────────────────────────────
+    beads_rust
     direnv
     just
     dos2unix

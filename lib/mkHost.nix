@@ -22,10 +22,16 @@ let
     plx = plx.packages.${system}.default;
   };
 
+  # Overlay: exposes pkgs.beads_rust from pre-built binary release
+  beadsOverlay = final: prev: {
+    beads_rust = final.callPackage ../packages/beads_rust.nix { };
+  };
+
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
     (plxOverlay system)
+    beadsOverlay
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
