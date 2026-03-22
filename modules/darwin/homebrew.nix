@@ -15,6 +15,7 @@
       cleanup = "none";
       autoUpdate = true;
       upgrade = true;
+      extraFlags = [ "--greedy" ];
     };
 
     taps = [
