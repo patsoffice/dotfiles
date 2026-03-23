@@ -25,19 +25,6 @@
   services.zfs.autoScrub.interval = "weekly";
   services.zfs.trim.enable = true;
 
-  # ── GPU passthrough (VFIO) ──────────────────────────────────────
-  # AMD Cezanne iGPU [1002:1638] + HDMI Audio [1002:1637]
-  boot.kernelParams = [
-    "amd_iommu=on"
-    "iommu=pt"
-    "vfio-pci.ids=1002:1638,1002:1637,1022:1639"
-  ];
-  boot.initrd.kernelModules = [
-    "vfio_pci"
-    "vfio"
-    "vfio_iommu_type1"
-  ];
-
   # ── Windows VM (libvirt/QEMU/KVM) ────────────────────────────────
   virtualisation.libvirtd = {
     enable = true;

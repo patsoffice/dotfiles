@@ -14,7 +14,7 @@ let
     };
     x86_64-linux = {
       url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-v${version}-linux_amd64.tar.gz";
-      hash = "sha256-cfYrDbeCIt2//Sy0UwB3ddpUyxyav9dTcPSex4GqLhA=";
+      hash = "sha256-cfYrDbeCLdv/0stFMAd3XaVMqxyr/XU3D8Sex4GqLhA=";
     };
   };
 
