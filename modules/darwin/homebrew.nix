@@ -9,13 +9,15 @@
   homebrew = {
     enable = true;
 
+    greedyCasks = true;
+
     onActivation = {
       # "none" = don't remove anything not listed here
       # Change to "uninstall" once you've captured everything
       cleanup = "none";
       autoUpdate = true;
       upgrade = true;
-      extraFlags = [ "--greedy" ];
+      extraFlags = [ ];
     };
 
     taps = [
