@@ -94,6 +94,17 @@
               atime = "off";
             };
           };
+          swap = {
+            type = "zfs_volume";
+            size = "8G";
+            options = {
+              compression = "zstd";
+              volblocksize = "4096";
+            };
+            content = {
+              type = "swap";
+            };
+          };
           reserved = {
             type = "zfs_fs";
             options = {

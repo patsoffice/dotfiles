@@ -26,6 +26,7 @@
   # Use ZFS 2.4 pinned to the 6.12 LTS kernel
   boot.zfs.package = pkgs.zfs_2_4;
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_12;
+  boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
 
   # ZFS maintenance
   services.zfs.autoScrub.enable = true;
