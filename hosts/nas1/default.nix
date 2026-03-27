@@ -55,11 +55,7 @@
   # Once the 8th drive is available:
   #   zpool replace tank /tmp/placeholder /dev/disk/by-id/NEW_HDD
 
-  fileSystems."/tank" = {
-    device = "tank";
-    fsType = "zfs";
-    options = [ "zfsutil" ];
-  };
+  boot.zfs.extraPools = [ "tank" ];
 
   # ── Samba ───────────────────────────────────────────────────────────
   services.samba = {
