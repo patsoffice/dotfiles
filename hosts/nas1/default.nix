@@ -110,8 +110,6 @@
       "vers4.2" = true;
     };
   };
-  networking.firewall.allowedTCPPorts = [ 2049 ];
-
   # ── Prometheus exporters ───────────────────────────────────────
   services.prometheus.exporters.node = {
     enable = true;
@@ -123,12 +121,40 @@
     openFirewall = true;
   };
 
+  # ── Garage (S3-compatible object storage) ─────────────────────────
+  services.garage = {
+    enable = true;
+    package = pkgs.garage;
+    settings = {
+      metadata_dir = "/tank/garage/meta";
+      data_dir = "/tank/garage/data";
+      db_engine = "sqlite";
+      replication_factor = 1;
+      s3_api = {
+        s3_region = "garage";
+        api_bind_addr = "[::]:3900";
+      };
+      s3_web = {
+        bind_addr = "[::]:3902";
+      };
+      admin = {
+        api_bind_addr = "[::]:3903";
+        admin_token_file = config.sops.secrets.garage_admin_token.path;
+      };
+      rpc_bind_addr = "[::]:3901";
+      rpc_secret_file = config.sops.secrets.garage_rpc_secret.path;
+    };
+  };
+  networking.firewall.allowedTCPPorts = [ 2049 3900 3902 3903 ];
+
   # ── Secrets (sops-nix) ─────────────────────────────────────────────
   sops.defaultSopsFile = ../../secrets/nas1.yaml;
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   sops.secrets.aws_access_key_id = { };
   sops.secrets.aws_secret_access_key = { };
   sops.secrets.ses_from_address = { };
+  sops.secrets.garage_rpc_secret = { };
+  sops.secrets.garage_admin_token = { };
 
   # ── Mail (msmtp via Amazon SES) ────────────────────────────────────
   environment.systemPackages = [ pkgs.msmtp ];
