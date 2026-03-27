@@ -134,9 +134,6 @@
         s3_region = "garage";
         api_bind_addr = "[::]:3900";
       };
-      s3_web = {
-        bind_addr = "[::]:3902";
-      };
       admin = {
         api_bind_addr = "[::]:3903";
         admin_token_file = config.sops.secrets.garage_admin_token.path;
@@ -145,7 +142,13 @@
       rpc_secret_file = config.sops.secrets.garage_rpc_secret.path;
     };
   };
-  networking.firewall.allowedTCPPorts = [ 2049 3900 3902 3903 ];
+  systemd.services.garage.serviceConfig.DynamicUser = lib.mkForce false;
+  users.users.garage = {
+    isSystemUser = true;
+    group = "garage";
+  };
+  users.groups.garage = { };
+  networking.firewall.allowedTCPPorts = [ 2049 3900 3903 ];
 
   # ── Secrets (sops-nix) ─────────────────────────────────────────────
   sops.defaultSopsFile = ../../secrets/nas1.yaml;
