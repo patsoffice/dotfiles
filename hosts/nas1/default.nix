@@ -195,7 +195,7 @@
   # ── Garage (S3-compatible object storage) ─────────────────────────
   services.garage = {
     enable = true;
-    package = pkgs.garage;
+    package = pkgs.garage_2;
     settings = {
       metadata_dir = "/tank/garage/meta";
       data_dir = "/tank/garage/data";
