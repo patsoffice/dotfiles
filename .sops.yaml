@@ -1,10 +1,10 @@
 keys:
   - &admin_pjl age1mmndfxtyuedlrgn88fj7z2pkn7p5fnzshu9xfe4lkjyxuce4r95q6en4nr
-  - &nas1 age12fu99zsyzwxtmpef4vwqr26qu3fc29eve96zjsqxs3plhgj5acjsc3l3xz
+  - &nas0 age12fu99zsyzwxtmpef4vwqr26qu3fc29eve96zjsqxs3plhgj5acjsc3l3xz
 creation_rules:
-  - path_regex: secrets/nas1\.yaml$
+  - path_regex: secrets/nas0\.yaml$
     key_groups:
       - age:
           - *admin_pjl
-          - *nas1
+          - *nas0
 # Set SOPS_AGE_KEY_FILE=./age.key (or export it) when editing secrets

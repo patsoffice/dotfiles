@@ -11,7 +11,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "nas1";
+  networking.hostName = "nas0";
 
   # ── Network (DHCP) ─────────────────────────────────────────────────
   networking.useDHCP = lib.mkForce true;
@@ -235,7 +235,7 @@
   networking.firewall.allowedTCPPorts = [ 2049 3900 3903 ];
 
   # ── Secrets (sops-nix) ─────────────────────────────────────────────
-  sops.defaultSopsFile = ../../secrets/nas1.yaml;
+  sops.defaultSopsFile = ../../secrets/nas0.yaml;
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   sops.secrets.aws_access_key_id = { };
   sops.secrets.aws_secret_access_key = { };

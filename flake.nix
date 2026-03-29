@@ -65,8 +65,8 @@
           hostname = "pjl-desktop";
           class = "linux-workstation";
         };
-        nas1 = helpers.mkNixosHost {
-          hostname = "nas1";
+        nas0 = helpers.mkNixosHost {
+          hostname = "nas0";
           class = "linux-server";
           extraModules = [
             inputs.disko.nixosModules.disko
