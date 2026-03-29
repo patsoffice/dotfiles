@@ -72,20 +72,81 @@
         "fruit:nfs_aces" = "yes";
         "fruit:copyfile" = "no";
         "fruit:model" = "MacSamba";
+        "fruit:metadata" = "stream";
+        "fruit:posix_rename" = "yes";
+
+        # VFS modules (applied to all shares)
+        "vfs objects" = "catia fruit streams_xattr acl_xattr";
 
         # POSIX ACLs & inherited permissions
         "map acl inherit" = "yes";
         "inherit permissions" = "yes";
 
-        # Protocol versions
-        "client min protocol" = "SMB2_02";
-        "server min protocol" = "SMB2_02";
+        # Protocol versions — SMB3 only
+        "client min protocol" = "SMB3";
+        "server min protocol" = "SMB3";
         "server max protocol" = "SMB3";
+
+        # Access control
+        "guest ok" = "no";
 
         # Logging
         "log file" = "/var/log/samba/log.%m";
         "max log size" = "1000";
         logging = "file";
+      };
+
+      # ── Shares ──────────────────────────────────────────────────────
+      apps = {
+        comment = "apps share";
+        path = "/tank/apps";
+        "read only" = "no";
+      };
+
+      "pats-imac" = {
+        comment = "pats-imac Time Machine";
+        path = "/tank/backups/tm/pats-imac";
+        "read only" = "no";
+        "fruit:time machine" = "yes";
+      };
+
+      "pats-macbook-pro-16" = {
+        comment = "pats-macbook-pro-16 Time Machine";
+        path = "/tank/backups/tm/pats-macbook-pro-16";
+        "read only" = "no";
+        "fruit:time machine" = "yes";
+      };
+
+      downloads = {
+        comment = "downloads share";
+        path = "/tank/downloads";
+        "read only" = "no";
+      };
+
+      emulators = {
+        comment = "emulators share";
+        path = "/tank/emulators";
+        "read only" = "no";
+      };
+
+      homes = {
+        comment = "homes share";
+        path = "/tank/home/%U";
+        "read only" = "no";
+      };
+
+      media = {
+        comment = "media share";
+        path = "/tank/media";
+        "read only" = "yes";
+        "write list" = "@users";
+      };
+
+      roms = {
+        comment = "roms share";
+        path = "/tank/roms";
+        "read only" = "yes";
+        "write list" = "@users";
       };
     };
   };
@@ -97,6 +158,16 @@
       /tank/backups/apps *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/VolsyncKopia *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/syncthing *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/downloads *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/books *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/live-tv *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/movies *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/music *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/scans *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/tv *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/media/youtube *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/roms *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/transcode *(rw,acl,sync,no_subtree_check,sec=sys)
     '';
   };
   services.nfs.settings = {
@@ -148,6 +219,19 @@
     group = "garage";
   };
   users.groups.garage = { };
+  users.users.cub = {
+    isNormalUser = true;
+    uid = 1001;
+    shell = pkgs.zsh;
+    extraGroups = [ "users" ];
+  };
+  users.users.t-man = {
+    isNormalUser = true;
+    uid = 1002;
+    shell = pkgs.zsh;
+    extraGroups = [ "users" ];
+  };
+
   networking.firewall.allowedTCPPorts = [ 2049 3900 3903 ];
 
   # ── Secrets (sops-nix) ─────────────────────────────────────────────
