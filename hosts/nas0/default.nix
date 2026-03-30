@@ -57,6 +57,16 @@
 
   boot.zfs.extraPools = [ "tank" ];
 
+  # ── mDNS (nas0.local) ────────────────────────────────────────────
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+    };
+  };
+
   # ── Samba ───────────────────────────────────────────────────────────
   services.samba = {
     enable = true;
