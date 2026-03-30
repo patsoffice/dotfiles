@@ -77,7 +77,7 @@
   };
   systemd.services.zfsnap-snapshot = {
     serviceConfig.Type = "oneshot";
-    path = [ pkgs.zfsnap ];
+    path = [ pkgs.zfsnap config.boot.zfs.package ];
     script = "zfsnap snapshot -a 1m -r tank";
   };
 
@@ -90,7 +90,7 @@
   };
   systemd.services.zfsnap-destroy = {
     serviceConfig.Type = "oneshot";
-    path = [ pkgs.zfsnap ];
+    path = [ pkgs.zfsnap config.boot.zfs.package ];
     script = "zfsnap destroy -r tank";
   };
 
