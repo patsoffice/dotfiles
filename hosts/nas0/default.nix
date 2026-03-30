@@ -67,6 +67,33 @@
     };
   };
 
+  # ── ZFS snapshots (zfsnap) ─────────────────────────────────────────
+  systemd.timers.zfsnap-snapshot = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*:05";
+      Persistent = true;
+    };
+  };
+  systemd.services.zfsnap-snapshot = {
+    serviceConfig.Type = "oneshot";
+    path = [ pkgs.zfsnap ];
+    script = "zfsnap snapshot -a 1m -r tank";
+  };
+
+  systemd.timers.zfsnap-destroy = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+  };
+  systemd.services.zfsnap-destroy = {
+    serviceConfig.Type = "oneshot";
+    path = [ pkgs.zfsnap ];
+    script = "zfsnap destroy -r tank";
+  };
+
   # ── Samba ───────────────────────────────────────────────────────────
   services.samba = {
     enable = true;
@@ -254,7 +281,7 @@
   sops.secrets.garage_admin_token = { };
 
   # ── Mail (msmtp via Amazon SES) ────────────────────────────────────
-  environment.systemPackages = [ pkgs.msmtp ];
+  environment.systemPackages = [ pkgs.msmtp pkgs.zfsnap ];
 
   sops.templates."msmtprc" = {
     content = ''
