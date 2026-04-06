@@ -218,6 +218,34 @@
       "vers4.2" = true;
     };
   };
+  # ── SMART monitoring ────────────────────────────────────────────
+  sops.templates."smartd-notify.sh" = {
+    content = ''
+      RCPT="${config.sops.placeholder.system_email}"
+      {
+      printf "To: %s\nSubject: %s\n\n%s\n" "$RCPT" "$SMARTD_SUBJECT" "$SMARTD_FULLMESSAGE"
+      ${pkgs.smartmontools}/bin/smartctl -a -d "$SMARTD_DEVICETYPE" "$SMARTD_DEVICE"
+      } | /run/wrappers/bin/sendmail -i "$RCPT"
+    '';
+  };
+
+  # Wrapper in the Nix store so smartd can exec it (sops ramfs is noexec)
+  environment.etc."smartd-notify.sh" = {
+    mode = "0755";
+    text = ''
+      #!/bin/sh
+      . ${config.sops.templates."smartd-notify.sh".path}
+    '';
+  };
+
+  services.smartd = {
+    enable = true;
+    autodetect = true;
+    notifications.mail.enable = false;
+    notifications.wall.enable = false;
+    defaults.monitored = "-a -m root -M exec /etc/smartd-notify.sh";
+  };
+
   # ── Prometheus exporters ───────────────────────────────────────
   services.prometheus.exporters.node = {
     enable = true;
@@ -279,6 +307,7 @@
   sops.secrets.ses_from_address = { };
   sops.secrets.garage_rpc_secret = { };
   sops.secrets.garage_admin_token = { };
+  sops.secrets.system_email = { };
 
   # ── Mail (msmtp via Amazon SES) ────────────────────────────────────
   environment.systemPackages = [ pkgs.msmtp pkgs.zfsnap ];
@@ -296,15 +325,21 @@
       user ${config.sops.placeholder.aws_access_key_id}
       password ${config.sops.placeholder.aws_secret_access_key}
       from ${config.sops.placeholder.ses_from_address}
+      set_from_header on
     '';
     path = "/etc/msmtprc";
     mode = "0644";
   };
 
-  # Symlink sendmail to msmtp
-  systemd.tmpfiles.rules = [
-    "L+ /usr/sbin/sendmail - - - - ${pkgs.msmtp}/bin/msmtp"
-  ];
+  # Create /run/wrappers/bin/sendmail pointing to msmtp
+  services.mail.sendmailSetuidWrapper = {
+    program = "sendmail";
+    source = "${pkgs.msmtp}/bin/msmtp";
+    owner = "root";
+    group = "root";
+    setuid = false;
+    setgid = false;
+  };
 
   # Sync primary ESP to fallback after every nixos-rebuild switch
   system.activationScripts.sync-boot-fallback = ''
