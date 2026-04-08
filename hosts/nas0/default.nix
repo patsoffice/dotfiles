@@ -77,7 +77,10 @@
   };
   systemd.services.zfsnap-snapshot = {
     serviceConfig.Type = "oneshot";
-    path = [ pkgs.zfsnap config.boot.zfs.package ];
+    path = [
+      pkgs.zfsnap
+      config.boot.zfs.package
+    ];
     script = "zfsnap snapshot -a 1m -r tank";
   };
 
@@ -90,7 +93,10 @@
   };
   systemd.services.zfsnap-destroy = {
     serviceConfig.Type = "oneshot";
-    path = [ pkgs.zfsnap config.boot.zfs.package ];
+    path = [
+      pkgs.zfsnap
+      config.boot.zfs.package
+    ];
     script = "zfsnap destroy -r tank";
   };
 
@@ -297,7 +303,11 @@
     extraGroups = [ "users" ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 2049 3900 3903 ];
+  networking.firewall.allowedTCPPorts = [
+    2049
+    3900
+    3903
+  ];
 
   # ── Secrets (sops-nix) ─────────────────────────────────────────────
   sops.defaultSopsFile = ../../secrets/nas0.yaml;
@@ -310,7 +320,10 @@
   sops.secrets.system_email = { };
 
   # ── Mail (msmtp via Amazon SES) ────────────────────────────────────
-  environment.systemPackages = [ pkgs.msmtp pkgs.zfsnap ];
+  environment.systemPackages = [
+    pkgs.msmtp
+    pkgs.zfsnap
+  ];
 
   sops.templates."msmtprc" = {
     content = ''

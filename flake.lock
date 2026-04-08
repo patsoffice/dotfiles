@@ -253,7 +253,28 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
         "plx": "plx",
+        "sak": "sak",
         "sops-nix": "sops-nix"
+      }
+    },
+    "sak": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775683854,
+        "narHash": "sha256-iS5Nzv7QqAwMeKdVKm7Dg/C9rZf0GaZpJnDx8yWYZ9s=",
+        "owner": "patsoffice",
+        "repo": "sak",
+        "rev": "dce86955f9c2a52395c7379fc14f2ba258f0c2cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "patsoffice",
+        "repo": "sak",
+        "type": "github"
       }
     },
     "sops-nix": {

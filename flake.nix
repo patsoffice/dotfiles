@@ -25,6 +25,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sak = {
+      url = "github:patsoffice/sak";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,6 +51,7 @@
       self,
       nixpkgs,
       plx,
+      sak,
       ...
     }@inputs:
     let
@@ -86,6 +92,9 @@
         aarch64-darwin.plx = plx.packages.aarch64-darwin.default;
         aarch64-linux.plx = plx.packages.aarch64-linux.default;
         x86_64-linux.plx = plx.packages.x86_64-linux.default;
+        aarch64-darwin.sak = sak.packages.aarch64-darwin.default;
+        aarch64-linux.sak = sak.packages.aarch64-linux.default;
+        x86_64-linux.sak = sak.packages.x86_64-linux.default;
       };
 
       # ── Formatter ────────────────────────────────────────────────────

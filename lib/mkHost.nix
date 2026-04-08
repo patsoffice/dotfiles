@@ -7,6 +7,7 @@
   dms,
   nixpkgs-stable,
   plx,
+  sak,
   sops-nix,
   ...
 }:
@@ -22,6 +23,11 @@ let
     plx = plx.packages.${system}.default;
   };
 
+  # Overlay: exposes pkgs.sak from the sak flake input
+  sakOverlay = system: final: prev: {
+    sak = sak.packages.${system}.default;
+  };
+
   # Overlay: exposes pkgs.beads_rust from pre-built binary release
   beadsOverlay = final: prev: {
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
@@ -31,6 +37,7 @@ let
     claude-code.overlays.default
     (stableOverlay system)
     (plxOverlay system)
+    (sakOverlay system)
     beadsOverlay
   ];
 
