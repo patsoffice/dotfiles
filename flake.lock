@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775683854,
-        "narHash": "sha256-iS5Nzv7QqAwMeKdVKm7Dg/C9rZf0GaZpJnDx8yWYZ9s=",
+        "lastModified": 1775689070,
+        "narHash": "sha256-0XSmPKxHVWn153CoJtBy2eRX2+LPc6sBZpXSf8SZiww=",
         "owner": "patsoffice",
         "repo": "sak",
-        "rev": "dce86955f9c2a52395c7379fc14f2ba258f0c2cd",
+        "rev": "a5514ec72b2bf4824a80b467bb509e1366158333",
         "type": "github"
       },
       "original": {

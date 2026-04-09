@@ -46,10 +46,14 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-substituters = [ "https://patsoffice.cachix.org" ];
+    trusted-public-keys = [ "patsoffice.cachix.org-1:C1fBDvGbwf7jjrcbCTT6epSnlq7IrZyYN/5H3pb+GtQ=" ];
+  };
 
   nixpkgs.config.allowUnfreePredicate =
     pkg:

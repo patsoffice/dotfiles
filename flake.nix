@@ -1,6 +1,11 @@
 {
   description = "Pat's NixOS configuration";
 
+  nixConfig = {
+    extra-substituters = [ "https://patsoffice.cachix.org" ];
+    extra-trusted-public-keys = [ "patsoffice.cachix.org-1:C1fBDvGbwf7jjrcbCTT6epSnlq7IrZyYN/5H3pb+GtQ=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
