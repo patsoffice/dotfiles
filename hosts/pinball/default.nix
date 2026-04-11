@@ -28,6 +28,9 @@
   services.zfs.autoScrub.interval = "weekly";
   services.zfs.trim.enable = true;
 
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+
   # LG TV power control — on at boot, off at shutdown
   nixpkgs.overlays = [
     (final: prev: {

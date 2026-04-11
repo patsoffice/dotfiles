@@ -23,6 +23,8 @@
     quickshell.package = pkgs.quickshell;
   };
 
+  hardware.bluetooth.enable = true;
+
   programs.firefox.enable = true;
   programs.niri.enable = true;
 
