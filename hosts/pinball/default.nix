@@ -28,5 +28,36 @@
   services.zfs.autoScrub.interval = "weekly";
   services.zfs.trim.enable = true;
 
+  # LG TV power control — on at boot, off at shutdown
+  nixpkgs.overlays = [
+    (final: prev: {
+      lgtvremote-cli = final.callPackage ../../packages/lgtvremote-cli.nix { };
+    })
+  ];
+  environment.systemPackages = [ pkgs.lgtvremote-cli ];
+
+  systemd.services.lgtv-power = {
+    description = "LG TV power on/off";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      if [ -f /home/pjl/.config/lgtvremote/devices.json ]; then
+        ${pkgs.lgtvremote-cli}/bin/lgtv on
+      fi
+    '';
+    preStop = ''
+      if [ -f /home/pjl/.config/lgtvremote/devices.json ]; then
+        ${pkgs.lgtvremote-cli}/bin/lgtv off
+      fi
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "pjl";
+      Environment = "HOME=/home/pjl";
+    };
+  };
+
   system.stateVersion = "25.11";
 }
