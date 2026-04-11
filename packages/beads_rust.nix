@@ -5,16 +5,16 @@
 }:
 
 let
-  version = "0.1.30";
+  version = "0.1.37";
 
   sources = {
     aarch64-darwin = {
       url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-v${version}-darwin_arm64.tar.gz";
-      hash = "sha256-EBvdiTSgjLncDRyevolxPwUVnofctiyAbUXGWWDzqLI=";
+      hash = "sha256-Kg8u25Z68MSPWhY9h8t/s1YNbMvR7pdSIvTP980Wd9A=";
     };
     x86_64-linux = {
       url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-v${version}-linux_amd64.tar.gz";
-      hash = "sha256-cfYrDbeCLdv/0stFMAd3XaVMqxyr/XU3D8Sex4GqLhA=";
+      hash = "sha256-SrLhaMzXRAI9rFk6Z58Zw0vFef6FU7X+/bL6SjhQWB8=";
     };
   };
 
