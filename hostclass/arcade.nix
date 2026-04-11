@@ -23,6 +23,19 @@
     config = {
       modifier = "Mod4";
       terminal = "wezterm";
+      output = {
+        "HDMI-A-1" = {
+          mode = "3840x2160@119.880Hz";
+        };
+      };
+      window.commands = [
+        { criteria = { title = "Visual Pinball Player"; }; command = "move to output HDMI-A-1"; }
+        { criteria = { title = "Visual Pinball Player"; }; command = ''exec swaymsg '[title="Visual Pinball Player"] fullscreen enable' ''; }
+        { criteria = { title = "Visual Pinball Backglass"; }; command = "move to output DP-1"; }
+        { criteria = { title = "Visual Pinball Backglass"; }; command = ''exec swaymsg '[title="Visual Pinball Backglass"] fullscreen enable' ''; }
+        { criteria = { title = "Visual Pinball Score View"; }; command = "move to output DP-2"; }
+        { criteria = { title = "Visual Pinball Score View"; }; command = ''exec swaymsg '[title="Visual Pinball Score View"] fullscreen enable' ''; }
+      ];
     };
   };
 }
