@@ -23,6 +23,11 @@
     config = {
       modifier = "Mod4";
       terminal = "wezterm";
+      input = {
+        "11914:4207:L'atelier_d'Arnoz_DudesCab" = {
+          events = "disabled";
+        };
+      };
       output = {
         "HDMI-A-1" = {
           mode = "3840x2160@119.880Hz";
