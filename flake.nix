@@ -89,6 +89,9 @@
           extraModules = [
             inputs.disko.nixosModules.disko
           ];
+          extraHomeModules = [
+            ./hosts/pinball/home.nix
+          ];
         };
       };
 
