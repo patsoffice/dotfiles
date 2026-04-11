@@ -35,7 +35,7 @@
       };
       window.commands = [
         { criteria = { title = "Visual Pinball Player"; }; command = "move to output HDMI-A-1"; }
-        { criteria = { title = "Visual Pinball Player"; }; command = ''exec swaymsg '[title="Visual Pinball Player"] fullscreen enable' ''; }
+        { criteria = { title = "Visual Pinball Player"; }; command = ''exec swaymsg '[title="Visual Pinball Player"] fullscreen enable; [title="Visual Pinball Player"] focus' ''; }
         { criteria = { title = "Visual Pinball Backglass"; }; command = "move to output DP-1"; }
         { criteria = { title = "Visual Pinball Backglass"; }; command = ''exec swaymsg '[title="Visual Pinball Backglass"] fullscreen enable' ''; }
         { criteria = { title = "Visual Pinball Score View"; }; command = "move to output DP-2"; }
