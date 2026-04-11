@@ -28,7 +28,7 @@
   };
 
   # Allow user access to input devices (HID controllers, joysticks)
-  users.users.${username}.extraGroups = [ "input" ];
+  users.users.${username}.extraGroups = [ "dialout" "input" ];
 
   # GPU drivers
   hardware.graphics.enable = true;
