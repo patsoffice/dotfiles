@@ -65,6 +65,7 @@
       "nvidia-x11"
       "plexamp"
       "prusa-slicer"
+      "unrar"
       "vscode"
     ];
 }
