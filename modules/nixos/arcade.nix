@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 
@@ -25,6 +26,9 @@
     alsa.enable = true;
     pulse.enable = true;
   };
+
+  # Allow user access to input devices (HID controllers, joysticks)
+  users.users.${username}.extraGroups = [ "input" ];
 
   # GPU drivers
   hardware.graphics.enable = true;
