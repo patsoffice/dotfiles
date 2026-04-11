@@ -89,6 +89,20 @@ let
       specialArgs = { };
       hmSharedModules = [ ];
     };
+
+    arcade = {
+      systemModules = [
+        ../modules/nixos/base.nix
+        ../modules/nixos/arcade.nix
+      ];
+      homeModules = coreHomeModules ++ [
+        ../modules/home/packages-arcade.nix
+        ../modules/home/wezterm.nix
+      ];
+      homeBase = ../hostclass/arcade.nix;
+      specialArgs = { };
+      hmSharedModules = [ ];
+    };
   };
 
   # ── Host constructors ────────────────────────────────────────────────

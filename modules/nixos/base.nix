@@ -61,6 +61,8 @@
       "1password"
       "claude-code"
       "discord"
+      "nvidia-settings"
+      "nvidia-x11"
       "plexamp"
       "prusa-slicer"
       "vscode"
