@@ -31,6 +31,11 @@
   # Bluetooth
   hardware.bluetooth.enable = true;
 
+  # DudesCab controller — allow input group access to hidraw devices
+  services.udev.extraRules = ''
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="106f", GROUP="input", MODE="0660"
+  '';
+
   # LG TV power control — on at boot, off at shutdown
   nixpkgs.overlays = [
     (final: prev: {
