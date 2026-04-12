@@ -31,18 +31,25 @@
   # Bluetooth
   hardware.bluetooth.enable = true;
 
+  # VPinFE Manager UI
+  networking.firewall.allowedTCPPorts = [ 8001 ];
+
   # DudesCab controller — allow input group access to hidraw devices
   services.udev.extraRules = ''
     SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="106f", GROUP="input", MODE="0660"
   '';
 
-  # LG TV power control — on at boot, off at shutdown
+  # Host-specific packages (not shared with other arcade machines)
   nixpkgs.overlays = [
     (final: prev: {
       lgtvremote-cli = final.callPackage ../../packages/lgtvremote-cli.nix { };
+      vpinfe = final.callPackage ../../packages/vpinfe.nix { };
     })
   ];
-  environment.systemPackages = [ pkgs.lgtvremote-cli ];
+  environment.systemPackages = [
+    pkgs.lgtvremote-cli
+    pkgs.vpinfe
+  ];
 
   systemd.services.lgtv-power = {
     description = "LG TV power on/off";
