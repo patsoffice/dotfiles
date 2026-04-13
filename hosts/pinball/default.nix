@@ -31,6 +31,11 @@
   # Bluetooth
   hardware.bluetooth.enable = true;
 
+  # Hyprland compositor (experimental replacement for Sway on this host).
+  # The arcade hostclass enables Sway by default; override here.
+  programs.sway.enable = lib.mkForce false;
+  programs.hyprland.enable = true;
+
   # VPinFE Manager UI
   networking.firewall.allowedTCPPorts = [ 8001 ];
 
@@ -47,6 +52,7 @@
     })
   ];
   environment.systemPackages = [
+    pkgs.dash
     pkgs.lgtvremote-cli
     pkgs.vpinfe
   ];

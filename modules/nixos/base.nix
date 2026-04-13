@@ -61,6 +61,7 @@
       "1password"
       "claude-code"
       "discord"
+      "google-chrome"
       "nvidia-settings"
       "nvidia-x11"
       "plexamp"
