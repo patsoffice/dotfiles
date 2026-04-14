@@ -1,9 +1,12 @@
 { lib, pkgs, ... }:
 
 {
-  # Pinball cabinet Hyprland configuration (experimental).
-  # The arcade hostclass enables Sway via home-manager; override here.
-  wayland.windowManager.sway.enable = lib.mkForce false;
+  # Pinball cabinet Sway configuration (experimental — re-testing Sway
+  # now that VPinFE uses system google-chrome via the slim release,
+  # which should avoid the Chromium/Wayland xdg_surface race that
+  # drove the original switch to Hyprland).
+
+  wayland.windowManager.sway.extraOptions = [ "--unsupported-gpu" ];
 
   # VPinFE spawns VPinballX_BGFX with its own LD_LIBRARY_PATH polluted
   # by the PyInstaller bundle's _internal/ dir, which makes VPinballX
@@ -39,8 +42,7 @@
     '';
   };
 
-  # Auto-start Hyprland on TTY1 login (overrides the arcade hostclass
-  # .zprofile that starts Sway).
+  # Auto-start Sway on TTY1 login.
   home.file.".zprofile".text = lib.mkForce ''
     if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
       # Ensure the LG TV (playfield) is powered on before starting the
@@ -56,98 +58,92 @@
           sleep 2
         done
       fi
-      exec Hyprland
+      exec sway --unsupported-gpu
     fi
   '';
 
-  wayland.windowManager.hyprland = {
-    enable = true;
+  wayland.windowManager.sway.config = {
+    # No status bar — this is a cabinet, not a desktop.
+    bars = [ ];
 
-    settings = {
-      debug.disable_logs = false;
+    # Prevent mouse drift between displays from stealing focus from the
+    # playfield.
+    focus.followMouse = false;
 
-      # Hide the cursor when idle — this is a cabinet, not a desktop.
-      cursor = {
-        inactive_timeout = 5;
-        hide_on_key_press = true;
+    # Dude's Cab exposes a keyboard HID interface that Sway grabs by
+    # default, preventing SDL/VPinball from reading its joystick
+    # interface directly. Disabling the input here lets SDL see the
+    # controller via /dev/input/js0.
+    input = {
+      "11914:4207:L'atelier_d'Arnoz_DudesCab" = {
+        events = "disabled";
       };
+    };
 
-      # NVIDIA-friendly env vars.
-      env = [
-        "LIBVA_DRIVER_NAME,nvidia"
-        "XDG_SESSION_TYPE,wayland"
-        "GBM_BACKEND,nvidia-drm"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        "WLR_NO_HARDWARE_CURSORS,1"
-      ];
-
-      # Display layout, left to right: HDMI-A-1 (4K playfield), DP-1
-      # (backglass), DP-2 (DMD).
-      monitor = [
-        "HDMI-A-1,3840x2160@119.88,0x0,1"
-        "DP-1,1920x1080@60,3840x0,1"
-        "DP-2,1920x1080@60,5760x0,1"
-      ];
-
-      # Pin workspaces to outputs:
-      #   ws1 → HDMI-A-1 (playfield)
-      #   ws2 → DP-1    (backglass)
-      #   ws3 → DP-2    (DMD)
-      workspace = [
-        "1, monitor:HDMI-A-1, default:true"
-        "2, monitor:DP-1"
-        "3, monitor:DP-2"
-      ];
-
-      # Launch vpinfe automatically at startup.
-      exec-once = [
-        "${pkgs.vpinfe}/bin/vpinfe"
-      ];
-
-      # Minimal keybinds — the cabinet is keyboardless in normal use,
-      # but these let us recover during bring-up.
-      "$mod" = "SUPER";
-      bind = [
-        "$mod, Return, exec, ${pkgs.wezterm}/bin/wezterm"
-        "$mod, Q, killactive,"
-        "$mod SHIFT, E, exit,"
-      ];
-
-      # No focus-follows-mouse so mouse drift between displays can't
-      # steal focus from the playfield.
-      input = {
-        follow_mouse = 0;
+    # Display layout, left to right: HDMI-A-1 (4K playfield), DP-1
+    # (backglass), DP-2 (DMD). Explicit positioning keeps output
+    # ordering deterministic regardless of which display initializes
+    # first.
+    output = {
+      "HDMI-A-1" = {
+        mode = "3840x2160@119.880Hz";
+        position = "0 0";
       };
+      "DP-1" = {
+        mode = "1920x1080@60Hz";
+        position = "3840 0";
+      };
+      "DP-2" = {
+        mode = "1920x1080@60Hz";
+        position = "5760 0";
+      };
+    };
 
-      # DudesCab keyboard HID grab makes SDL unable to read the joystick
-      # interface. Disable Hyprland's input handling for it so events
-      # pass through to /dev/input/js0.
-      device = [
-        {
-          name = "l'atelier-d'arnoz-dudescab";
-          enabled = false;
-        }
+    # Pin workspaces to outputs:
+    #   ws1 → HDMI-A-1 (playfield)
+    #   ws2 → DP-1    (backglass)
+    #   ws3 → DP-2    (DMD)
+    workspaceOutputAssign = [
+      { workspace = "1"; output = "HDMI-A-1"; }
+      { workspace = "2"; output = "DP-1"; }
+      { workspace = "3"; output = "DP-2"; }
+    ];
+
+    # Route VPinFE front-end and VPinballX in-game windows to their
+    # target workspaces at creation time. The original Sway breakage
+    # was caused by vpinfe's bundled FOSS chromium racing on
+    # xdg_surface.configure during cross-output reparenting. With the
+    # slim VPinFE release, VPinFE now spawns system google-chrome,
+    # which may handle this more gracefully.
+    assigns = {
+      "1" = [
+        { title = "^VPinFE Table$"; }
+        { title = "^Visual Pinball Player$"; }
       ];
-
-      # Route VPinFE front-end and VPinballX in-game windows to their
-      # target workspaces (each pinned to one output) and fullscreen them.
-      # Hyprland 0.54.2 syntax: actions take explicit values, matchers
-      # use `match:FIELD REGEX` (space, not colon, no `^(...)$` anchors).
-      windowrule = [
-        "workspace 1 silent, match:title VPinFE Table"
-        "fullscreen true, match:title VPinFE Table"
-        "workspace 2 silent, match:title VPinFE BG"
-        "fullscreen true, match:title VPinFE BG"
-        "workspace 3 silent, match:title VPinFE DMD"
-        "fullscreen true, match:title VPinFE DMD"
-
-        "workspace 1 silent, match:title Visual Pinball Player"
-        "fullscreen true, match:title Visual Pinball Player"
-        "workspace 2 silent, match:title Visual Pinball Backglass"
-        "fullscreen true, match:title Visual Pinball Backglass"
-        "workspace 3 silent, match:title Visual Pinball Score View"
-        "fullscreen true, match:title Visual Pinball Score View"
+      "2" = [
+        { title = "^VPinFE BG$"; }
+        { title = "^Visual Pinball Backglass$"; }
+      ];
+      "3" = [
+        { title = "^VPinFE DMD$"; }
+        { title = "^Visual Pinball Score View$"; }
       ];
     };
+
+    # Force focus to the playfield window when it appears.
+    window.commands = [
+      { criteria = { title = "^VPinFE Table$"; }; command = "focus"; }
+      { criteria = { title = "^Visual Pinball Player$"; }; command = "focus"; }
+    ];
+
+    # Launch vpinfe automatically at startup. Note: on Sway the three
+    # chromium kiosk windows vpinfe spawns hit a crashpad init race and
+    # one dies with SIGTRAP on most launches (warm or cold). `strace`
+    # and `taskset -c 0` appear to mask it sporadically but neither is
+    # reliable in practice. If the race is killing you, switch to the
+    # Hyprland branch where it doesn't fire. See docs/SWAY_README.md.
+    startup = [
+      { command = "${pkgs.vpinfe}/bin/vpinfe"; }
+    ];
   };
 }

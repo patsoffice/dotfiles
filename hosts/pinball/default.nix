@@ -31,10 +31,10 @@
   # Bluetooth
   hardware.bluetooth.enable = true;
 
-  # Hyprland compositor (experimental replacement for Sway on this host).
-  # The arcade hostclass enables Sway by default; override here.
-  programs.sway.enable = lib.mkForce false;
-  programs.hyprland.enable = true;
+  # Compositor: Sway (inherited from the arcade hostclass). The
+  # sway-experimental branch re-tests Sway now that VPinFE uses system
+  # google-chrome via the slim release; if Chromium's xdg_surface race
+  # is gone, we can consolidate on Sway.
 
   # VPinFE Manager UI
   networking.firewall.allowedTCPPorts = [ 8001 ];
