@@ -99,8 +99,10 @@
         "3, monitor:DP-2"
       ];
 
-      # Launch vpinfe automatically at startup.
+      # Launch swaybg as the desktop background (Hyprland itself
+      # doesn't paint one), then launch vpinfe.
       exec-once = [
+        "${pkgs.swaybg}/bin/swaybg -i ${./assets/pinball-neon.jpg} -m fit"
         "${pkgs.vpinfe}/bin/vpinfe"
       ];
 
