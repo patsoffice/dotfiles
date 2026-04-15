@@ -81,5 +81,10 @@
 
   users.users.pjl.extraGroups = [ "libvirtd" ];
 
+  # Sync primary ESP to fallback after every nixos-rebuild switch
+  system.activationScripts.sync-boot-fallback = ''
+    ${pkgs.rsync}/bin/rsync -a --delete /boot/ /boot-fallback/
+  '';
+
   system.stateVersion = "25.11";
 }

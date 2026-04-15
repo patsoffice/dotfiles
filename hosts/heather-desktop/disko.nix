@@ -1,9 +1,9 @@
 {
   disko.devices = {
     disk = {
-      main = {
+      a = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-CT500P3PSSD8_240446C06702";
+        device = "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_23451T805791";
         content = {
           type = "gpt";
           partitions = {
@@ -17,6 +17,38 @@
                 mountOptions = [
                   "fmask=0177"
                   "dmask=0077"
+                  "nofail"
+                ];
+              };
+            };
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "rpool";
+              };
+            };
+          };
+        };
+      };
+
+      b = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_23451T805830";
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "1G";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot-fallback";
+                mountOptions = [
+                  "fmask=0177"
+                  "dmask=0077"
+                  "nofail"
                 ];
               };
             };
@@ -35,7 +67,7 @@
     zpool = {
       rpool = {
         type = "zpool";
-        # Single drive — no mirror/raidz mode
+        mode = "mirror";
         rootFsOptions = {
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
