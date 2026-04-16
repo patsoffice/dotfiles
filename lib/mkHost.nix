@@ -9,6 +9,7 @@
   plx,
   sak,
   sops-nix,
+  vpinball-flake,
   ...
 }:
 
@@ -33,12 +34,24 @@ let
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
   };
 
+  # Overlay: exposes pkgs.vpinball from the vpinball-flake input.
+  # Only defined on x86_64-linux — the fork's flake outputs do not
+  # support darwin or aarch64-linux.
+  # Use the vpinball-debug variant so crashes in the binary produce
+  # useful stack traces. Exposed as `pkgs.vpinball` so downstream
+  # consumers (packages/vpinball-fhs.nix) don't need to care.
+  vpinballOverlay = system: final: prev:
+    if system == "x86_64-linux" then {
+      vpinball = vpinball-flake.packages.${system}.vpinball-debug;
+    } else { };
+
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
     (plxOverlay system)
     (sakOverlay system)
     beadsOverlay
+    (vpinballOverlay system)
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
