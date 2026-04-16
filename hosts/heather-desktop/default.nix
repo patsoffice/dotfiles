@@ -112,6 +112,7 @@
   environment.systemPackages = with pkgs; [
     libvirt # virsh CLI
     pciutils # lspci
+    qemu_kvm # qemu-img for disk format conversion
     virt-manager # includes virt-install CLI
     virtio-win # Windows virtio drivers ISO
   ];
