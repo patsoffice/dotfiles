@@ -71,7 +71,7 @@
     sshuttle
     sslscan
     #stable.samba
-    wireshark-cli
+    # wireshark-cli
 
     # ── Prompt Segments ───────────────────────────────────────────────
     plx
