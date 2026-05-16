@@ -41,6 +41,12 @@
       pyright
       ruff
       uv
+    ]
+    ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+      # Linux has no system Python; macOS ships one.
+      python3
+    ]
+    ++ [
 
       # ── Development — C/C++ ────────────────────────────────────────────
       clang-tools # includes clang-format
