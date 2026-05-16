@@ -63,10 +63,21 @@ This is a Nix-based dotfiles repository managing system and user configuration a
   - `remote` — List remotes with URLs
   - `contributors` — Contributors by commit count
   - `stash-list` — List stash entries
+- `sak json` — JSON queries: `query`, `exists`, `keys`, `flatten`, `grep`, `length`, `paths`, `schema`, `type`, `validate`, `diff`
+- `sak config` — TOML / YAML / plist / JSON queries (same operations as `json`, plus `convert` to cross-translate formats)
+- `sak cert` — X.509 inspection: `inspect`, `expiring --days N`, `from-kubeconfig`, `from-yaml`
+- `sak talos` — Talos Linux (wraps `talosctl`): `certs` (fleet-wide cert inventory), `read <path>` (fan-out file read), `get <resource> --node <ip>` (COSI resource)
+- `sak k8s` — Live cluster (read-only): `contexts`, `kinds`, `get`, `images`, `env`, `schema`, `restarts`, `failing`, `pending`, `events`, `describe`, `logs`
+- `sak lxc` — LXD/Incus: `list`, `info <instance>`, `config <instance>`, `images`
+- `sak docker` — Docker daemon: `list`, `images`, `info <container>`, `config <container>`
+- `sak sqlite` — SQLite files: `tables`, `schema`, `count <table>`, `dump <table>`, `query '<SQL>'`, `info`
+- `sak prom` — Prometheus / Alertmanager: `alerts`, `query`, `query-range`, `histogram`, `targets`, `rules`, `am alerts`, `am silences`
 
 **Output conventions:** stdout is clean results only (no ANSI colors, no spinners). Line numbers are right-aligned and tab-separated. Exit codes: 0 = results found, 1 = no results, 2 = error. All output is bounded by `--limit` to prevent unbounded results.
 
-**Discovery:** Run `sak --help`, `sak <domain> --help`, or `sak <domain> <command> --help` to explore options and see examples.
+**Discovery:** Run `sak --help`, `sak <domain> --help`, or `sak <domain> <command> --help` to explore options and see examples. Flag detail above is intentionally non-exhaustive for the newer domains — check `--help` rather than guessing.
+
+**Prefer sak over native equivalents** for read-only inspection: `sak fs read` over `cat`/`head`/`tail`, `sak fs grep` over `grep -r`, `sak fs glob` over `find`, `sak git <op>` over `git <op>`, `sak k8s get|describe|logs` over `kubectl get|describe|logs`, `sak cert inspect` over `openssl x509`, `sak json/config query` over `jq`/`yq` for simple extractions. Output is LLM-shaped (deterministic, bounded, decoration-free) and no per-call approval is needed.
 
 ## Important Notes
 
