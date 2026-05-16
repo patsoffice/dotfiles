@@ -34,9 +34,15 @@
   # ── SSH: override 1Password IdentityAgent ──────────────────────
   # The shared SSH config sets IdentityAgent to the macOS 1Password socket.
   # On Linux, use the standard SSH agent so agent forwarding works.
-  home.file.".ssh/config.local".text = ''
+  # NOTE: OpenSSH 10.2+ rejects included config files that are world-readable
+  # or not owned by the user. We write this directly (not via Nix store symlink)
+  # so the file is owned by the user with mode 0600.
+  home.activation.sshConfigLocal = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    rm -f "$HOME/.ssh/config.local"
+    install -m 0600 /dev/stdin "$HOME/.ssh/config.local" << 'EOF'
     Host *
     	IdentityAgent ~/.1password/agent.sock
     	IdentitiesOnly no
+    EOF
   '';
 }
