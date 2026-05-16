@@ -3,6 +3,9 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+// DMS-managed display output configuration.
+include "dms/outputs.kdl"
+
 // xwayland-satellite is started as a systemd user service and binds to :0.
 // Setting DISPLAY here ensures X11 apps spawned by niri (Steam, etc.) find it.
 environment {

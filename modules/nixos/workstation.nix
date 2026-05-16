@@ -28,21 +28,10 @@
   programs.firefox.enable = true;
   programs.niri.enable = true;
 
-  # XWayland bridge for niri so X11-only apps (e.g. Steam) can run.
+  # niri 26.x spawns xwayland-satellite on demand when an X11 client connects,
+  # but it expects the binary on $PATH. Without this, X11 apps (Steam, etc.)
+  # cannot open a display under niri.
   environment.systemPackages = [ pkgs.xwayland-satellite ];
-  systemd.user.services.xwayland-satellite = {
-    description = "XWayland satellite for niri";
-    bindsTo = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "notify";
-      NotifyAccess = "all";
-      ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
-      StandardOutput = "journal";
-    };
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
