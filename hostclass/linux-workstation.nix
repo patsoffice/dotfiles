@@ -6,6 +6,13 @@
     SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
   };
 
+  # Also export to systemd --user so GUI apps (VSCode, etc.) launched outside
+  # an interactive shell inherit SSH_AUTH_SOCK. Without this, editor-driven
+  # git signing fails with "Couldn't get agent socket".
+  xdg.configFile."environment.d/10-ssh-auth-sock.conf".text = ''
+    SSH_AUTH_SOCK=%h/.1password/agent.sock
+  '';
+
   # Start 1Password at login so the SSH agent socket is available immediately
   systemd.user.services."1password-ssh-agent" = {
     Unit = {
