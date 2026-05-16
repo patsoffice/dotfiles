@@ -11,8 +11,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Use the latest kernel compatible with the host's ZFS package; latest otherwise.
+  boot.kernelPackages =
+    if config.boot.zfs.enabled then
+      config.boot.zfs.package.latestCompatibleLinuxPackages
+    else
+      pkgs.linuxPackages_latest;
+
+  # Refuse to import a ZFS root pool last used by another system (26.11 default).
+  boot.zfs.forceImportRoot = lib.mkIf config.boot.zfs.enabled false;
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
