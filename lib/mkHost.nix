@@ -20,8 +20,10 @@ let
   };
 
   # Overlay: exposes pkgs.plx from the plx flake input
+  # Tests disabled: upstream node segment test fails in the Nix sandbox
+  # because it assumes no package.json exists in parent directories.
   plxOverlay = system: final: prev: {
-    plx = plx.packages.${system}.default;
+    plx = (plx.packages.${system}.default).overrideAttrs { doCheck = false; };
   };
 
   # Overlay: exposes pkgs.sak from the sak flake input

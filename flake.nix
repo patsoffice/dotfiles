@@ -108,9 +108,9 @@
 
       # ── Packages ───────────────────────────────────────────────────
       packages = {
-        aarch64-darwin.plx = plx.packages.aarch64-darwin.default;
-        aarch64-linux.plx = plx.packages.aarch64-linux.default;
-        x86_64-linux.plx = plx.packages.x86_64-linux.default;
+        aarch64-darwin.plx = (plx.packages.aarch64-darwin.default).overrideAttrs { doCheck = false; };
+        aarch64-linux.plx = (plx.packages.aarch64-linux.default).overrideAttrs { doCheck = false; };
+        x86_64-linux.plx = (plx.packages.x86_64-linux.default).overrideAttrs { doCheck = false; };
         aarch64-darwin.sak = sak.packages.aarch64-darwin.default;
         aarch64-linux.sak = sak.packages.aarch64-linux.default;
         x86_64-linux.sak = sak.packages.x86_64-linux.default;
