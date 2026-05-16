@@ -3,6 +3,12 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+// xwayland-satellite is started as a systemd user service and binds to :0.
+// Setting DISPLAY here ensures X11 apps spawned by niri (Steam, etc.) find it.
+environment {
+    DISPLAY ":0"
+}
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input

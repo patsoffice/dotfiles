@@ -73,6 +73,8 @@
       "nvidia-x11"
       "plexamp"
       "prusa-slicer"
+      "steam"
+      "steam-unwrapped"
       "unrar"
       "vscode"
     ];

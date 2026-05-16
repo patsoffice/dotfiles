@@ -43,5 +43,13 @@
 
   services.btrfs.autoScrub.enable = true;
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+
+  environment.systemPackages = [ pkgs.heroic ];
+
   system.stateVersion = "25.11";
 }
