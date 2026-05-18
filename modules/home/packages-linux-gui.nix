@@ -23,9 +23,11 @@
     # ── Applications ───────────────────────────────────────────────────
     _1password-gui
     firefox-devedition
+    keybase
     thunderbird
     plexamp
     prusa-slicer
+    vesktop
 
     # ── Clipboard ─────────────────────────────────────────────────────
     xclip
