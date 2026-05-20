@@ -34,7 +34,23 @@
   environment.systemPackages = [ pkgs.xwayland-satellite ];
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.brlaser ];
+  };
+
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Brother";
+        location = "Office";
+        deviceUri = "ipp://brother-printer.internal/ipp/print";
+        model = "everywhere";
+        ppdOptions.PageSize = "Letter";
+      }
+    ];
+    ensureDefaultPrinter = "Brother";
+  };
 
   services.flatpak.enable = true;
 
