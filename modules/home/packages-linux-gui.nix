@@ -23,7 +23,7 @@
     # ── Applications ───────────────────────────────────────────────────
     _1password-gui
     firefox-devedition
-    keybase
+    keybase-gui
     thunderbird
     plexamp
     prusa-slicer

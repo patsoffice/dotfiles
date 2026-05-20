@@ -54,6 +54,18 @@
 
   services.flatpak.enable = true;
 
+  # Keybase daemon + KBFS (~/keybase FUSE mount). keybase-gui (in the Linux GUI
+  # package set) needs kbfsfuse present or it refuses to start.
+  services.keybase.enable = true;
+  services.kbfs.enable = true;
+
+  # Upstream's kbfs.service sets PrivateTmp=true, which puts the unit in a
+  # private mount namespace. A FUSE mount made there fails with EPERM and can't
+  # propagate to the user session, so ~/keybase stays empty. Drop the namespace
+  # so the mount lands in the session's namespace and is visible to the shell
+  # and the Keybase GUI.
+  systemd.user.services.kbfs.serviceConfig.PrivateTmp = lib.mkForce false;
+
   # Enable gnome-keyring for secrets service (org.freedesktop.secrets), but
   # launch it without the SSH component so 1Password handles SSH instead.
   services.gnome.gnome-keyring.enable = true;
