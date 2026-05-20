@@ -69,6 +69,7 @@
       "claude-code"
       "discord"
       "google-chrome"
+      "lens-desktop"
       "nvidia-settings"
       "nvidia-x11"
       "plexamp"

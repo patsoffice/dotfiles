@@ -4,6 +4,11 @@
   ...
 }:
 
+let
+  # Lens Desktop (Kubernetes IDE) tracking the latest upstream AppImage instead
+  # of the older nixpkgs pin. See ./lens.nix for the version/hash and how to bump.
+  lens-latest = pkgs.callPackage ./lens.nix { };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -51,6 +56,7 @@
 
   environment.systemPackages = [
     pkgs.heroic
+    lens-latest # Kubernetes IDE (latest upstream AppImage; see let-binding above)
     pkgs.pam_u2f # pamu2fcfg — enroll a FIDO2 credential into the PAM mapping
     pkgs.libfido2 # fido2-token — inspect/manage the security key
   ];
