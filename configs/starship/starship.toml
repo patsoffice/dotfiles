@@ -58,13 +58,13 @@ format = "$symbol"
 
 [custom.path]
 when = "true"
-command = "plx path"
+command = "chevron path"
 format = "$output"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.gitstatus]
 when = "true"
-command = "plx git"
+command = "chevron git"
 format = "$output"
 shell = ["bash", "--noprofile", "--norc"]
 

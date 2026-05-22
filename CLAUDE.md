@@ -23,7 +23,7 @@ This is a Nix-based dotfiles repository managing system and user configuration a
 - **Package layering**: `packages-core.nix` (all classes) → `packages-dev.nix` (workstations) → `packages-linux-gui.nix` (Linux GUI)
 - **User parameterization**: Username, home directory, and state version are defined once in `lib/mkHost.nix` and derived per platform via `modules/home/user.nix`
 - **1Password SSH agent**: Detected on both macOS and Linux paths in `configs/zsh/.zsh/lib/ssh.zsh`, with traditional ssh-agent fallback for servers
-- **Starship custom segments**: Uses [plx](https://github.com/mmichie/plx) for path and git status rendering
+- **Starship custom segments**: Uses [chevron](https://github.com/shiprock/chevron) (formerly `mmichie/plx`) for path and git status rendering
 
 ## Build & Validation
 

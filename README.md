@@ -55,7 +55,7 @@ hosts/
     hardware-configuration.nix
 configs/
   zsh/                        # Modular ZSH setup (.zshrc + lib/ + functions/)
-  starship/                   # Powerline-style prompt with plx custom segments
+  starship/                   # Powerline-style prompt with chevron custom segments
   git/                        # .gitconfig + .gitignore_global
   ssh/                        # SSH config (with Include for per-host overrides)
   direnv/                     # nix-direnv integration
@@ -78,7 +78,7 @@ User identity (username, home directory, state version) is defined once and deri
 
 ZSH with a modular configuration adapted from [mmichie/dotfiles](https://github.com/mmichie/dotfiles):
 
-- Starship prompt with custom [plx](https://github.com/mmichie/plx) segments for path and git status
+- Starship prompt with custom [chevron](https://github.com/shiprock/chevron) segments for path and git status
 - Modern tool aliases (eza, bat, zoxide, fzf)
 - History management, vi keybindings, completion system
 - Platform detection, tmux integration with smart window titles

@@ -6,7 +6,7 @@
   claude-code,
   dms,
   nixpkgs-stable,
-  plx,
+  chevron,
   sak,
   sops-nix,
   vpinball-flake,
@@ -19,11 +19,12 @@ let
     stable = nixpkgs-stable.legacyPackages.${system};
   };
 
-  # Overlay: exposes pkgs.plx from the plx flake input
+  # Overlay: exposes pkgs.chevron from the chevron flake input
+  # (shiprock/chevron, formerly mmichie/plx).
   # Tests disabled: upstream node segment test fails in the Nix sandbox
   # because it assumes no package.json exists in parent directories.
-  plxOverlay = system: final: prev: {
-    plx = (plx.packages.${system}.default).overrideAttrs { doCheck = false; };
+  chevronOverlay = system: final: prev: {
+    chevron = (chevron.packages.${system}.default).overrideAttrs { doCheck = false; };
   };
 
   # Overlay: exposes pkgs.sak from the sak flake input
@@ -50,7 +51,7 @@ let
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
-    (plxOverlay system)
+    (chevronOverlay system)
     (sakOverlay system)
     beadsOverlay
     (vpinballOverlay system)
