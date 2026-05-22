@@ -22,6 +22,7 @@
 
     # ── Applications ───────────────────────────────────────────────────
     _1password-gui
+    brave
     firefox-devedition
     keybase-gui
     thunderbird
