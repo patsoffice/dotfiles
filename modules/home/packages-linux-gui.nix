@@ -28,6 +28,7 @@
     thunderbird
     plexamp
     prusa-slicer
+    signal-desktop
     vesktop
 
     # ── Clipboard ─────────────────────────────────────────────────────
