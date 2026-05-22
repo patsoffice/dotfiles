@@ -54,11 +54,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1779407563,
-        "narHash": "sha256-1vVZ5Rkl0W/LA/iQNmv+GSZbxezPVziTbPSlPSmtQ1Q=",
+        "lastModified": 1779476360,
+        "narHash": "sha256-wABsFJNxKhMiaC8H/8YKzjQNHJeIV1LrcIW5Th2ZqAA=",
         "owner": "shiprock",
         "repo": "chevron",
-        "rev": "d06886235f1f8bb3713c724d80c28e486d2df95c",
+        "rev": "8b10ae7fce57ab7eb7e0d994729a3581047632e0",
         "type": "github"
       },
       "original": {
@@ -492,11 +492,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1778869304,
-        "narHash": "sha256-30sZNZoA1cqF5JNO9fVX+wgiQYjB7HJqqJ4ztCDeBZE=",
+        "lastModified": 1779357205,
+        "narHash": "sha256-cCO8aTqss5x9Ky8GWkpY0Hy5fyTZEbtifSUV8QjSzic=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d233902339c02a9c334e7e593de68855ad26c4cb",
+        "rev": "f83fc3c307e74bc5fd5adb7eb6b8b13ffd2a36e1",
         "type": "github"
       },
       "original": {
@@ -604,11 +604,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779313680,
-        "narHash": "sha256-RD9ZQmUqyVUElD9UuvvWrZEDZCy+EAh2b/3y1ocsprc=",
+        "lastModified": 1779486609,
+        "narHash": "sha256-Iu4zm2WrMyCYN71p6HvSmw43vdVkhRBmv8r3mhzq2+M=",
         "owner": "patsoffice",
         "repo": "sak",
-        "rev": "02a7f31c20da284dec1905d3730cf6147faf8ae3",
+        "rev": "f001eb9cbafce15a8c61c10d648b394a028fefb4",
         "type": "github"
       },
       "original": {

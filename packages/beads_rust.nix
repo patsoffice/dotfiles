@@ -5,16 +5,18 @@
 }:
 
 let
-  version = "0.1.37";
+  version = "0.2.11";
 
+  # Release assets dropped the "v" prefix from the filename as of 0.2.x
+  # (br-${version}-…); the release tag in the path is still v${version}.
   sources = {
     aarch64-darwin = {
-      url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-v${version}-darwin_arm64.tar.gz";
-      hash = "sha256-Kg8u25Z68MSPWhY9h8t/s1YNbMvR7pdSIvTP980Wd9A=";
+      url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-${version}-darwin_arm64.tar.gz";
+      hash = "sha256-15du3I6GEmhqOdUd3n3+031fSr+YpeoU4mpSwOZ2580=";
     };
     x86_64-linux = {
-      url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-v${version}-linux_amd64.tar.gz";
-      hash = "sha256-SrLhaMzXRAI9rFk6Z58Zw0vFef6FU7X+/bL6SjhQWB8=";
+      url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-${version}-linux_amd64.tar.gz";
+      hash = "sha256-OQe5aBIsmYLjmCLF9Wlk94bM8vPs38MpHoZT7KOd6c8=";
     };
   };
 

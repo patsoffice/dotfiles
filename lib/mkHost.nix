@@ -32,6 +32,35 @@ let
     sak = sak.packages.${system}.default;
   };
 
+  # Overlay: pin _1password-gui to the stable channel.
+  # 1Password re-published the 8.12.21 tarball in place, so the
+  # fixed-output hash nixpkgs-unstable pinned no longer matches the
+  # served binary and the FOD fails to build. The stable channel's
+  # 8.11.18 tarball still matches its pinned hash, so it builds cleanly.
+  # We import nixpkgs-stable directly here (rather than reusing the
+  # `stable` overlay) because that overlay's legacyPackages instance
+  # does not carry an allowUnfree predicate, which 1Password requires.
+  # Remove once unstable's hash is corrected upstream.
+  onePasswordOverlay = system: final: prev: {
+    _1password-gui =
+      (import nixpkgs-stable {
+        inherit system;
+        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "1password" ];
+      })._1password-gui;
+  };
+
+  # Overlay: skip pipx's test suite.
+  # A newer `packaging` release changed the canonical form of PEP 508
+  # direct-reference specifiers ("black @ url" instead of "black@ url"),
+  # which breaks hardcoded string assertions in pipx 1.8.0's tests. The
+  # built program is unaffected; only checkPhase fails. Remove once the
+  # pipx package's tests are fixed upstream.
+  pipxOverlay = final: prev: {
+    pipx = prev.pipx.overridePythonAttrs (_: {
+      doCheck = false;
+    });
+  };
+
   # Overlay: exposes pkgs.beads_rust from pre-built binary release
   beadsOverlay = final: prev: {
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
@@ -43,16 +72,22 @@ let
   # Use the vpinball-debug variant so crashes in the binary produce
   # useful stack traces. Exposed as `pkgs.vpinball` so downstream
   # consumers (packages/vpinball-fhs.nix) don't need to care.
-  vpinballOverlay = system: final: prev:
-    if system == "x86_64-linux" then {
-      vpinball = vpinball-flake.packages.${system}.vpinball-debug;
-    } else { };
+  vpinballOverlay =
+    system: final: prev:
+    if system == "x86_64-linux" then
+      {
+        vpinball = vpinball-flake.packages.${system}.vpinball-debug;
+      }
+    else
+      { };
 
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
     (chevronOverlay system)
     (sakOverlay system)
+    (onePasswordOverlay system)
+    pipxOverlay
     beadsOverlay
     (vpinballOverlay system)
   ];
