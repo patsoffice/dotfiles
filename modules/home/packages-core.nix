@@ -78,6 +78,7 @@
       chevron
 
       # ── Misc CLI ───────────────────────────────────────────────────────
+      _7zz
       beads_rust
       direnv
       just
@@ -87,13 +88,13 @@
       mmv-go
       nix-direnv
       nvd
-      p7zip
       pstree
       rclone
       restic
       tealdeer
       transcrypt
       tree
+      unzip
       xz
     ]
     # macOS ships its own ping/telnet/ftp/hostname at /sbin and /usr/bin.
@@ -101,5 +102,6 @@
     ++ lib.optionals stdenv.isLinux [
       inetutils
       samba # provides smbclient
+      udisks # provides udisksctl
     ];
 }

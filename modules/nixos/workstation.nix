@@ -54,6 +54,11 @@
 
   services.flatpak.enable = true;
 
+  # Run the UDisks2 daemon so `udisksctl` (in the core package set) can mount
+  # removable media without root; the CLI is just a client and does nothing
+  # without the daemon's D-Bus service.
+  services.udisks2.enable = true;
+
   # Keybase daemon + KBFS (~/keybase FUSE mount). keybase-gui (in the Linux GUI
   # package set) needs kbfsfuse present or it refuses to start.
   services.keybase.enable = true;
