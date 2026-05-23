@@ -72,8 +72,7 @@
       sshpass
       sshuttle
       sslscan
-      #stable.samba
-      # wireshark-cli
+      wireshark-cli
 
       # ── Prompt Segments ───────────────────────────────────────────────
       chevron
@@ -101,5 +100,6 @@
     # Installing inetutils here would shadow them with non-setuid versions.
     ++ lib.optionals stdenv.isLinux [
       inetutils
+      samba # provides smbclient
     ];
 }
