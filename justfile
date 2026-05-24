@@ -36,6 +36,17 @@ diff:
 fmt:
     nix fmt
 
-# Garbage collect old generations
+# Garbage collect old generations, keeping at least the last 15 days and never
+# pruning anything since the last boot (so the booted known-good system and any
+# newer generations stay as rollback targets); macOS uses the flat 15-day floor
 gc:
-    nix-collect-garbage -d
+    @if [ "$(uname)" = "Linux" ]; then \
+        days=$(( ( $(date +%s) - $(date -d "$(uptime -s)" +%s) + 86399 ) / 86400 )); \
+        [ "$days" -lt 15 ] && days=15; \
+        echo "Keeping generations from the last ${days}d"; \
+        nix-collect-garbage --delete-older-than ${days}d; \
+        sudo nix-collect-garbage --delete-older-than ${days}d; \
+    else \
+        nix-collect-garbage --delete-older-than 15d; \
+        sudo nix-collect-garbage --delete-older-than 15d; \
+    fi
