@@ -22,13 +22,21 @@
 
     # ── Applications ───────────────────────────────────────────────────
     _1password-gui
+    blender
     brave
     firefox-devedition
+    freecad
+    gimp
+    godot
     keybase-gui
+    libreoffice
+    obsidian
+    openscad
     thunderbird
     plexamp
     prusa-slicer
     signal-desktop
+    unityhub # nixpkgs ships Unity Hub only; Unity editor installs through it
     vesktop
 
     # ── Clipboard ─────────────────────────────────────────────────────

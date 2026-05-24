@@ -54,11 +54,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1779476360,
-        "narHash": "sha256-wABsFJNxKhMiaC8H/8YKzjQNHJeIV1LrcIW5Th2ZqAA=",
+        "lastModified": 1779489702,
+        "narHash": "sha256-x3pVw/MYJE1pGrdWxIyNn5rzSyV2Qb+9tCDypz5OtgE=",
         "owner": "shiprock",
         "repo": "chevron",
-        "rev": "8b10ae7fce57ab7eb7e0d994729a3581047632e0",
+        "rev": "e8f19ee047d6c1b2f8c2ea7c968ce097bbbf8132",
         "type": "github"
       },
       "original": {
@@ -201,11 +201,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779336838,
-        "narHash": "sha256-n1+l78hJRABp4cQHKeD0BVByT0vZLPqd09Tvoq8Q+d8=",
+        "lastModified": 1779627636,
+        "narHash": "sha256-J6JGf42zNzLo/CrRdKb5dNznpLI+eGxN/5KTLG1Mo5s=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "928d72376949e222ea4f07b44828a55b0136422e",
+        "rev": "044c30c19550c0557997dece4ce9e54d2fa77ba1",
         "type": "github"
       },
       "original": {
@@ -476,11 +476,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1779102034,
-        "narHash": "sha256-vZJZjLo513IeI8hjzHFc6TDezUd4uCE2Eq4SNO3DNNg=",
+        "lastModified": 1779467186,
+        "narHash": "sha256-nOesoDCiXcUftqbRBMz9tt4blI5PvljMWbm3kuCA+0s=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "687f05a9184cad4eaf905c48b63649e3a86f5433",
+        "rev": "b77b3de8775677f84492abe84635f87b0e153f0f",
         "type": "github"
       },
       "original": {
@@ -492,11 +492,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1779357205,
-        "narHash": "sha256-cCO8aTqss5x9Ky8GWkpY0Hy5fyTZEbtifSUV8QjSzic=",
+        "lastModified": 1779508470,
+        "narHash": "sha256-Ap9KJX+5xHIn3bPIpfNgT6MEXdAECECwo4/rmlQD74M=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f83fc3c307e74bc5fd5adb7eb6b8b13ffd2a36e1",
+        "rev": "29916453413845e54a65b8a1cf996842300cd299",
         "type": "github"
       },
       "original": {
@@ -604,11 +604,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779486609,
-        "narHash": "sha256-Iu4zm2WrMyCYN71p6HvSmw43vdVkhRBmv8r3mhzq2+M=",
+        "lastModified": 1779639507,
+        "narHash": "sha256-xmPcKpZHxzCVlgjnVJzqojtZV9diq3vNp0ZUjOl8tbY=",
         "owner": "patsoffice",
         "repo": "sak",
-        "rev": "f001eb9cbafce15a8c61c10d648b394a028fefb4",
+        "rev": "6b5afd71f3943ce1d00d4c600b95bc81057ae05c",
         "type": "github"
       },
       "original": {

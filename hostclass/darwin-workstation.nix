@@ -16,11 +16,12 @@
   # so the file is owned by the user with mode 0600.
   home.activation.sshConfigLocal = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     rm -f "$HOME/.ssh/config.local"
-    install -m 0600 /dev/stdin "$HOME/.ssh/config.local" << EOF
+    cat > "$HOME/.ssh/config.local" << EOF
     Host *
     	IdentityAgent "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     	IdentitiesOnly no
     EOF
+    chmod 0600 "$HOME/.ssh/config.local"
   '';
 
   # ── Git: use 1Password for SSH commit signing ──────────────────

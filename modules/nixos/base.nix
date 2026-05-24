@@ -67,15 +67,18 @@
     builtins.elem (lib.getName pkg) [
       "1password"
       "claude-code"
+      "corefonts"
       "discord"
       "google-chrome"
       "lens-desktop"
       "nvidia-settings"
       "nvidia-x11"
+      "obsidian"
       "plexamp"
       "prusa-slicer"
       "steam"
       "steam-unwrapped"
+      "unityhub"
       "unrar"
       "vscode"
     ];

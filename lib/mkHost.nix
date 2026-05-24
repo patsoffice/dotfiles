@@ -32,23 +32,6 @@ let
     sak = sak.packages.${system}.default;
   };
 
-  # Overlay: pin _1password-gui to the stable channel.
-  # 1Password re-published the 8.12.21 tarball in place, so the
-  # fixed-output hash nixpkgs-unstable pinned no longer matches the
-  # served binary and the FOD fails to build. The stable channel's
-  # 8.11.18 tarball still matches its pinned hash, so it builds cleanly.
-  # We import nixpkgs-stable directly here (rather than reusing the
-  # `stable` overlay) because that overlay's legacyPackages instance
-  # does not carry an allowUnfree predicate, which 1Password requires.
-  # Remove once unstable's hash is corrected upstream.
-  onePasswordOverlay = system: final: prev: {
-    _1password-gui =
-      (import nixpkgs-stable {
-        inherit system;
-        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "1password" ];
-      })._1password-gui;
-  };
-
   # Overlay: skip pipx's test suite.
   # A newer `packaging` release changed the canonical form of PEP 508
   # direct-reference specifiers ("black @ url" instead of "black@ url"),
@@ -86,7 +69,6 @@ let
     (stableOverlay system)
     (chevronOverlay system)
     (sakOverlay system)
-    (onePasswordOverlay system)
     pipxOverlay
     beadsOverlay
     (vpinballOverlay system)

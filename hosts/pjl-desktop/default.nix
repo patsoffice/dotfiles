@@ -25,11 +25,17 @@ in
     ];
   };
 
-  # Ensure swapfile has CoW disabled (required for btrfs)
+  # Ensure swapfile has CoW disabled (required for btrfs).
+  # DefaultDependencies=false avoids the implicit After=basic.target which
+  # creates an ordering cycle via sockets.target → sshd-unix-local.socket →
+  # sysinit.target → suid-sgid-wrappers → run-wrappers.mount → swap.target.
   systemd.services.create-swapfile = {
     description = "Create swapfile with nocow";
     wantedBy = [ "swap-swapfile.swap" ];
     before = [ "swap-swapfile.swap" ];
+    after = [ "local-fs.target" ];
+    requires = [ "local-fs.target" ];
+    unitConfig.DefaultDependencies = false;
     script = ''
       if [ ! -f /swap/swapfile ]; then
         ${pkgs.coreutils}/bin/truncate -s 0 /swap/swapfile
