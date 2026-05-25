@@ -11,12 +11,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use the latest kernel compatible with the host's ZFS package; latest otherwise.
+  # ZFS hosts track the default LTS kernel (known ZFS-compatible); latest otherwise.
+  # Hosts that need a specific release pin boot.kernelPackages themselves.
   boot.kernelPackages =
-    if config.boot.zfs.enabled then
-      config.boot.zfs.package.latestCompatibleLinuxPackages
-    else
-      pkgs.linuxPackages_latest;
+    if config.boot.zfs.enabled then pkgs.linuxPackages else pkgs.linuxPackages_latest;
 
   # Refuse to import a ZFS root pool last used by another system (26.11 default).
   boot.zfs.forceImportRoot = lib.mkIf config.boot.zfs.enabled false;
