@@ -14,6 +14,19 @@
     SSH_AUTH_SOCK=${config.home.homeDirectory}/.1password/agent.sock
   '';
 
+  # GTK GSettings schemas for the graphical session. The niri session runs Qt
+  # apps with the gtk3 platform theme (QT_QPA_PLATFORMTHEME=gtk3), so opening a
+  # native GTK file chooser — e.g. FreeCAD's Save As — instantiates
+  # org.gtk.Settings.FileChooser via GSettings. The session's XDG_DATA_DIRS does
+  # not include the gtk3/gsettings-desktop-schemas schema dirs, so g_settings_new()
+  # treats the schema as missing and abort()s (SIGABRT). Prepend the schema dirs
+  # here so systemd-launched GUI apps can find them. Same environment.d rationale
+  # as the SSH_AUTH_SOCK file above: GUI apps launched outside an interactive
+  # shell don't source the login profile.
+  xdg.configFile."environment.d/20-gsettings-schemas.conf".text = ''
+    XDG_DATA_DIRS=${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:''${XDG_DATA_DIRS}
+  '';
+
   # Start 1Password at login so the SSH agent socket is available immediately
   systemd.user.services."1password-ssh-agent" = {
     Unit = {
