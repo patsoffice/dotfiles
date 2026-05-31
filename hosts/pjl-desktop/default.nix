@@ -26,15 +26,16 @@ in
   };
 
   # Ensure swapfile has CoW disabled (required for btrfs).
-  # DefaultDependencies=false avoids the implicit After=basic.target which
-  # creates an ordering cycle via sockets.target → sshd-unix-local.socket →
-  # sysinit.target → suid-sgid-wrappers → run-wrappers.mount → swap.target.
+  # We depend on the specific /swap mount point rather than local-fs.target to
+  # avoid an ordering cycle: local-fs.target pulls in run-wrappers.mount which
+  # needs swap.target, creating a circular dependency that can delay
+  # /run/wrappers and break PAM authentication (unix_chkpwd not found).
   systemd.services.create-swapfile = {
     description = "Create swapfile with nocow";
     wantedBy = [ "swap-swapfile.swap" ];
     before = [ "swap-swapfile.swap" ];
-    after = [ "local-fs.target" ];
-    requires = [ "local-fs.target" ];
+    after = [ "swap.mount" ];
+    requires = [ "swap.mount" ];
     unitConfig.DefaultDependencies = false;
     script = ''
       if [ ! -f /swap/swapfile ]; then
