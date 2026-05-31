@@ -3,7 +3,9 @@
 
   nixConfig = {
     extra-substituters = [ "https://patsoffice.cachix.org" ];
-    extra-trusted-public-keys = [ "patsoffice.cachix.org-1:C1fBDvGbwf7jjrcbCTT6epSnlq7IrZyYN/5H3pb+GtQ=" ];
+    extra-trusted-public-keys = [
+      "patsoffice.cachix.org-1:C1fBDvGbwf7jjrcbCTT6epSnlq7IrZyYN/5H3pb+GtQ="
+    ];
   };
 
   inputs = {
@@ -12,7 +14,10 @@
     claude-code.url = "github:sadjow/claude-code-nix?ref=v2.1.71"; # pin exact version
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      # Pinned to the release branch matching nixpkgs (currently nixos-unstable
+      # ≡ 26.05-pre). HM master tracks the *next* release and warns on mismatch.
+      # Bump this when nixpkgs/nixos-unstable moves to 26.11-pre.
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -108,7 +113,9 @@
 
       # ── Packages ───────────────────────────────────────────────────
       packages = {
-        aarch64-darwin.chevron = (chevron.packages.aarch64-darwin.default).overrideAttrs { doCheck = false; };
+        aarch64-darwin.chevron = (chevron.packages.aarch64-darwin.default).overrideAttrs {
+          doCheck = false;
+        };
         aarch64-linux.chevron = (chevron.packages.aarch64-linux.default).overrideAttrs { doCheck = false; };
         x86_64-linux.chevron = (chevron.packages.x86_64-linux.default).overrideAttrs { doCheck = false; };
         aarch64-darwin.sak = sak.packages.aarch64-darwin.default;
