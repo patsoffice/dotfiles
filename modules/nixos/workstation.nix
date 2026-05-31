@@ -28,6 +28,14 @@
   programs.firefox.enable = true;
   programs.niri.enable = true;
 
+  # LocalSend: cross-platform AirDrop alternative for moving files (e.g. iPhone
+  # photos) over the LAN. openFirewall opens TCP+UDP 53317 for discovery and
+  # transfers, which the active firewall would otherwise block.
+  programs.localsend = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # niri 26.x spawns xwayland-satellite on demand when an X11 client connects,
   # but it expects the binary on $PATH. Without this, X11 apps (Steam, etc.)
   # cannot open a display under niri.
