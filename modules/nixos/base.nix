@@ -58,6 +58,14 @@
     ];
     trusted-substituters = [ "https://patsoffice.cachix.org" ];
     trusted-public-keys = [ "patsoffice.cachix.org-1:C1fBDvGbwf7jjrcbCTT6epSnlq7IrZyYN/5H3pb+GtQ=" ];
+    # Single human user per host (passed in via specialArgs). Trusted users may
+    # configure substituters and trust additional public keys at the client; this
+    # silences "ignoring the client-specified setting 'trusted-public-keys'" when
+    # the flake's nixConfig is honored. Equivalent to existing sudo privilege.
+    trusted-users = [
+      "root"
+      username
+    ];
   };
 
   nixpkgs.config.allowUnfreePredicate =
