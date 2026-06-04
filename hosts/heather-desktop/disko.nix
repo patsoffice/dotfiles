@@ -3,7 +3,7 @@
     disk = {
       a = {
         type = "disk";
-        device = "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_23451T805791";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37960G_50026B778518B258";
         content = {
           type = "gpt";
           partitions = {
@@ -34,7 +34,7 @@
 
       b = {
         type = "disk";
-        device = "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_23451T805830";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37960G_50026B778518AAAD";
         content = {
           type = "gpt";
           partitions = {

@@ -20,17 +20,20 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.devNodes = "/dev/disk/by-id";
 
-  # Enable Intel IOMMU for VFIO / GVT-g passthrough to VMs.
-  # iommu=pt leaves non-passthrough devices at native performance.
-  # i915.enable_gvt=1 turns on GVT-g so kvmgt can carve vGPUs out of UHD 630.
+  # ── VFIO GPU + USB passthrough ─────────────────────────────────────
+  # Bind to vfio-pci so they can be passed through to the Windows VM:
+  #   10de:2504 / 10de:228e — RTX 3060 (VGA + HDMI audio), physical DP/HDMI out
+  #   1912:0014             — Renesas uPD720201 USB 3.0 card (PCI 03:00.0),
+  #                           alone in its IOMMU group; gives the VM real ports.
+  # Host keeps the iGPU (UHD 630) and onboard Intel xHCI for the console.
   boot.kernelParams = [
     "intel_iommu=on"
     "iommu=pt"
-    "i915.enable_gvt=1"
+    "vfio-pci.ids=10de:2504,10de:228e,1912:0014"
   ];
 
-  # Load the GVT-g mediator at boot; pulls in vfio/mdev/kvm via modprobe.
-  boot.kernelModules = [ "kvmgt" ];
+  # Load vfio-pci in initrd so it claims the 3060 before nouveau can.
+  boot.initrd.kernelModules = [ "vfio-pci" ];
 
   # ZFS maintenance
   services.zfs.autoScrub.enable = true;
@@ -54,34 +57,6 @@
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStop = "${pkgs.libvirt}/bin/virsh list --name | xargs -rn1 ${pkgs.libvirt}/bin/virsh managedsave";
-    };
-  };
-
-  # ── GVT-g vGPU (Intel UHD 630) ───────────────────────────────────
-  # Creates a persistent mediated device out of the iGPU so a libvirt VM
-  # can attach it via <hostdev type='mdev' model='vfio-pci'>. UUID is
-  # fixed so the VM XML can reference it stably.
-  systemd.services.gvt-g-vgpu = {
-    description = "Create GVT-g vGPU for Windows VM";
-    wantedBy = [ "multi-user.target" ];
-    before = [ "libvirtd.service" ];
-    after = [ "systemd-modules-load.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "gvt-g-create" ''
-        UUID=3b855572-293c-45ce-835c-38a563de2707
-        CREATE=/sys/bus/pci/devices/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_4/create
-        if [ ! -e /sys/bus/mdev/devices/$UUID ]; then
-          echo "$UUID" > "$CREATE"
-        fi
-      '';
-      ExecStop = pkgs.writeShellScript "gvt-g-destroy" ''
-        UUID=3b855572-293c-45ce-835c-38a563de2707
-        if [ -e /sys/bus/mdev/devices/$UUID ]; then
-          echo 1 > /sys/bus/mdev/devices/$UUID/remove
-        fi
-      '';
     };
   };
 
