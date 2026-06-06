@@ -13,6 +13,7 @@
     ]
     ++ lib.optionals (!pkgs.stdenv.isDarwin) [
       vscode
+      zed-editor
     ]
     ++ [
 

@@ -92,6 +92,7 @@
       "vimr"
       "visual-studio-code"
       "wifiman"
+      "zed"
       "zoom"
     ];
   };
