@@ -3,7 +3,7 @@
     disk = {
       a = {
         type = "disk";
-        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37960G_50026B778518B258";
+        device = "/dev/disk/by-id/nvme-SPCC_M.2_PCIe_SSD_A20250218N301TB06607";
         content = {
           type = "gpt";
           partitions = {
@@ -34,7 +34,7 @@
 
       b = {
         type = "disk";
-        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37960G_50026B778518AAAD";
+        device = "/dev/disk/by-id/nvme-SPCC_M.2_PCIe_SSD_A20251021N301KG01319";
         content = {
           type = "gpt";
           partitions = {

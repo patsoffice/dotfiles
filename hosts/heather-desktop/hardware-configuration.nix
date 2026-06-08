@@ -16,6 +16,7 @@
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ahci"
+    "nvme"
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];

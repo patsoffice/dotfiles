@@ -23,7 +23,7 @@
   # ── VFIO GPU + USB passthrough ─────────────────────────────────────
   # Bind to vfio-pci so they can be passed through to the Windows VM:
   #   10de:2504 / 10de:228e — RTX 3060 (VGA + HDMI audio), physical DP/HDMI out
-  #   1912:0014             — Renesas uPD720201 USB 3.0 card (PCI 03:00.0),
+  #   1912:0014             — Renesas uPD720201 USB 3.0 card (PCI 04:00.0),
   #                           alone in its IOMMU group; gives the VM real ports.
   # Host keeps the iGPU (UHD 630) and onboard Intel xHCI for the console.
   boot.kernelParams = [
