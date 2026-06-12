@@ -64,6 +64,34 @@ let
     else
       { };
 
+  # Overlay: fix mame's build by compiling the SDL3 OSD against the real sdl3
+  # library instead of the SDL2 compat shim. MAME 0.286+ switched the default
+  # OSD to sdl3 on macOS (and upstream is unifying every platform on sdl3), but
+  # nixpkgs still wires up SDL2/sdl2-compat — so the Darwin build fails with
+  # "'SDL3/SDL.h' file not found" and the Linux build only works by accident.
+  # Mirrors the three changes in nixpkgs PR #495586 (open/unmerged as of
+  # 2026-06): swap SDL2 -> sdl3 inputs, force OSD=sdl3, and patch the macOS
+  # sw_vers call in sdl3.lua. Remove this once that PR lands. See nixpkgs
+  # issue #495438.
+  mameOverlay = final: prev: {
+    mame = prev.mame.overrideAttrs (old: {
+      buildInputs =
+        (builtins.filter (p: p != final.SDL2 && p != final.SDL2_ttf) old.buildInputs)
+        ++ [
+          final.sdl3
+          final.sdl3-ttf
+        ];
+      makeFlags = old.makeFlags ++ [ "OSD=sdl3" ];
+      postPatch =
+        old.postPatch
+        + final.lib.optionalString final.stdenv.hostPlatform.isDarwin ''
+          substituteInPlace scripts/src/osd/sdl3.lua --replace-fail \
+            'backtick("sw_vers -productVersion")' \
+            "os.getenv('MACOSX_DEPLOYMENT_TARGET') or '$darwinMinVersion'"
+        '';
+    });
+  };
+
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
@@ -72,6 +100,7 @@ let
     pipxOverlay
     beadsOverlay
     (vpinballOverlay system)
+    mameOverlay
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
