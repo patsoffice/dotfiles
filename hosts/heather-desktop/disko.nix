@@ -102,6 +102,14 @@
             mountpoint = "/var/lib/libvirt/images";
             options.mountpoint = "legacy";
           };
+          "vms/heather-pc" = {
+            type = "zfs_fs";
+            mountpoint = "/var/lib/libvirt/images/heather-pc";
+            options = {
+              mountpoint = "legacy";
+              recordsize = "64K";
+            };
+          };
           reserved = {
             type = "zfs_fs";
             options = {
