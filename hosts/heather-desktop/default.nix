@@ -70,6 +70,9 @@
         autoconnect = true;
       };
       bridge.stp = false;
+      # Pin br0 to eno1's hardware MAC so the host keeps its DHCP
+      # lease/reservation regardless of port-attach timing.
+      bridge.mac-address = "50:EB:F6:81:43:B8";
       ipv4.method = "auto";
       ipv6.method = "auto";
     };
