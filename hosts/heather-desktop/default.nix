@@ -48,6 +48,43 @@
     };
   };
 
+  # ── LAN bridge for bridged VM networking ─────────────────────────
+  # br0 enslaves the onboard NIC so the Windows VM gets a first-class
+  # DHCP lease from the LAN router instead of sitting behind libvirt NAT.
+  # A real bridge (not macvtap) is required so the host and VM can talk
+  # to each other — the VM reaches the Samba image share over the LAN.
+  #
+  # After rebuild, repoint the VM's NIC at the bridge on the host:
+  #   virsh edit heather-pc
+  #   <interface type='bridge'>
+  #     <source bridge='br0'/>
+  #     <model type='virtio'/>
+  #   </interface>
+  # (drop the existing <source network='default'/> NAT interface block)
+  networking.networkmanager.ensureProfiles.profiles = {
+    br0 = {
+      connection = {
+        id = "br0";
+        type = "bridge";
+        interface-name = "br0";
+        autoconnect = true;
+      };
+      bridge.stp = false;
+      ipv4.method = "auto";
+      ipv6.method = "auto";
+    };
+    br0-slave = {
+      connection = {
+        id = "br0-slave";
+        type = "ethernet";
+        interface-name = "eno1";
+        master = "br0";
+        slave-type = "bridge";
+        autoconnect = true;
+      };
+    };
+  };
+
   # Save/restore VM state across host reboots
   systemd.services.libvirt-save-vms = {
     description = "Save running libvirt VMs on shutdown";
