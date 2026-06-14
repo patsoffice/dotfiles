@@ -48,6 +48,10 @@
     };
   };
 
+  # Default virsh/virt-manager to the system daemon (root-managed VMs)
+  # instead of the per-user session, so plain `virsh ...` hits qemu:///system.
+  environment.sessionVariables.LIBVIRT_DEFAULT_URI = "qemu:///system";
+
   # ── LAN bridge for bridged VM networking ─────────────────────────
   # br0 enslaves the onboard NIC so the Windows VM gets a first-class
   # DHCP lease from the LAN router instead of sitting behind libvirt NAT.
