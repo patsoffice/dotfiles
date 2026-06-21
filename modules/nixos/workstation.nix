@@ -24,6 +24,18 @@
     quickshell.package = pkgs.quickshell;
   };
 
+  # Dedicated PAM service for the DankMaterialShell lock screen's password
+  # prompt. Its Pam.qml opens a "dankshell" PamContext and only falls back to
+  # the generic "login" stack when this service is absent; defining it lets the
+  # lock screen carry its own policy instead of riding login's.
+  #
+  # fprintAuth is forced off because DMS runs the fingerprint reader in a
+  # SEPARATE, concurrent PamContext (its bundled "fprint" service, just
+  # pam_fprintd). If this password service also pulled in pam_fprintd — which
+  # services.fprintd would otherwise add by default — both contexts would race
+  # to claim the one fprintd device at lock time. Keep this one password-only.
+  security.pam.services.dankshell.fprintAuth = false;
+
   hardware.bluetooth.enable = true;
 
   programs.firefox.enable = true;
