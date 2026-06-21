@@ -27,6 +27,30 @@
     XDG_DATA_DIRS=${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:''${XDG_DATA_DIRS}
   '';
 
+  # Polkit authentication agent for the niri session. Full desktops (GNOME/KDE)
+  # start one automatically, but niri does not — without it, any polkit action
+  # that needs interactive auth (1Password's "Unlock using system
+  # authentication", fprintd-enroll, disk mounts, etc.) is denied because there
+  # is nothing to present the password/fingerprint prompt. The agent runs the
+  # PAM conversation for the polkit-1 service, which includes pam_fprintd, so
+  # the prompt accepts the enrolled fingerprint.
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    Unit = {
+      Description = "polkit-gnome authentication agent";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      Type = "exec";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
   # Start 1Password at login so the SSH agent socket is available immediately
   systemd.user.services."1password-ssh-agent" = {
     Unit = {

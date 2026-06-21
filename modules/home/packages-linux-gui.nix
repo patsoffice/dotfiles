@@ -21,7 +21,9 @@
     wtype
 
     # ── Applications ───────────────────────────────────────────────────
-    _1password-gui
+    # 1Password GUI is installed system-wide via programs._1password-gui in
+    # modules/nixos/workstation.nix (needed for its polkit unlock action), so
+    # it's intentionally not listed here.
     blender
     brave
     firefox-devedition

@@ -3,6 +3,7 @@
   lib,
   pkgs,
   dms,
+  username,
   ...
 }:
 
@@ -27,6 +28,20 @@
 
   programs.firefox.enable = true;
   programs.niri.enable = true;
+
+  # 1Password GUI via the NixOS module rather than a home-manager package.
+  # Setting polkitPolicyOwners rebuilds the package so it installs the
+  # com.1password.1Password polkit action (the default package ships none) and
+  # the setgid 1Password-BrowserSupport wrapper. That polkit action — together
+  # with the pam_fprintd entry that services.fprintd adds to the polkit-1 PAM
+  # service — is what lets "Unlock using system authentication" use the
+  # fingerprint reader. A polkit authentication agent must also run in the niri
+  # session to present the challenge (see hostclass/linux-workstation.nix);
+  # then enable system authentication in 1Password's Settings → Security.
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ username ];
+  };
 
   # LocalSend: cross-platform AirDrop alternative for moving files (e.g. iPhone
   # photos) over the LAN. openFirewall opens TCP+UDP 53317 for discovery and
