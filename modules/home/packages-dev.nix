@@ -71,6 +71,7 @@
       texliveSmall
 
       # ── Emulators ──────────────────────────────────────────────────────
+      igir # ROM collection manager
       mame
 
       # ── LLM Tools ──────────────────────────────────────────────────────
