@@ -36,6 +36,13 @@
   # to claim the one fprintd device at lock time. Keep this one password-only.
   security.pam.services.dankshell.fprintAuth = false;
 
+  # TODO(revisit): vesktop's build pulls in pnpm as a nativeBuildInput, and a
+  # nixpkgs bump moved pnpm to 10.29.2, which is flagged insecure (CVE-2026-48995
+  # and friends). pnpm is build-time only — it is not in vesktop's runtime
+  # closure — so allow it to unblock the rebuild. Drop this once nixpkgs ships a
+  # patched pnpm (or vesktop stops needing this version).
+  nixpkgs.config.permittedInsecurePackages = [ "pnpm-10.29.2" ];
+
   hardware.bluetooth.enable = true;
 
   programs.firefox.enable = true;
