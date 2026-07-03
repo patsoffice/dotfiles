@@ -75,12 +75,10 @@ let
   # issue #495438.
   mameOverlay = final: prev: {
     mame = prev.mame.overrideAttrs (old: {
-      buildInputs =
-        (builtins.filter (p: p != final.SDL2 && p != final.SDL2_ttf) old.buildInputs)
-        ++ [
-          final.sdl3
-          final.sdl3-ttf
-        ];
+      buildInputs = (builtins.filter (p: p != final.SDL2 && p != final.SDL2_ttf) old.buildInputs) ++ [
+        final.sdl3
+        final.sdl3-ttf
+      ];
       makeFlags = old.makeFlags ++ [ "OSD=sdl3" ];
       postPatch =
         old.postPatch
