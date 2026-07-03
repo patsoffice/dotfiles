@@ -119,6 +119,7 @@ let
   workstationHomeModules = [
     ../modules/home/packages-dev.nix
     ../modules/home/wezterm.nix
+    ../modules/home/opencode.nix
   ];
 
   # Linux workstation GUI packages

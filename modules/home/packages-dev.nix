@@ -74,6 +74,7 @@
       mame
 
       # ── LLM Tools ──────────────────────────────────────────────────────
+      opencode # agentic terminal coding tool; configured for ollama
       sak
 
       # ── Misc ───────────────────────────────────────────────────────────
