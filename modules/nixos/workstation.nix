@@ -73,7 +73,13 @@
   # niri 26.x spawns xwayland-satellite on demand when an X11 client connects,
   # but it expects the binary on $PATH. Without this, X11 apps (Steam, etc.)
   # cannot open a display under niri.
-  environment.systemPackages = [ pkgs.xwayland-satellite ];
+  #
+  # pkgs.gvfs is here (not just enabled via the service below) so its
+  # share/gvfs/mounts/*.mount files land on XDG_DATA_DIRS — see services.gvfs.
+  environment.systemPackages = [
+    pkgs.xwayland-satellite
+    pkgs.gvfs
+  ];
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -100,6 +106,22 @@
   # removable media without root; the CLI is just a client and does nothing
   # without the daemon's D-Bus service.
   services.udisks2.enable = true;
+
+  # GVfs daemon (incl. gvfsd-smb) so SMB shares can be mounted entirely in
+  # userspace, no root or /etc fstab entry:
+  #   gio mount smb://server.example.com/share
+  # The share then appears under /run/user/$(id -u)/gvfs/ for the session.
+  #
+  # services.gvfs.enable only runs the daemon. On a minimal (non-GNOME) niri
+  # session the GIO *client* must also be wired up or `gio mount smb://…` fails
+  # with "volume doesn't implement mount":
+  #   - pkgs.gvfs in systemPackages (above) puts the *.mount files on
+  #     XDG_DATA_DIRS so the daemon knows how to spawn gvfsd-smb;
+  #   - GIO_EXTRA_MODULES adds libgvfsdbus.so so the gio client routes smb://
+  #     URIs to the daemon instead of the local-only VFS.
+  # Both take effect on next login (session env is captured at PAM login).
+  services.gvfs.enable = true;
+  environment.sessionVariables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
 
   # Keybase daemon + KBFS (~/keybase FUSE mount). keybase-gui (in the Linux GUI
   # package set) needs kbfsfuse present or it refuses to start.

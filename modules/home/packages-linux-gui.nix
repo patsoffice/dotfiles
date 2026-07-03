@@ -45,6 +45,9 @@
     xclip
     xsel
 
+    # ── Files ──────────────────────────────────────────────────────────
+    glib # provides `gio`, used to mount SMB shares via gvfs (see workstation.nix)
+
     # ── Fonts ──────────────────────────────────────────────────────────
     nerd-fonts.hack
   ];
