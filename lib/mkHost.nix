@@ -49,6 +49,12 @@ let
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
   };
 
+  # Overlay: exposes pkgs.ultimarc-linux (the `umtool` CLI for programming
+  # Ultimarc arcade control boards). Consumed by the arcade host.
+  ultimarcOverlay = final: prev: {
+    ultimarc-linux = final.callPackage ../packages/ultimarc-linux.nix { };
+  };
+
   # Overlay: exposes pkgs.vpinball from the vpinball-flake input.
   # Only defined on x86_64-linux — the fork's flake outputs do not
   # support darwin or aarch64-linux.
@@ -97,6 +103,7 @@ let
     (sakOverlay system)
     pipxOverlay
     beadsOverlay
+    ultimarcOverlay
     (vpinballOverlay system)
     mameOverlay
   ];

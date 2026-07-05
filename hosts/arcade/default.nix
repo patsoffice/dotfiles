@@ -38,6 +38,9 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="d209", MODE="0660", GROUP="input"
   '';
 
+  # umtool: program Ultimarc control boards (IPAC, U-HID, …) from JSON configs.
+  environment.systemPackages = [ pkgs.ultimarc-linux ];
+
   # Inbound SSH: pjl has no password (console autologin only), so authorize the
   # personal key for remote management. Mirrors the public key in
   # modules/home/ssh.nix. Promote to base.nix if wanted fleet-wide.
