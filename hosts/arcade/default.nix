@@ -32,6 +32,12 @@
   # Bluetooth for wireless controllers
   hardware.bluetooth.enable = true;
 
+  # Arcade control devices (vendor d209 — Ultimarc/IPAC) — allow input group
+  # access so MAME can read them without root.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="d209", MODE="0660", GROUP="input"
+  '';
+
   # Inbound SSH: pjl has no password (console autologin only), so authorize the
   # personal key for remote management. Mirrors the public key in
   # modules/home/ssh.nix. Promote to base.nix if wanted fleet-wide.
