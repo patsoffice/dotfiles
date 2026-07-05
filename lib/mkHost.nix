@@ -55,6 +55,27 @@ let
     ultimarc-linux = final.callPackage ../packages/ultimarc-linux.nix { };
   };
 
+  # Overlay: exposes pkgs.qtpyultimarc (the Python/QML successor to
+  # Ultimarc-linux — `ultimarc` CLI + `ultimarc-ui` GUI). Two of its runtime
+  # deps are missing from nixpkgs, so they are packaged here and also exposed
+  # as pkgs.python-easy-json / pkgs.python-libusb. Consumed by the arcade host.
+  qtpyUltimarcOverlay =
+    final: prev:
+    let
+      py = final.python3Packages;
+      python-easy-json = py.callPackage ../packages/python-easy-json.nix { };
+      # libusb1 = the C library, not python3Packages.libusb1 (python-libusb1).
+      python-libusb = py.callPackage ../packages/python-libusb.nix {
+        libusb1 = final.libusb1;
+      };
+    in
+    {
+      inherit python-easy-json python-libusb;
+      qtpyultimarc = py.callPackage ../packages/qtpyultimarc.nix {
+        inherit python-easy-json python-libusb;
+      };
+    };
+
   # Overlay: exposes pkgs.vpinball from the vpinball-flake input.
   # Only defined on x86_64-linux — the fork's flake outputs do not
   # support darwin or aarch64-linux.
@@ -104,6 +125,7 @@ let
     pipxOverlay
     beadsOverlay
     ultimarcOverlay
+    qtpyUltimarcOverlay
     (vpinballOverlay system)
     mameOverlay
   ];

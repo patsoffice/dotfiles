@@ -38,8 +38,14 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="d209", MODE="0660", GROUP="input"
   '';
 
-  # umtool: program Ultimarc control boards (IPAC, U-HID, …) from JSON configs.
-  environment.systemPackages = [ pkgs.ultimarc-linux ];
+  # Tools for Ultimarc control boards (IPAC, U-HID, …):
+  #   umtool       — legacy Ultimarc-linux CLI (program boards from JSON)
+  #   ultimarc     — QtPyUltimarc CLI (newer; USB button, Ultimate IO, …)
+  #   ultimarc-ui  — QtPyUltimarc PySide6/QML graphical editor
+  environment.systemPackages = [
+    pkgs.ultimarc-linux
+    pkgs.qtpyultimarc
+  ];
 
   # Inbound SSH: pjl has no password (console autologin only), so authorize the
   # personal key for remote management. Mirrors the public key in
