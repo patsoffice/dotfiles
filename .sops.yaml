@@ -1,10 +1,16 @@
 keys:
   - &admin_pjl age1mmndfxtyuedlrgn88fj7z2pkn7p5fnzshu9xfe4lkjyxuce4r95q6en4nr
   - &nas0 age12fu99zsyzwxtmpef4vwqr26qu3fc29eve96zjsqxs3plhgj5acjsc3l3xz
+  - &arcade age1lsq98kz7mknr6h7cmkjqaugynw9jss8h9kawqrtn5y58fcfr4ygsy7dc7t
 creation_rules:
   - path_regex: secrets/nas0\.yaml$
     key_groups:
       - age:
           - *admin_pjl
           - *nas0
+  - path_regex: secrets/arcade\.yaml$
+    key_groups:
+      - age:
+          - *admin_pjl
+          - *arcade
 # Set SOPS_AGE_KEY_FILE=./age.key (or export it) when editing secrets

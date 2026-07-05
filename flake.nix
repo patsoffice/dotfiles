@@ -102,6 +102,13 @@
             ./hosts/pinball/home.nix
           ];
         };
+        arcade = helpers.mkNixosHost {
+          hostname = "arcade";
+          class = "arcade";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+          ];
+        };
       };
 
       # ── macOS hosts ───────────────────────────────────────────────────
