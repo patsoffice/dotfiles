@@ -92,6 +92,26 @@
     };
   };
 
+  # ── e1000e (I219-V) TX hang workaround ───────────────────────────
+  # The onboard Intel I219-V + e1000e driver periodically wedges its TX
+  # ring ("Detected Hardware Unit Hang"), leaving eno1 administratively
+  # UP but passing no traffic until a reboot. Bridged VM traffic pushing
+  # segment-offloaded frames out eno1 makes it worse. Disabling TCP
+  # segmentation / generic offloads on the physical NIC is the standard
+  # durable fix. bindsTo/wantedBy the device unit re-applies it whenever
+  # eno1 (re)appears, not just at boot.
+  systemd.services.eno1-disable-offload = {
+    description = "Disable e1000e TX offloads on eno1 (I219-V hang workaround)";
+    after = [ "sys-subsystem-net-devices-eno1.device" ];
+    bindsTo = [ "sys-subsystem-net-devices-eno1.device" ];
+    wantedBy = [ "sys-subsystem-net-devices-eno1.device" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -K eno1 tso off gso off gro off";
+    };
+  };
+
   # Save/restore VM state across host reboots
   systemd.services.libvirt-save-vms = {
     description = "Save running libvirt VMs on shutdown";
@@ -129,6 +149,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    ethtool # NIC offload tuning / diagnostics (e1000e I219-V)
     libvirt # virsh CLI
     pciutils # lspci
     qemu_kvm # qemu-img for disk format conversion
