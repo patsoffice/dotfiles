@@ -60,7 +60,10 @@
       kind
       kubectl
       kubernetes-helm
-      minikube
+      # minikube bundles its own bin/kubectl, which collides with the
+      # standalone kubectl above in the home-manager profile buildEnv.
+      # lowPrio lets standalone kubectl win the /bin/kubectl slot.
+      (lib.lowPrio minikube)
       opentofu
       stern
 
