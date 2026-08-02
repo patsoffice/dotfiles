@@ -139,10 +139,22 @@ if [[ -n "$PROFILE_STARTUP" ]]; then
   zprof
 fi
 
-# Atuin shell history (disable keybindings — fzf handles Ctrl-R)
+# Atuin shell history. Binds Ctrl-R (overriding the one `fzf --zsh` set above);
+# --disable-up-arrow leaves the up arrow to zsh's own history search.
 if command -v atuin &>/dev/null; then
     export ATUIN_SYNC_ADDRESS=https://sh.chezlawrence.com
     eval "$(atuin init zsh --disable-up-arrow)"
+
+    # Atuin's stock widget swaps stdout/stderr (3>&1 1>&2 2>&3) and reads the
+    # selected command off stderr. Under iTerm2 the command arrives on stdout
+    # instead, so the capture came back empty and Tab/Enter left the command
+    # line untouched. Capture stdout and pin the TUI to /dev/tty: atuin sees a
+    # non-tty stdout, draws to the terminal, and writes the result where we can
+    # read it. Verified in both iTerm2 and stderr-writing terminals.
+    __atuin_search_cmd() {
+        ATUIN_SHELL=zsh ATUIN_QUERY=$BUFFER ATUIN_LOG=error \
+            atuin search "$@" -i 2>/dev/tty
+    }
 fi
 
 # macOS path_helper fix: Login shells may have PATH reset by /etc/zprofile
