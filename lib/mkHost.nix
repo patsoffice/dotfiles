@@ -117,6 +117,27 @@ let
     });
   };
 
+  # Overlay: build coin3d against the system expat instead of its vendored copy.
+  # Coin bundles expat 2.2.10 under src/xml/expat and exports all 66 XML_*
+  # symbols from libCoin.so. libCoin lands earlier in FreeCAD's link map
+  # (freecad -> libFreeCADGui -> libCoin) than the real libexpat does
+  # (libQt6Gui -> libfontconfig -> libexpat), so those stale symbols interpose
+  # on expat 2.8.2. CPython 3.14's _elementtree then allocates a parser with
+  # Coin's 2.2.10 XML_ParserCreate_MM but hands it to 2.8.2's
+  # XML_SetHashSalt16Bytes — a symbol Coin's copy predates — which reads past
+  # the end of the smaller parser struct and segfaults. FreeCAD dies on startup
+  # as the Addon Manager parses addon metadata, and any ElementTree use (Draft
+  # params, importSVG, CAM, FEM) is equally affected.
+  # USE_EXTERNAL_EXPAT=ON drops the vendored tree entirely — src/xml/CMakeLists
+  # gates it behind `if(NOT EXPAT_FOUND)` — leaving one expat in the process.
+  # Remove once nixpkgs enables this by default.
+  coin3dOverlay = final: prev: {
+    coin3d = prev.coin3d.overrideAttrs (old: {
+      buildInputs = (old.buildInputs or [ ]) ++ [ final.expat ];
+      cmakeFlags = (old.cmakeFlags or [ ]) ++ [ "-DUSE_EXTERNAL_EXPAT=ON" ];
+    });
+  };
+
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
@@ -128,6 +149,7 @@ let
     qtpyUltimarcOverlay
     (vpinballOverlay system)
     mameOverlay
+    coin3dOverlay
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
