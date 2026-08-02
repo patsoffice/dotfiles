@@ -110,8 +110,7 @@ setup_readline() {
     # Enable emacs keybindings
     bindkey -e
 
-    # History search bindings
-    bindkey '^R' history-incremental-search-backward
+    # History search bindings (Ctrl-R is claimed by atuin later in .zshrc)
     bindkey '^[A' up-line-or-search
     bindkey '^[B' down-line-or-search
 
@@ -453,48 +452,6 @@ setup_zoxide() {
     fi
 }
 
-# Custom function to search atuin history with fzf
-atuin-fzf-history() {
-    local selected
-    if command -v atuin &>/dev/null; then
-        # Use atuin to get history and pipe to fzf
-        selected=$(atuin search --cmd-only --limit 10000 2>/dev/null | \
-            fzf --height 40% \
-                --reverse \
-                --tac \
-                --no-sort \
-                --exact \
-                --query="${LBUFFER}" \
-                --preview 'echo {}' \
-                --preview-window down:3:wrap \
-                --bind 'ctrl-y:execute-silent(echo -n {} | pbcopy)+abort' \
-                --header 'Press CTRL-Y to copy command to clipboard')
-    else
-        # Fallback to regular fzf history if atuin is not available
-        selected=$(fc -rl 1 | \
-            fzf --height 40% \
-                --reverse \
-                --tac \
-                --no-sort \
-                --exact \
-                --query="${LBUFFER}" \
-                --preview 'echo {}' \
-                --preview-window down:3:wrap \
-                --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' \
-                --header 'Press CTRL-Y to copy command to clipboard' | \
-            sed 's/^ *[0-9]* *//')
-    fi
-    
-    if [[ -n "$selected" ]]; then
-        LBUFFER="$selected"
-        zle redisplay
-    fi
-    zle reset-prompt
-}
-
-# Create the widget
-zle -N atuin-fzf-history
-
 init_shell() {
     setup_shell_options
     setup_aliases
@@ -512,17 +469,8 @@ init_shell() {
     # Set up history backup via shell exit hook
     setup_history_backup_hooks
     
-    # Bind Ctrl-R to a better history search experience using fzf if available
-    if command -v fzf &>/dev/null; then
-        # Use custom atuin+fzf history search
-        bindkey '^R' atuin-fzf-history
-
-        # Ctrl-T for file selection
-        bindkey '^T' fzf-file-widget
-
-        # Alt-C for directory navigation
-        bindkey '^[c' fzf-cd-widget
-    fi
+    # Ctrl-T (files), Alt-C (directories) and Tab (completion) are bound by
+    # `fzf --zsh` in .zshrc, which is sourced after this runs.
 
     # Bind Ctrl-F to tmux-sessionizer for quick project switching
     if command -v tmux-sessionizer &>/dev/null; then
