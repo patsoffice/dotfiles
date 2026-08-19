@@ -1,0 +1,17 @@
+# Atuin config. Shared by macOS and Linux; symlinked by modules/home/shell.nix.
+# Only settings that affect key handling are pinned here — everything else
+# stays on atuin's defaults. atuin writes history.db/key into this same
+# directory, so only config.toml is symlinked, not the whole dir.
+
+## Enter runs the selected command immediately; Tab returns it to the shell
+## for editing. Leaving this unset lets a stale per-machine config diverge.
+enter_accept = true
+
+## Emacs-style keymap in the search TUI (Ctrl-A/E/W etc.), matching `bindkey -e`.
+keymap_mode = "emacs"
+
+## Search the whole history by default rather than just this session/host.
+filter_mode = "global"
+
+## Up-arrow is left to zsh (atuin init is run with --disable-up-arrow), so the
+## up-arrow filter mode below is intentionally not set.

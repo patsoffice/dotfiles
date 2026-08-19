@@ -27,7 +27,8 @@
     ];
 
     brews = [
-      "atuin"
+      # atuin now comes from nixpkgs (packages-core.nix) so macOS and Linux
+      # run the same version and the same Ctrl-R widget.
       "dnstracer"
       "docker"
       "docker-credential-helper"

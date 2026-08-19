@@ -12,6 +12,7 @@
     with pkgs;
     [
       # ── Core CLI & Shell ───────────────────────────────────────────────
+      atuin
       coreutils
       curl
       fd

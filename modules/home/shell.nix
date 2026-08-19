@@ -10,4 +10,9 @@
   xdg.configFile."direnv".source =
     config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesPath}/direnv";
 
+  # Atuin config. Only config.toml is linked — atuin keeps history.db and its
+  # sync key in the same directory and those must stay machine-local.
+  xdg.configFile."atuin/config.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesPath}/atuin/config.toml";
+
 }
