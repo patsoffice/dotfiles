@@ -138,6 +138,32 @@ let
     });
   };
 
+  # Overlay: bump FreeCAD to the 1.1.3 point release. nixpkgs still packages
+  # 1.1.1; 1.1.3 is the latest tag on the 1.1 series (there is no 1.1.4).
+  # Remove this once nixpkgs catches up.
+  #
+  # Only src and version need overriding. 1.1.3 is the same release series as
+  # the packaged 1.1.1, so the package's patches and cmakeFlags still apply
+  # as-is — in particular the fetchpatch for FreeCAD PR #30899 (the
+  # COIN3D_MICRO_VERSION regex fix for coin 4.0.10) is still needed, since that
+  # commit landed on main and was never backported to 1.1.
+  #
+  # Note: overrideAttrs drops the `customize` attribute that
+  # freecad-utils.makeCustomizable adds on top of the derivation. Nothing here
+  # uses freecad.customize, but that is why it disappears if you go looking.
+  freecadOverlay = final: prev: {
+    freecad = prev.freecad.overrideAttrs (_old: {
+      version = "1.1.3";
+      src = final.fetchFromGitHub {
+        owner = "FreeCAD";
+        repo = "FreeCAD";
+        tag = "1.1.3";
+        hash = "sha256-RP68rd19wX4gDD5PuRQ1J4Z9Qmp5HpEg6sC94RRMEdI=";
+        fetchSubmodules = true;
+      };
+    });
+  };
+
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
@@ -150,6 +176,7 @@ let
     (vpinballOverlay system)
     mameOverlay
     coin3dOverlay
+    freecadOverlay
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
