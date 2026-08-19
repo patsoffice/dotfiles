@@ -66,6 +66,17 @@
       "root"
       username
     ];
+
+    # Cap `make -j` inside a single derivation. Nix's default (cores = 0) hands
+    # the builder every core on the machine, which for MAME-class packages --
+    # translation units peaking at 1-2.5 GB -- means 16 concurrent compilers
+    # against 31 GB of RAM and a hard dive into swap. 8 keeps peak resident
+    # memory well inside physical RAM and leaves the desktop usable during a
+    # build. Override per host if one has a very different RAM/core ratio.
+    #
+    # Note this does not bound total load on its own: max-jobs still governs how
+    # many derivations run at once, so a wide rebuild can multiply against this.
+    cores = 8;
   };
 
   nixpkgs.config.allowUnfreePredicate =
