@@ -128,6 +128,9 @@
         aarch64-darwin.sak = sak.packages.aarch64-darwin.default;
         aarch64-linux.sak = sak.packages.aarch64-linux.default;
         x86_64-linux.sak = sak.packages.x86_64-linux.default;
+        x86_64-linux.mame-nodelog =
+          nixpkgs.legacyPackages.x86_64-linux.callPackage ./packages/mame-nodelog.nix
+            { };
       };
 
       # ── Formatter ────────────────────────────────────────────────────
