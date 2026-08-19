@@ -30,6 +30,7 @@
     freecad
     gimp
     godot
+    inkscape
     keybase-gui
     libreoffice
     obsidian
