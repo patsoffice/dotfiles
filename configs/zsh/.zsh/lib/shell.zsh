@@ -279,13 +279,13 @@ setup_eza() {
 
     # Core eza aliases with standard formatting
     alias ls='_ls_command'  # Override ls with our custom function
-    alias ll='eza --long --header --icons --git --group-directories-first'
-    alias la='eza --long --header --icons --git --group-directories-first --all'
-    alias lt='eza --tree --level=2 --icons'
-    alias ltt='eza --tree --level=3 --icons'
-    alias lttt='eza --tree --level=4 --icons'
-    alias l='eza --long --header --icons --git --group-directories-first'
-    alias l.='eza --long --header --icons --git --all --group-directories-first .*'
+    alias ll='eza --long --header --icons=auto --git --group-directories-first'
+    alias la='eza --long --header --icons=auto --git --group-directories-first --all'
+    alias lt='eza --tree --level=2 --icons=auto'
+    alias ltt='eza --tree --level=3 --icons=auto'
+    alias lttt='eza --tree --level=4 --icons=auto'
+    alias l='eza --long --header --icons=auto --git --group-directories-first'
+    alias l.='eza --long --header --icons=auto --git --all --group-directories-first .*'
 
     # Simple alias for the common pattern
     alias lstr='eza --long --all --sort=modified --reverse'
@@ -294,24 +294,24 @@ setup_eza() {
     compdef _files _ls_command
 
     # Additional aliases for different views
-    alias lm='eza --long --header --icons --git --sort=modified'
-    alias lk='eza --long --header --icons --git --sort=size'
-    alias lc='eza --long --header --icons --git --sort=created'
-    alias lx='eza --long --header --icons --git --sort=extension'
-    alias lr='eza --long --header --icons --git --recurse'
-    alias ld='eza --only-dirs --icons'
+    alias lm='eza --long --header --icons=auto --git --sort=modified'
+    alias lk='eza --long --header --icons=auto --git --sort=size'
+    alias lc='eza --long --header --icons=auto --git --sort=created'
+    alias lx='eza --long --header --icons=auto --git --sort=extension'
+    alias lr='eza --long --header --icons=auto --git --recurse'
+    alias ld='eza --only-dirs --icons=auto'
 
     # Git-specific aliases
-    alias lg='eza --long --header --icons --git --git-ignore'
-    alias lsg='eza --long --header --icons --git --git-ignore --sort=size'
+    alias lg='eza --long --header --icons=auto --git --git-ignore'
+    alias lsg='eza --long --header --icons=auto --git --git-ignore --sort=size'
 }
 
 # Function to handle ls commands including the common -altr pattern
 _ls_command() {
     if [[ "$*" == "-altr" || "$*" == "-latr" ]]; then
-        eza --long --all --sort=modified  --group-directories-first --icons
+        eza --long --all --sort=modified  --group-directories-first --icons=auto
     else
-        eza --group-directories-first --icons "$@"
+        eza --group-directories-first --icons=auto "$@"
     fi
 }
 
