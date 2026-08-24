@@ -91,79 +91,6 @@ let
     else
       { };
 
-  # Overlay: fix mame's build by compiling the SDL3 OSD against the real sdl3
-  # library instead of the SDL2 compat shim. MAME 0.286+ switched the default
-  # OSD to sdl3 on macOS (and upstream is unifying every platform on sdl3), but
-  # nixpkgs still wires up SDL2/sdl2-compat — so the Darwin build fails with
-  # "'SDL3/SDL.h' file not found" and the Linux build only works by accident.
-  # Mirrors the three changes in nixpkgs PR #495586 (open/unmerged as of
-  # 2026-06): swap SDL2 -> sdl3 inputs, force OSD=sdl3, and patch the macOS
-  # sw_vers call in sdl3.lua. Remove this once that PR lands. See nixpkgs
-  # issue #495438.
-  mameOverlay = final: prev: {
-    mame = prev.mame.overrideAttrs (old: {
-      buildInputs = (builtins.filter (p: p != final.SDL2 && p != final.SDL2_ttf) old.buildInputs) ++ [
-        final.sdl3
-        final.sdl3-ttf
-      ];
-      makeFlags = old.makeFlags ++ [ "OSD=sdl3" ];
-      postPatch =
-        old.postPatch
-        + final.lib.optionalString final.stdenv.hostPlatform.isDarwin ''
-          substituteInPlace scripts/src/osd/sdl3.lua --replace-fail \
-            'backtick("sw_vers -productVersion")' \
-            "os.getenv('MACOSX_DEPLOYMENT_TARGET') or '$darwinMinVersion'"
-        '';
-    });
-  };
-
-  # Overlay: build coin3d against the system expat instead of its vendored copy.
-  # Coin bundles expat 2.2.10 under src/xml/expat and exports all 66 XML_*
-  # symbols from libCoin.so. libCoin lands earlier in FreeCAD's link map
-  # (freecad -> libFreeCADGui -> libCoin) than the real libexpat does
-  # (libQt6Gui -> libfontconfig -> libexpat), so those stale symbols interpose
-  # on expat 2.8.2. CPython 3.14's _elementtree then allocates a parser with
-  # Coin's 2.2.10 XML_ParserCreate_MM but hands it to 2.8.2's
-  # XML_SetHashSalt16Bytes — a symbol Coin's copy predates — which reads past
-  # the end of the smaller parser struct and segfaults. FreeCAD dies on startup
-  # as the Addon Manager parses addon metadata, and any ElementTree use (Draft
-  # params, importSVG, CAM, FEM) is equally affected.
-  # USE_EXTERNAL_EXPAT=ON drops the vendored tree entirely — src/xml/CMakeLists
-  # gates it behind `if(NOT EXPAT_FOUND)` — leaving one expat in the process.
-  # Remove once nixpkgs enables this by default.
-  coin3dOverlay = final: prev: {
-    coin3d = prev.coin3d.overrideAttrs (old: {
-      buildInputs = (old.buildInputs or [ ]) ++ [ final.expat ];
-      cmakeFlags = (old.cmakeFlags or [ ]) ++ [ "-DUSE_EXTERNAL_EXPAT=ON" ];
-    });
-  };
-
-  # Overlay: bump FreeCAD to the 1.1.3 point release. nixpkgs still packages
-  # 1.1.1; 1.1.3 is the latest tag on the 1.1 series (there is no 1.1.4).
-  # Remove this once nixpkgs catches up.
-  #
-  # Only src and version need overriding. 1.1.3 is the same release series as
-  # the packaged 1.1.1, so the package's patches and cmakeFlags still apply
-  # as-is — in particular the fetchpatch for FreeCAD PR #30899 (the
-  # COIN3D_MICRO_VERSION regex fix for coin 4.0.10) is still needed, since that
-  # commit landed on main and was never backported to 1.1.
-  #
-  # Note: overrideAttrs drops the `customize` attribute that
-  # freecad-utils.makeCustomizable adds on top of the derivation. Nothing here
-  # uses freecad.customize, but that is why it disappears if you go looking.
-  freecadOverlay = final: prev: {
-    freecad = prev.freecad.overrideAttrs (_old: {
-      version = "1.1.3";
-      src = final.fetchFromGitHub {
-        owner = "FreeCAD";
-        repo = "FreeCAD";
-        tag = "1.1.3";
-        hash = "sha256-RP68rd19wX4gDD5PuRQ1J4Z9Qmp5HpEg6sC94RRMEdI=";
-        fetchSubmodules = true;
-      };
-    });
-  };
-
   overlays = system: [
     claude-code.overlays.default
     (stableOverlay system)
@@ -174,9 +101,6 @@ let
     ultimarcOverlay
     qtpyUltimarcOverlay
     (vpinballOverlay system)
-    mameOverlay
-    coin3dOverlay
-    freecadOverlay
   ];
 
   # ── Home module sets ─────────────────────────────────────────────────
