@@ -14,10 +14,13 @@
     claude-code.url = "github:sadjow/claude-code-nix?ref=v2.1.71"; # pin exact version
 
     home-manager = {
-      # Pinned to the release branch matching nixpkgs (currently nixos-unstable
-      # ≡ 26.05-pre). HM master tracks the *next* release and warns on mismatch.
-      # Bump this when nixpkgs/nixos-unstable moves to 26.11-pre.
-      url = "github:nix-community/home-manager/release-26.05";
+      # Tracks master, which is what pairs with nixpkgs/nixos-unstable (now
+      # 26.11-pre). There is no release-26.11 branch yet, and release-26.05 is
+      # behind nixpkgs: it still calls the deprecated stdenv.isLinux /
+      # stdenv.isDarwin (fixed on master, never backported) and trips the
+      # home-manager/nixpkgs version-mismatch warning. Repin to
+      # release-26.11 once that branch exists.
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
