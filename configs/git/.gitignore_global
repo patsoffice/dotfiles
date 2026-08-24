@@ -1,1 +1,12 @@
 **/.claude/settings.local.json
+
+# beads (br): the local SQLite tracker plus every fsqlite/migration sidecar it
+# drops next to it — WAL/shm, ns-gate/ns-use, wal-cert, pre-migration backups,
+# schema-migration vacuum candidates, and the .br_recovery receipts. All of it
+# is per-checkout state rebuilt from issues.jsonl, which stays tracked as the
+# shared source of truth.
+**/.beads/*.db
+**/.beads/*.db-*
+**/.beads/*.db.*
+**/.beads/.beads.db.schema-migration-*
+**/.beads/.br_recovery/
