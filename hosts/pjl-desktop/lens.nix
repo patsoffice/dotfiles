@@ -19,7 +19,7 @@ let
     url = "https://api.k8slens.dev/binaries/Lens-${version}-latest.x86_64.AppImage";
     hash = "sha512-2GpYLrK42wibmlc+UTs748KPAei135zTA3wtp2uPZrjqAZF4gXkhCC99jIuqkjnMJ7WU4G1em8hQbecupn2kUQ==";
   };
-  appimageContents = appimageTools.extractType2 { inherit pname version src; };
+  appimageContents = appimageTools.extract { inherit pname version src; };
 in
 appimageTools.wrapType2 {
   inherit pname version src;

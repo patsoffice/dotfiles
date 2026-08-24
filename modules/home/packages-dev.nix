@@ -11,7 +11,7 @@
     [
       # ── Editors (vscode on Darwin via Homebrew cask) ──────────────────
     ]
-    ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+    ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
       vscode
       zed-editor
     ]
@@ -29,7 +29,7 @@
 
       # ── Development — Rust (skipped on Darwin; managed by rustup) ──────
     ]
-    ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+    ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
       cargo
       clippy
       rust-analyzer
@@ -43,7 +43,7 @@
       ruff
       uv
     ]
-    ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+    ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
       # Linux has no system Python; macOS ships one.
       python3
     ]

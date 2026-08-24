@@ -108,7 +108,7 @@
     ]
     # macOS ships its own ping/telnet/ftp/hostname at /sbin and /usr/bin.
     # Installing inetutils here would shadow them with non-setuid versions.
-    ++ lib.optionals stdenv.isLinux [
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
       inetutils
       samba # provides smbclient
       udisks # provides udisksctl
