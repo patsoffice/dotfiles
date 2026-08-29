@@ -10,8 +10,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
-    claude-code.url = "github:sadjow/claude-code-nix?ref=v2.1.71"; # pin exact version
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
+    claude-code.url = "github:sadjow/claude-code-nix?ref=v2.1.251"; # pin exact version
 
     home-manager = {
       # Tracks master, which is what pairs with nixpkgs/nixos-unstable (now
