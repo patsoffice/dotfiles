@@ -26,7 +26,6 @@
     # it's intentionally not listed here.
     blender
     brave
-    firefox-devedition
     freecad
     gimp
     godot

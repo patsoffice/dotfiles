@@ -45,7 +45,6 @@
 
   hardware.bluetooth.enable = true;
 
-  programs.firefox.enable = true;
   programs.niri.enable = true;
 
   # 1Password GUI via the NixOS module rather than a home-manager package.
