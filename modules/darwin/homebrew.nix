@@ -75,6 +75,7 @@
       "hammerspoon"
       "inkscape"
       "iterm2"
+      "kicad"
       "lens"
       "libreoffice"
       "librepcb"

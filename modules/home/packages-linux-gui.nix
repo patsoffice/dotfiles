@@ -30,6 +30,11 @@
     gimp
     godot
     inkscape
+    # kicad's package.nix takes `stable ? true`, and callPackage fills that
+    # argument from the pkgs set — where the overlay in lib/mkHost.nix binds
+    # `stable` to the whole nixpkgs-stable package set. Pass the boolean
+    # explicitly, or evaluation fails with "expected a Boolean but found a set".
+    (kicad.override { stable = true; })
     keybase-gui
     libreoffice
     obsidian
