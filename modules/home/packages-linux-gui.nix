@@ -9,6 +9,10 @@
   services.flatpak = {
     enable = true;
     packages = [
+      # iMessage client. Not in nixpkgs (only bluebubbles is, and that one
+      # still needs a Mac running the BlueBubbles server), so it comes from
+      # Flathub instead. nix-flatpak defaults the remote to flathub.
+      "app.openbubbles.OpenBubbles"
     ];
   };
 
