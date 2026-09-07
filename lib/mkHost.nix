@@ -4,7 +4,7 @@
   nix-darwin,
   nix-flatpak,
   claude-code,
-  dms,
+  dank-greeter,
   nixpkgs-stable,
   chevron,
   sak,
@@ -138,7 +138,7 @@ let
       ];
       homeModules = coreHomeModules ++ workstationHomeModules ++ linuxGuiHomeModules;
       homeBase = ../hostclass/linux-workstation.nix;
-      specialArgs = { inherit dms; };
+      specialArgs = { inherit dank-greeter; };
       hmSharedModules = [ nix-flatpak.homeManagerModules.nix-flatpak ];
     };
 

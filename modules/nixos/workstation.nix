@@ -2,17 +2,17 @@
   config,
   lib,
   pkgs,
-  dms,
+  dank-greeter,
   username,
   ...
 }:
 
 {
   imports = [
-    dms.nixosModules.greeter
+    dank-greeter.nixosModules.default
   ];
 
-  programs.dank-material-shell.greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "niri";
 
@@ -41,7 +41,16 @@
   # and friends). pnpm is build-time only — it is not in vesktop's runtime
   # closure — so allow it to unblock the rebuild. Drop this once nixpkgs ships a
   # patched pnpm (or vesktop stops needing this version).
-  nixpkgs.config.permittedInsecurePackages = [ "pnpm-10.29.2" ];
+  #
+  # TODO(revisit): keybase-gui bundles Electron 28, EOL since 2023-12-05 with
+  # many known CVEs. Unlike pnpm this one IS runtime and network-facing, so it
+  # is a real (accepted) exposure, not just a build-time gate. The keybase CLI
+  # and the KBFS daemon below are Go and unaffected. Drop this — and probably
+  # keybase-gui with it — if upstream stays on the EOL Electron.
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-10.29.2"
+    "keybase-gui-6.5.1"
+  ];
 
   hardware.bluetooth.enable = true;
 

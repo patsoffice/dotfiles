@@ -52,8 +52,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
+    # The greeter split out of the DankMaterialShell repo into its own; the
+    # shell itself comes from nixpkgs (dms-shell), so this is the only piece
+    # of DMS pulled in as a flake input.
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
