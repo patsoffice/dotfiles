@@ -9,7 +9,13 @@ yellow="[33m"
 blue="[34m"
 
 # Initialize chevron prompt (formerly plx)
+# CHEVRON_LIVE=0 disables the live-prompt subscriber: as of chevron 0.7.0 a
+# shell sitting in a repo whose git state never converges re-renders on every
+# event it emits, flooding all subscribed shells and pinning them at 100% CPU.
+# The path/git segments come from starship's custom.path/custom.gitstatus and
+# are unaffected.
 _init_chevron() {
+    export CHEVRON_LIVE=0
     eval "$(chevron init zsh)"
 }
 
