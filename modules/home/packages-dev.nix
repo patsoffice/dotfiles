@@ -71,9 +71,12 @@
       texliveSmall
 
       # ── Emulators ──────────────────────────────────────────────────────
-      igir # ROM collection manager
       mame
-
+    ]
+    ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
+      igir # ROM collection manager; Linux-only upstream
+    ]
+    ++ [
       # ── LLM Tools ──────────────────────────────────────────────────────
       opencode # agentic terminal coding tool; configured for ollama
       sak
