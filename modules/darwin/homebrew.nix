@@ -81,7 +81,6 @@
       "librepcb"
       "maccy"
       "obsidian"
-      "odrive"
       "openscad@snapshot"
       "plex"
       "plexamp"
