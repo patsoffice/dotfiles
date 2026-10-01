@@ -49,6 +49,12 @@ let
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
   };
 
+  # Overlay: exposes pkgs.muse-code (Meta's `muse` coding agent CLI) from
+  # its pre-built binary release
+  museCodeOverlay = final: prev: {
+    muse-code = final.callPackage ../packages/muse-code.nix { };
+  };
+
   # Overlay: exposes pkgs.ultimarc-linux (the `umtool` CLI for programming
   # Ultimarc arcade control boards). Consumed by the arcade host.
   ultimarcOverlay = final: prev: {
@@ -98,6 +104,7 @@ let
     (sakOverlay system)
     pipxOverlay
     beadsOverlay
+    museCodeOverlay
     ultimarcOverlay
     qtpyUltimarcOverlay
     (vpinballOverlay system)

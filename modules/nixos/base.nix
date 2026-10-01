@@ -88,6 +88,7 @@
       "discord"
       "google-chrome"
       "lens-desktop"
+      "muse-code"
       "nvidia-settings"
       "nvidia-x11"
       "obsidian"

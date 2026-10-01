@@ -25,6 +25,7 @@
       "1password"
       "claude-code"
       "discord"
+      "muse-code"
       "plexamp"
       "prusa-slicer"
       "vscode"
