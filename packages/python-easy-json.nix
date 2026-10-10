@@ -10,13 +10,13 @@
 # QtPyUltimarc; not in nixpkgs.
 buildPythonPackage rec {
   pname = "python-easy-json";
-  version = "1.2.4";
+  version = "1.2.5";
   pyproject = true;
 
   src = fetchPypi {
     pname = "python_easy_json";
     inherit version;
-    hash = "sha256-ke737QUNL8HgaBv2okNMIdJyw/RU/q47GgELayx5PNI=";
+    hash = "sha256-BJ+5vqHZTx9dD6NkGOb+AcUQoOjdw5hq0DbRLLc7bFY=";
   };
 
   build-system = [ setuptools ];

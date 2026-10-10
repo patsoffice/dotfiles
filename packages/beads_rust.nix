@@ -10,18 +10,18 @@ let
   # schema 4/11 up to 16) run against it once before this version can open it.
   # All our .beads DBs were carried across on 2026-08-24; a restored-from-
   # backup old DB would need that stepping stone again.
-  version = "0.6.0";
+  version = "0.7.4";
 
   # Release assets dropped the "v" prefix from the filename as of 0.2.x
   # (br-${version}-…); the release tag in the path is still v${version}.
   sources = {
     aarch64-darwin = {
       url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-${version}-darwin_arm64.tar.gz";
-      hash = "sha256-Og7JA2bnJMyIUk/Bvmv2eD/1ecuFrx9tIIhMYS/NMh4=";
+      hash = "sha256-TnYZuRnA9yDQ1SDFHOOxxzA4cpPLb+FZ4fHLqFEv+tc=";
     };
     x86_64-linux = {
       url = "https://github.com/Dicklesworthstone/beads_rust/releases/download/v${version}/br-${version}-linux_amd64.tar.gz";
-      hash = "sha256-9vmhZjuuMelNLc/sYhY/FbF/gicRxIboYBg6ZUeEgps=";
+      hash = "sha256-up5JMXWhhZtNBCetMuhjayahKEFgQe17x9QauB3cMzM=";
     };
   };
 

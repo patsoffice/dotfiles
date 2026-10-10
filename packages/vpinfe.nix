@@ -50,7 +50,7 @@
 }:
 
 let
-  version = "1.1.56";
+  version = "2.6.6";
 
   # Use the "slim" linux release — no bundled chromium. The system
   # google-chrome (added to the FHS env below) ships H.264/AAC so the
@@ -59,7 +59,7 @@ let
   # the splash JS on the table window forever.
   rawSrc = fetchzip {
     url = "https://github.com/superhac/vpinfe/releases/download/v${version}/vpinfe-v${version}-linux-x64-slim.zip";
-    hash = "sha256-OGXbsrQcJo/efsCa/4m7HrCjxM9yzG2y29T+9EyC1Do=";
+    hash = "sha256-l0pd4NVZPCllp+SyO/FWBl4b2do8FRzhBvpi68lQ/4c=";
     stripRoot = false;
   };
 

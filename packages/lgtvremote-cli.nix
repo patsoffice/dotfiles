@@ -6,13 +6,13 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "lgtvremote-cli";
-  version = "1.3.4";
+  version = "1.6.4";
 
   src = fetchFromGitHub {
     owner = "griches";
     repo = "lgtvremote-cli";
     tag = "v${version}";
-    hash = "sha256-2+ux1O49XwQxEsveu4sKjo6QhGjalPDfXauT+p7/IrM=";
+    hash = "sha256-V0WVtxX6GUroKS3PsT2UawOZQYNxbCf+GaMjToAoOHg=";
   };
 
   format = "pyproject";

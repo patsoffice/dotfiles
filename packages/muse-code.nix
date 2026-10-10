@@ -11,7 +11,7 @@ let
   #   https://api.meta.ai/muse-code/channels/muse-stable
   # then take each platform's sha256 from that release's manifest.json
   # (`nix hash convert --hash-algo sha256 --to sri <hex>`).
-  version = "1.4.1-R4503.1";
+  version = "1.4.4-R5419.1";
 
   artifact =
     file:
@@ -21,19 +21,19 @@ let
   sources = {
     aarch64-darwin = {
       url = artifact "muse-aarch64-macos";
-      hash = "sha256-G5raX5Q81E1arNI4C+FyA3mKlT6ZNYn4ZUNSz1JKAMc=";
+      hash = "sha256-f3CEFCB9FmWFi6pu8u8PXGnHJ/WzwAJD+jmML11bXMA=";
     };
     aarch64-linux = {
       url = artifact "muse-aarch64-linux";
-      hash = "sha256-ptRiOZda2sKCqoKdKlvRzTEZM0wY7Pp3bUN32uvdtZU=";
+      hash = "sha256-vBGWeTknuq8HU16RmdBT6jdUs7xljaH+wT038InMzRE=";
     };
     x86_64-darwin = {
       url = artifact "muse-x86-macos";
-      hash = "sha256-BNWvInHM5VlFT2LOIstmQ4r9t8nZb1i3Xz02Zo9HGD0=";
+      hash = "sha256-2I/J2hTP8GpfQOIJ6MNQJFEynY1RQ8FHu3t2CSBNGqI=";
     };
     x86_64-linux = {
       url = artifact "muse-x86-linux";
-      hash = "sha256-i1PJzbwCW8LZBovHAW4sHlHDoMYIgh2hdSitI76QChI=";
+      hash = "sha256-z8nQaEQf9GA2rWu/MN15QEOyW377aWSMksAizPZffRk=";
     };
   };
 
