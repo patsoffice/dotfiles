@@ -55,6 +55,12 @@ let
     muse-code = final.callPackage ../packages/muse-code.nix { };
   };
 
+  # Overlay: exposes pkgs.muse-acp (ACP adapter bridging `muse` into Zed /
+  # JetBrains) from its pre-built binary release
+  museAcpOverlay = final: prev: {
+    muse-acp = final.callPackage ../packages/muse-acp.nix { };
+  };
+
   # Overlay: exposes pkgs.ultimarc-linux (the `umtool` CLI for programming
   # Ultimarc arcade control boards). Consumed by the arcade host.
   ultimarcOverlay = final: prev: {
@@ -105,6 +111,7 @@ let
     pipxOverlay
     beadsOverlay
     museCodeOverlay
+    museAcpOverlay
     ultimarcOverlay
     qtpyUltimarcOverlay
     (vpinballOverlay system)
@@ -127,6 +134,7 @@ let
     ../modules/home/packages-dev.nix
     ../modules/home/wezterm.nix
     ../modules/home/opencode.nix
+    ../modules/home/zed.nix
   ];
 
   # Linux workstation GUI packages

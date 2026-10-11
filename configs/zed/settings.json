@@ -1,0 +1,69 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "git_panel": {
+    "dock": "left"
+  },
+  "language_models": {
+    "ollama": {
+      "api_url": "https://ollama.chezlawrence.com",
+    },
+  },
+  "languages": {
+    "Nix": {
+      // nil only — the Nix extension also offers nixd, but running both
+      // yields duplicate diagnostics.
+      "language_servers": ["nil"],
+    },
+  },
+  "lsp": {
+    // nil comes from nixpkgs (packages-dev.nix). Absolute per-user profile
+    // path so GUI-launched Zed finds it regardless of its PATH; stable
+    // across rebuilds on NixOS and nix-darwin alike. This also stops the
+    // extension from downloading its own upstream binary.
+    "nil": {
+      "binary": {
+        "path": "/etc/profiles/per-user/pjl/bin/nil",
+      },
+    },
+  },
+  "vim_mode": true,
+  "base_keymap": "VSCode",
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+    },
+    // Muse in the Agent Panel via the muse-acp ACP adapter (packaged in
+    // this repo). Absolute per-user profile paths so GUI-launched Zed finds
+    // both binaries regardless of its PATH; the profile path is stable
+    // across rebuilds on NixOS and nix-darwin alike.
+    "muse-acp": {
+      "type": "custom",
+      "command": "/etc/profiles/per-user/pjl/bin/muse-acp",
+      "args": [],
+      "env": {
+        "MUSE_CLI": "/etc/profiles/per-user/pjl/bin/muse",
+      },
+    },
+  },
+  "agent": {
+    "dock": "right",
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "Catppuccin Frappé",
+    "dark": "Catppuccin Mocha",
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+}

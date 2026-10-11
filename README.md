@@ -45,6 +45,7 @@ modules/
     git.nix                   # Git config symlinks
     ssh.nix                   # SSH config symlink
     wezterm.nix               # WezTerm config symlink (workstations only)
+    zed.nix                   # Zed settings symlink incl. muse-acp agent (workstations only)
 hostclass/
   linux-workstation.nix       # 1Password agent, git/ssh signing overrides
   linux-server.nix            # Server git signing config
@@ -60,6 +61,7 @@ configs/
   ssh/                        # SSH config (with Include for per-host overrides)
   direnv/                     # nix-direnv integration
   wezterm/                    # Terminal emulator config
+  zed/                        # Zed settings.json (Agent Panel agents)
 ```
 
 ## Configuration Approach
