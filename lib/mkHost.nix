@@ -61,6 +61,20 @@ let
     muse-acp = final.callPackage ../packages/muse-acp.nix { };
   };
 
+  # Overlay: exposes pkgs.photocraft / pkgs.pdfcraft (storytold's Rust
+  # photo and PDF editors) from their pre-built binary releases.
+  # Linux only — upstream's macOS builds are DMGs, and macOS support
+  # is a later step.
+  craftOverlay =
+    system: final: prev:
+    if system == "x86_64-linux" || system == "aarch64-linux" then
+      {
+        photocraft = final.callPackage ../packages/photocraft.nix { };
+        pdfcraft = final.callPackage ../packages/pdfcraft.nix { };
+      }
+    else
+      { };
+
   # Overlay: exposes pkgs.ultimarc-linux (the `umtool` CLI for programming
   # Ultimarc arcade control boards). Consumed by the arcade host.
   ultimarcOverlay = final: prev: {
@@ -112,6 +126,7 @@ let
     beadsOverlay
     museCodeOverlay
     museAcpOverlay
+    (craftOverlay system)
     ultimarcOverlay
     qtpyUltimarcOverlay
     (vpinballOverlay system)

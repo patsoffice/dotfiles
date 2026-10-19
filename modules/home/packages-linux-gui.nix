@@ -43,6 +43,8 @@
     libreoffice
     obsidian
     openscad
+    pdfcraft
+    photocraft
     thunderbird
     plexamp
     prusa-slicer
