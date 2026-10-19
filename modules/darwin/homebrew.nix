@@ -20,8 +20,9 @@
       extraFlags = [ ];
     };
 
+    # homebrew/cask-fonts was deprecated and emptied (font casks moved
+    # into homebrew/cask), so tapping it now fails the whole bundle.
     taps = [
-      "homebrew/cask-fonts"
       "homebrew/services"
       "patsoffice/tools"
     ];
