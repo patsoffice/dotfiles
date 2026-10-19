@@ -44,6 +44,18 @@ let
     });
   };
 
+  # Overlay: skip atuin's test suite.
+  # Atuin 18.23.0's e2e tests drive a daemon, a PTY proxy, and live shells
+  # over Unix sockets and fail in the Nix sandbox: `e2e_capture` times out
+  # waiting for captured output (`captured: []`), and every `bash_preexec`
+  # variant of `e2e_pty` fails with `bash: atuin: command not found` or a
+  # session timeout while the other shell variants pass. The built program
+  # is unaffected; only checkPhase fails. Remove once the e2e tests pass
+  # in the sandbox.
+  atuinOverlay = final: prev: {
+    atuin = prev.atuin.overrideAttrs { doCheck = false; };
+  };
+
   # Overlay: exposes pkgs.beads_rust from pre-built binary release
   beadsOverlay = final: prev: {
     beads_rust = final.callPackage ../packages/beads_rust.nix { };
@@ -123,6 +135,7 @@ let
     (chevronOverlay system)
     (sakOverlay system)
     pipxOverlay
+    atuinOverlay
     beadsOverlay
     museCodeOverlay
     museAcpOverlay
