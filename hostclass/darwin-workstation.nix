@@ -5,6 +5,15 @@
     ../modules/home/hammerspoon.nix
   ];
 
+  # ── Applications ─────────────────────────────────────────────────────
+  # PhotoCraft/PdfCraft come from the craft overlay in lib/mkHost.nix
+  # (upstream DMGs, like the Linux tarballs in packages-linux-gui.nix);
+  # home-manager copies their .apps into ~/Applications.
+  home.packages = with pkgs; [
+    pdfcraft
+    photocraft
+  ];
+
   # Use 1Password SSH agent (macOS path)
   home.sessionVariables = {
     SSH_AUTH_SOCK = "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";

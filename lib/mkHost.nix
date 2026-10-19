@@ -74,12 +74,19 @@ let
   };
 
   # Overlay: exposes pkgs.photocraft / pkgs.pdfcraft (storytold's Rust
-  # photo and PDF editors) from their pre-built binary releases.
-  # Linux only — upstream's macOS builds are DMGs, and macOS support
-  # is a later step.
+  # photo and PDF editors) from their pre-built binary releases. Linux
+  # gets the tarballs; macOS gets the signed universal DMGs plus the
+  # separately shipped CLIs (see packages/photocraft.nix).
   craftOverlay =
     system: final: prev:
-    if system == "x86_64-linux" || system == "aarch64-linux" then
+    if
+      builtins.elem system [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ]
+    then
       {
         photocraft = final.callPackage ../packages/photocraft.nix { };
         pdfcraft = final.callPackage ../packages/pdfcraft.nix { };
