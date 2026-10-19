@@ -45,3 +45,5 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/etc/profiles/per-user/pjl/bin/gh auth git-credential
+[gpg "ssh"]
+	allowedSignersFile = /home/pjl/.config/git/allowed_signers
