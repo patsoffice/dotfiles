@@ -24,7 +24,6 @@
     # into homebrew/cask), so tapping it now fails the whole bundle.
     taps = [
       "homebrew/services"
-      "patsoffice/tools"
     ];
 
     brews = [
@@ -63,11 +62,8 @@
       "carbon-copy-cloner"
       "claude"
       "claude-code"
-      "coolterm"
       "discord"
-      "disk-inventory-x"
       "docker-desktop"
-      "easyeda"
       "epic-games"
       "font-hack-nerd-font"
       "freecad"
@@ -89,8 +85,6 @@
       "slack"
       "steam"
       "tailscale-app"
-      "unity"
-      "unity-hub"
       "vimr"
       "visual-studio-code"
       "wifiman"
