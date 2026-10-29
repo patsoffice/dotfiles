@@ -53,7 +53,7 @@
     };
 
     # The greeter split out of the DankMaterialShell repo into its own; the
-    # shell itself comes from nixpkgs (dms-shell), so this is the only piece
+    # shell itself comes from nixpkgs (dux-shell), so this is the only piece
     # of DMS pulled in as a flake input.
     dank-greeter = {
       url = "github:AvengeMedia/dank-greeter";

@@ -18,7 +18,7 @@
 
   home.packages = with pkgs; [
     # ── Compositor ─────────────────────────────────────────────────────
-    dms-shell
+    dux-shell
     fuzzel
     niri
     quickshell
