@@ -31,6 +31,7 @@ This is a Nix-based dotfiles repository managing system and user configuration a
 - `just check` or `nix flake check` — Validate flake
 - `nix build .#nixosConfigurations.<host>.config.system.build.toplevel --dry-run` — Verify build without applying
 - `just fmt` or `nix fmt` — Format all Nix files with nixfmt-tree
+- `just bump <pkg>` — Bump a pinned binary package (`muse-code`, `muse-acp`, `photocraft`, `pdfcraft`, `beads-rust`) to its latest upstream release
 - Always run `nix flake check` after modifying `.nix` files
 - New files must be `git add`-ed before `nix flake check` can see them
 

@@ -52,3 +52,10 @@ gc:
         nix-collect-garbage --delete-older-than 15d; \
         sudo nix-collect-garbage --delete-older-than 15d; \
     fi
+
+# Bump a pinned binary package to its latest upstream release
+# (version + per-platform hashes in packages/<pkg>.nix).
+# Usage: just bump [muse-code|muse-acp|photocraft|pdfcraft|beads-rust]
+# With no package, bumps all of them.
+bump pkg="":
+    ./scripts/bump.sh {{ pkg }}
