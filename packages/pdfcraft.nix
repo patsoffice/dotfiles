@@ -12,7 +12,7 @@
 }:
 
 let
-  version = "0.9.0";
+  version = "0.15.0";
 
   # storytold/pdfcraft — open-source PDF reader and editor in pure Rust.
   # Release assets ship a .sha256 sidecar in SHA256SUMS.txt / a GitHub
@@ -22,26 +22,26 @@ let
   sources = {
     aarch64-linux = {
       url = "https://github.com/storytold/pdfcraft/releases/download/v${version}/pdfcraft-${version}-linux-aarch64.tar.gz";
-      hash = "sha256-fIMDXr5cbcEGSedvUgIBesLaDeSPJNt/h/yvCa30Jhk=";
+      hash = "sha256-s4C8ekwo0F1+qV6yMIXKMixJyhohuLt5OJqOCDrpK50=";
     };
     x86_64-linux = {
       url = "https://github.com/storytold/pdfcraft/releases/download/v${version}/pdfcraft-${version}-linux-x86_64.tar.gz";
-      hash = "sha256-/199o2oQiTQOP9umlrKGzDF6yPBwXMjETBxJ2cpMVOA=";
+      hash = "sha256-sWehjGCnsynwWlu/l+Mtxniq0/jVhm2OQ3j/JCc/gxM=";
     };
     aarch64-darwin = {
       url = "https://github.com/storytold/pdfcraft/releases/download/v${version}/pdfcraft-${version}-macos-universal.dmg";
-      hash = "sha256-EWc4BFpoRj6xpGXm6u8iZpAqrGmqGhXkocFHLDHYq+k=";
+      hash = "sha256-wST8LtUSdllD+y6OdkvBTAedxbfXpUOczbNAHfeP1HI=";
     };
     x86_64-darwin = {
       url = "https://github.com/storytold/pdfcraft/releases/download/v${version}/pdfcraft-${version}-macos-universal.dmg";
-      hash = "sha256-EWc4BFpoRj6xpGXm6u8iZpAqrGmqGhXkocFHLDHYq+k=";
+      hash = "sha256-wST8LtUSdllD+y6OdkvBTAedxbfXpUOczbNAHfeP1HI=";
     };
   };
 
   # The macOS CLI ships separately from the DMG.
   darwinCliSrc = fetchurl {
     url = "https://github.com/storytold/pdfcraft/releases/download/v${version}/pdfcraft-cli-${version}-macos-universal.zip";
-    hash = "sha256-wguM7WMEF9RwQu43KC/bg2KinrvAsL7D9PY10OKFRfA=";
+    hash = "sha256-AwTbIPNZfk6a0wRNZ/ecuJva1Jgzxq16YMDQ1qevqlA=";
   };
 
   src = fetchurl sources.${stdenv.hostPlatform.system};
