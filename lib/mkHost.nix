@@ -175,6 +175,7 @@ let
   # Linux workstation GUI packages
   linuxGuiHomeModules = [
     ../modules/home/packages-linux-gui.nix
+    ../modules/home/ghostty.nix
     ../modules/home/syncthing.nix
   ];
 

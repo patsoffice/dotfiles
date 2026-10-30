@@ -1,0 +1,21 @@
+# Ghostty settings mirroring configs/wezterm/.wezterm.lua.
+# One `key = value` per line; see `ghostty +show-config` for all options.
+
+# Font — matches WezTerm's Hack Nerd Font at 11pt.
+font-family = Hack Nerd Font
+font-size = 11
+
+# Background — matches WezTerm's default pure black. (Ghostty's own
+# default is a dark gray.) Plain hex, no `#`, to avoid any doubt about
+# inline comments.
+background = 000000
+
+# Shift+Enter sends ESC CR, matching WezTerm's SendString("\x1b\r").
+# `text:` uses Zig string literal syntax, so \x1b and \r are escapes.
+keybind = shift+enter=text:\x1b\r
+
+# Deliberately unmatched WezTerm settings (no Ghostty equivalent):
+# - tab bar placement/style/hide-if-single and zero/one-based tab
+#   indices: Ghostty leaves tab chrome to the platform toolkit.
+# - mux_enable_ssh_agent = false: Ghostty has no multiplexer, so there
+#   is no agent forwarding to disable.

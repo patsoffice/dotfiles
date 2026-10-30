@@ -31,6 +31,7 @@
     blender
     brave
     freecad
+    ghostty
     gimp
     godot
     inkscape
