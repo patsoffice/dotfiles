@@ -209,6 +209,7 @@
       /tank/media/scans *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/media/tv *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/media/youtube *(rw,acl,sync,no_subtree_check,sec=sys)
+      /tank/netboot *(ro,acl,sync,no_subtree_check,sec=sys)
       /tank/roms *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/transcode *(rw,acl,sync,no_subtree_check,sec=sys)
     '';
