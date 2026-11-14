@@ -14,6 +14,11 @@ switch:
 update:
     nix flake update
 
+# Update a single flake input (e.g. just update-input sak), leaving the
+# rest of the lockfile alone. Pinned binary packages use `just bump`.
+update-input input:
+    nix flake lock --update-input {{ input }}
+
 # Check flake validity
 check:
     nix flake check

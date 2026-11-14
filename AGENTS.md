@@ -32,6 +32,7 @@ This is a Nix-based dotfiles repository managing system and user configuration a
 - `nix build .#nixosConfigurations.<host>.config.system.build.toplevel --dry-run` — Verify build without applying
 - `just fmt` or `nix fmt` — Format all Nix files with nixfmt-tree
 - `just bump <pkg>` — Bump a pinned binary package (`muse-code`, `muse-acp`, `photocraft`, `pdfcraft`, `beads-rust`) to its latest upstream release
+- `just update-input <input>` — Update a single flake input (e.g. `sak`), leaving the rest of the lockfile alone
 - Always run `nix flake check` after modifying `.nix` files
 - New files must be `git add`-ed before `nix flake check` can see them
 
