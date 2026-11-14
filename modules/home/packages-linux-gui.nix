@@ -50,6 +50,7 @@
     plexamp
     prusa-slicer
     signal-desktop
+    simple-scan # scanner backend is in modules/nixos/workstation.nix
     unityhub # nixpkgs ships Unity Hub only; Unity editor installs through it
     vesktop
 

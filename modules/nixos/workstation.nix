@@ -106,6 +106,25 @@
     ensureDefaultPrinter = "Brother";
   };
 
+  # Scanning on the same Brother MFC-L2700DW. It has no eSCL (AirScan)
+  # endpoint, so driverless sane-airscan can't see it; Brother's brscan4
+  # backend talks to it over the network instead.
+  hardware.sane = {
+    enable = true;
+    brscan4 = {
+      enable = true;
+      netDevices.office = {
+        model = "MFC-L2700DW";
+        nodename = "brother-printer.internal";
+      };
+    };
+  };
+
+  users.users.${username}.extraGroups = [
+    "scanner"
+    "lp"
+  ];
+
   services.flatpak.enable = true;
 
   # Run the UDisks2 daemon so `udisksctl` (in the core package set) can mount

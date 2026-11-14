@@ -83,6 +83,9 @@
     pkg:
     builtins.elem (lib.getName pkg) [
       "1password"
+      "brother-udev-rule-type1"
+      "brscan4"
+      "brscan4-etc-files"
       "claude-code"
       "corefonts"
       "discord"
