@@ -83,7 +83,6 @@
       # ── LLM Tools ──────────────────────────────────────────────────────
       muse-acp # ACP adapter bridging `muse` into Zed/JetBrains
       muse-code # Meta's terminal coding agent (`muse`)
-      opencode # agentic terminal coding tool; configured for ollama
       sak
 
       # ── Misc ───────────────────────────────────────────────────────────

@@ -168,7 +168,6 @@ let
   workstationHomeModules = [
     ../modules/home/packages-dev.nix
     ../modules/home/wezterm.nix
-    ../modules/home/opencode.nix
     ../modules/home/zed.nix
   ];
 
