@@ -153,6 +153,21 @@
   services.keybase.enable = true;
   services.kbfs.enable = true;
 
+  # Compat wrapper: the kbfs NixOS module and kbfsfuse itself exec
+  # `fusermount` from /run/wrappers/bin, but nixpkgs only ships a
+  # `fusermount3` wrapper (programs/fuse.nix is fuse3-only). Without the v2
+  # name, kbfs can never (re)mount ~/keybase — the daemon stays up but the
+  # mount fails with "fusermount: executable file not found in $PATH" — and
+  # ExecStop fails too, leaving a stale dead mount that breaks the next
+  # start's `mkdir -p` pre-start. fusermount3's CLI covers everything kbfs
+  # uses (`-u/-z` and mounting), so expose it under the v2 name as well.
+  security.wrappers.fusermount = {
+    owner = "root";
+    group = "root";
+    setuid = true;
+    source = "${lib.getBin pkgs.fuse3}/bin/fusermount3";
+  };
+
   # Upstream's kbfs.service sets PrivateTmp=true, which puts the unit in a
   # private mount namespace. A FUSE mount made there fails with EPERM and can't
   # propagate to the user session, so ~/keybase stays empty. Drop the namespace
