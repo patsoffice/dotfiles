@@ -6,7 +6,7 @@
 }:
 
 let
-  version = "0.20.0";
+  version = "0.23.1";
 
   # No "v" prefix in the filename; the release tag in the path keeps it.
   # .sha256 sidecar files next to each asset hold the expected hex digest
@@ -14,19 +14,19 @@ let
   sources = {
     aarch64-darwin = {
       url = "https://github.com/BrokkAi/muse-acp/releases/download/v${version}/muse-acp-v${version}-aarch64-apple-darwin.tar.gz";
-      hash = "sha256-suJ5s9ZEIbERHr7p5QYF8OEdZFJqTNjs91lzCGtN2fw=";
+      hash = "sha256-0XTPE71VrDx4bwjL+nshHm4cX9u08vctOnTWO9iNfZ0=";
     };
     aarch64-linux = {
       url = "https://github.com/BrokkAi/muse-acp/releases/download/v${version}/muse-acp-v${version}-aarch64-unknown-linux-gnu.tar.gz";
-      hash = "sha256-2myAXi6+mlL7PKQi/XhPUtRTnnE1vMd2AjoIWas/TUk=";
+      hash = "sha256-avOGDO94fa2SRRY3evxjf7IjZM57JmNmqJPKh+yYK2U=";
     };
     x86_64-darwin = {
       url = "https://github.com/BrokkAi/muse-acp/releases/download/v${version}/muse-acp-v${version}-x86_64-apple-darwin.tar.gz";
-      hash = "sha256-5P8GMIGVXQYOvsarDMtbmz9jsVK3OPd5EeALxjN0diM=";
+      hash = "sha256-QN3fIwqt69rmx1KaVrcpOgmD4gvVC9tCK3CtCcE6oMg=";
     };
     x86_64-linux = {
       url = "https://github.com/BrokkAi/muse-acp/releases/download/v${version}/muse-acp-v${version}-x86_64-unknown-linux-gnu.tar.gz";
-      hash = "sha256-5yEXkH2ceTwAYWFlbFgUF9lU587T2HWkpJq9OrPYnAk=";
+      hash = "sha256-pgyp9v294kZkRGGM3FHcn2rPYyK06u4mjFYKAIdQM6c=";
     };
   };
 

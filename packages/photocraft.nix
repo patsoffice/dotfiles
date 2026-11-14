@@ -12,7 +12,7 @@
 }:
 
 let
-  version = "0.17.0";
+  version = "0.23.1";
 
   # storytold/photocraft — open-source photo editor in pure Rust.
   # Release assets ship a .sha256 sidecar in SHA256SUMS.txt / a GitHub
@@ -22,26 +22,26 @@ let
   sources = {
     aarch64-linux = {
       url = "https://github.com/storytold/photocraft/releases/download/v${version}/photocraft-${version}-linux-aarch64.tar.gz";
-      hash = "sha256-qUeN7is08nCh+EWn1/TaUBxSnUQ2gO4jwsi1iIZ9Ybg=";
+      hash = "sha256-/MgcOK5ixy+p9P0ew9GDlkk7omFmJ5LWmVzDWQXOcdI=";
     };
     x86_64-linux = {
       url = "https://github.com/storytold/photocraft/releases/download/v${version}/photocraft-${version}-linux-x86_64.tar.gz";
-      hash = "sha256-Uln5xCjI7jR4w1UA7OmHE1Ycr8BQ5MnrNUpQUPNusrg=";
+      hash = "sha256-Q4Ou9noHzDcK0lCm7WABUgXT5sRj+vP/Sw9nuBeMz8g=";
     };
     aarch64-darwin = {
       url = "https://github.com/storytold/photocraft/releases/download/v${version}/photocraft-${version}-macos-universal.dmg";
-      hash = "sha256-bgkDFyp0QM5OcQAvVYW6Tv9Yj6P8mbeM2YERgMq9W4A=";
+      hash = "sha256-YGpSkXGIxl3HFwl4EYCg4yRODzt/QLL1uAFw6HNkQg0=";
     };
     x86_64-darwin = {
       url = "https://github.com/storytold/photocraft/releases/download/v${version}/photocraft-${version}-macos-universal.dmg";
-      hash = "sha256-bgkDFyp0QM5OcQAvVYW6Tv9Yj6P8mbeM2YERgMq9W4A=";
+      hash = "sha256-YGpSkXGIxl3HFwl4EYCg4yRODzt/QLL1uAFw6HNkQg0=";
     };
   };
 
   # The macOS CLI ships separately from the DMG.
   darwinCliSrc = fetchurl {
     url = "https://github.com/storytold/photocraft/releases/download/v${version}/photocraft-cli-${version}-macos-universal.zip";
-    hash = "sha256-bt/5nMGXdQi+qbVWb1UTdOe470KiFQLuCEodlp8NVMA=";
+    hash = "sha256-puzcbUrdAogWQr2goLGRtJdBGGUfLsVkHccbLD/0t1I=";
   };
 
   src = fetchurl sources.${stdenv.hostPlatform.system};
