@@ -40,14 +40,14 @@
   # closure — so allow it to unblock the rebuild. Drop this once nixpkgs ships a
   # patched pnpm (or vesktop stops needing this version).
   #
-  # TODO(revisit): keybase-gui bundles Electron 28, EOL since 2023-12-05 with
-  # many known CVEs. Unlike pnpm this one IS runtime and network-facing, so it
-  # is a real (accepted) exposure, not just a build-time gate. The keybase CLI
-  # and the KBFS daemon below are Go and unaffected. Drop this — and probably
-  # keybase-gui with it — if upstream stays on the EOL Electron.
+  # TODO(revisit): keybase-gui bundles vendored Electron 39.2.7, flagged
+  # insecure by nixpkgs. Unlike pnpm this one IS runtime and network-facing, so
+  # it is a real (accepted) exposure, not just a build-time gate. The keybase
+  # CLI and the KBFS daemon below are Go and unaffected. Drop this — and
+  # probably keybase-gui with it — if upstream stays on the insecure Electron.
   nixpkgs.config.permittedInsecurePackages = [
     "pnpm-10.29.2"
-    "keybase-gui-6.5.1"
+    "keybase-gui-6.6.3"
   ];
 
   hardware.bluetooth.enable = true;
