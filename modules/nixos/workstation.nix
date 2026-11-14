@@ -20,8 +20,6 @@
       save = true;
       path = "/tmp/dms-greeter.log";
     };
-
-    quickshell.package = pkgs.quickshell;
   };
 
   # Dedicated PAM service for the DankMaterialShell lock screen's password
