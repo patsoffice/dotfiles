@@ -6,12 +6,14 @@
   ];
 
   # ── Applications ─────────────────────────────────────────────────────
-  # PhotoCraft/PdfCraft come from the craft overlay in lib/mkHost.nix
-  # (upstream DMGs, like the Linux tarballs in packages-linux-gui.nix);
-  # home-manager copies their .apps into ~/Applications.
+  # PhotoCraft/PdfCraft/SolidCraft come from the craft overlay in
+  # lib/mkHost.nix (upstream DMGs, like the Linux tarballs in
+  # packages-linux-gui.nix); home-manager copies their .apps into
+  # ~/Applications.
   home.packages = with pkgs; [
     pdfcraft
     photocraft
+    solidcraft
   ];
 
   # Use 1Password SSH agent (macOS path)

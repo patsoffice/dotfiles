@@ -60,7 +60,7 @@ gc:
 
 # Bump a pinned binary package to its latest upstream release
 # (version + per-platform hashes in packages/<pkg>.nix).
-# Usage: just bump [muse-code|muse-acp|photocraft|pdfcraft|beads-rust]
+# Usage: just bump [muse-code|muse-acp|photocraft|pdfcraft|solidcraft|beads-rust]
 # With no package, bumps all of them.
 bump pkg="":
     ./scripts/bump.sh {{ pkg }}

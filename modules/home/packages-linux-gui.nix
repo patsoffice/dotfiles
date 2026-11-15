@@ -46,6 +46,7 @@
     openscad
     pdfcraft
     photocraft
+    solidcraft
     thunderbird
     plexamp
     prusa-slicer

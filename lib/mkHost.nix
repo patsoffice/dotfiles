@@ -74,7 +74,8 @@ let
   };
 
   # Overlay: exposes pkgs.photocraft / pkgs.pdfcraft (storytold's Rust
-  # photo and PDF editors) from their pre-built binary releases. Linux
+  # photo and PDF editors) and pkgs.solidcraft (Tangency Labs' Rust
+  # parametric CAD) from their pre-built binary releases. Linux
   # gets the tarballs; macOS gets the signed universal DMGs plus the
   # separately shipped CLIs (see packages/photocraft.nix).
   craftOverlay =
@@ -90,6 +91,7 @@ let
       {
         photocraft = final.callPackage ../packages/photocraft.nix { };
         pdfcraft = final.callPackage ../packages/pdfcraft.nix { };
+        solidcraft = final.callPackage ../packages/solidcraft.nix { };
       }
     else
       { };

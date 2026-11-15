@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Bump a pinned binary package to its latest upstream release
 # (version + per-platform hashes in packages/<pkg>.nix).
-# Usage: scripts/bump.sh [muse-code|muse-acp|photocraft|pdfcraft|beads-rust]
+# Usage: scripts/bump.sh [muse-code|muse-acp|photocraft|pdfcraft|solidcraft|beads-rust]
 # With no package, bumps all of them (continues past individual failures
 # and reports them at the end).
 set -euo pipefail
@@ -15,7 +15,7 @@ curl() { command curl --retry 4 --retry-delay 5 --retry-all-errors "$@"; }
 
 if [ $# -eq 0 ]; then
   failed=""
-  for p in muse-code muse-acp photocraft pdfcraft beads-rust; do
+  for p in muse-code muse-acp photocraft pdfcraft solidcraft beads-rust; do
     "$0" "$p" || failed="$failed $p"
   done
   if [ -n "$failed" ]; then
@@ -25,10 +25,10 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-pkg="${1:?usage: bump.sh [muse-code|muse-acp|photocraft|pdfcraft|beads-rust]}"
+pkg="${1:?usage: bump.sh [muse-code|muse-acp|photocraft|pdfcraft|solidcraft|beads-rust]}"
 nixfile="packages/${pkg}.nix"
 case "$pkg" in
-  muse-code|muse-acp|photocraft|pdfcraft) ;;
+  muse-code|muse-acp|photocraft|pdfcraft|solidcraft) ;;
   beads-rust) nixfile="packages/beads_rust.nix" ;;
   *) echo "unknown package: $pkg" >&2; exit 1 ;;
 esac
@@ -71,8 +71,11 @@ EOF
       hexes+="$(curl -m 30 -fsSL "${base}/${a}.sha256" | awk '{print $1}')"$'\n'
     done
     ;;
-  photocraft|pdfcraft)
-    repo="storytold/${pkg}"
+  photocraft|pdfcraft|solidcraft)
+    case "$pkg" in
+      solidcraft) repo="tangency-labs/solidcraft" ;;
+      *) repo="storytold/${pkg}" ;;
+    esac
     latest="$(curl -m 20 -fsSL "https://api.github.com/repos/${repo}/releases/latest" | python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"].lstrip("v"))')"
     sums="$(curl -m 30 -fsSL "https://github.com/${repo}/releases/download/v${latest}/SHA256SUMS.txt")"
     # Order must match the `hash = ...` lines in the .nix file: the two
