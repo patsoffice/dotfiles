@@ -95,6 +95,7 @@
     (kicad.override { stable = true; })
     keybase-gui
     libreoffice
+    nautilus # GNOME Files; default inode/directory handler below
     obsidian
     openscad
     pdfcraft
