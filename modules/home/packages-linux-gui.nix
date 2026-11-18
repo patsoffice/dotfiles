@@ -13,7 +13,60 @@
       # still needs a Mac running the BlueBubbles server), so it comes from
       # Flathub instead. nix-flatpak defaults the remote to flathub.
       "app.openbubbles.OpenBubbles"
+      # Eden (Nintendo Switch emulator, Yuzu successor). The nixpkgs
+      # packaging PR (#406630) was closed unmerged, so it comes from
+      # Flathub instead: flatpak install flathub dev.eden_emu.eden
+      "dev.eden_emu.eden"
     ];
+  };
+
+  # Eden's Flatpak manifest grants no filesystem access, so expose the
+  # Emulation library explicitly: ROMs in ~/Emulation/roms/<system>, keys and
+  # firmware zips in ~/Emulation/bios. Merge mode (the default) keeps any
+  # manually added overrides for other keys.
+  services.flatpak.overrides.settings = {
+    "dev.eden_emu.eden".Context.filesystems = [
+      "${config.home.homeDirectory}/Emulation"
+    ];
+  };
+
+  # Default handlers, migrated from the imperatively built ~/.config/mimeapps.list
+  # so Home Manager owns the file going forward. force overwrites that file on
+  # first switch; entries below preserve every association it had. Note the
+  # tradeoff: GUI "set as default" changes get reverted on the next switch.
+  xdg.configFile."mimeapps.list".force = true;
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      "text/html" = [ "brave-browser.desktop" ];
+      "application/xhtml+xml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-htm" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-html" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-shtml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-xhtml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-xht" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/http" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/https" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/chrome" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/about" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/unknown" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/discord" = [ "vesktop.desktop" ];
+      "x-scheme-handler/abc" = [ "plexamp.desktop" ];
+      "x-scheme-handler/claude-cli" = [ "claude-code-url-handler.desktop" ];
+    };
+    associations.added = {
+      "text/html" = [ "firefox-devedition.desktop" ];
+      "application/xhtml+xml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-htm" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-html" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-shtml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-xhtml" = [ "firefox-devedition.desktop" ];
+      "application/x-extension-xht" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/chrome" = [ "firefox-devedition.desktop" ];
+    };
   };
 
   home.packages = with pkgs; [
