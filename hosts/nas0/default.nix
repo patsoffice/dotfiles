@@ -198,6 +198,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
+      /tank/application-storage/prusa-connect *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/apps *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/VolsyncKopia *(rw,acl,sync,no_subtree_check,sec=sys)
       /tank/backups/syncthing *(rw,acl,sync,no_subtree_check,sec=sys)
