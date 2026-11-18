@@ -52,6 +52,14 @@
 
   hardware.bluetooth.enable = true;
 
+  # Hardware graphics (mesa RADV Vulkan + OpenGL) for the AMD GPU, with 32-bit
+  # support for Steam and steam-run games. Declared here rather than relying
+  # on the greeter module's copy so the workstation class owns it explicitly.
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
   programs.niri.enable = true;
 
   # 1Password GUI via the NixOS module rather than a home-manager package.

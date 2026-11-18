@@ -46,6 +46,7 @@
     vim
     wget
     neovim
+    steam-run # FHS env for foreign binaries (game ports, PyInstaller launchers)
   ];
 
   # Enable the OpenSSH daemon.
