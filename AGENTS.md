@@ -39,9 +39,11 @@ This is a Nix-based dotfiles repository managing system and user configuration a
 ## Commit Style
 
 - Prefix: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`
-- Summary line under 80 chars
+- Summary line 50 chars or less (the 50/72 rule) with counts where relevant
 - Body: each logical change on its own `-` bullet
-- Summarize what was changed and why, not just file names
+- Summarize what was added/changed and why, not just file names
+- Wrap body lines at 72 chars; commit with `git commit -F - <<'EOF'` heredoc so breaks survive (`-m` per bullet inserts blank lines)
+- If commit signing fails, stop: never commit unsigned and never bypass with `--no-gpg-sign`
 
 ## SAK (Swiss Army Knife for LLMs)
 
