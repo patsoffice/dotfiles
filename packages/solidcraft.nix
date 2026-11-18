@@ -12,7 +12,7 @@
 }:
 
 let
-  version = "0.42.0";
+  version = "0.44.1";
 
   # tangency-labs/solidcraft — open-source parametric 3D CAD in pure Rust.
   # Release assets ship checksums in SHA256SUMS.txt (`nix hash convert
@@ -23,26 +23,26 @@ let
   sources = {
     aarch64-linux = {
       url = "https://github.com/tangency-labs/solidcraft/releases/download/v${version}/solidcraft-${version}-linux-aarch64.tar.gz";
-      hash = "sha256-TCblkd8wPIM5qI2qlYNq04Bys4BikPCoTV5ncSrRxjQ=";
+      hash = "sha256-Uca4RrjdtUcXJOW0uU/loMtf00pENwaHLBDeJ8N4d0A=";
     };
     x86_64-linux = {
       url = "https://github.com/tangency-labs/solidcraft/releases/download/v${version}/solidcraft-${version}-linux-x86_64.tar.gz";
-      hash = "sha256-XAVGPI6iR6SSabpjoMI6PWy6TReucTxlXS+Uhy/EQks=";
+      hash = "sha256-FkCXdD9v8Rwe65CkMTlkcolV4pdokFIFPk5djSCmQik=";
     };
     aarch64-darwin = {
       url = "https://github.com/tangency-labs/solidcraft/releases/download/v${version}/solidcraft-${version}-macos-universal.dmg";
-      hash = "sha256-OSnB4i7b4A4CTJ6KOFBd2jjN5Q8JbTegErIKDr2rizA=";
+      hash = "sha256-6JFvxAE1o4tLfBW79GmOKwHC8RQC6dvDLoQCHO5ADUM=";
     };
     x86_64-darwin = {
       url = "https://github.com/tangency-labs/solidcraft/releases/download/v${version}/solidcraft-${version}-macos-universal.dmg";
-      hash = "sha256-OSnB4i7b4A4CTJ6KOFBd2jjN5Q8JbTegErIKDr2rizA=";
+      hash = "sha256-6JFvxAE1o4tLfBW79GmOKwHC8RQC6dvDLoQCHO5ADUM=";
     };
   };
 
   # The macOS CLI ships separately from the DMG.
   darwinCliSrc = fetchurl {
     url = "https://github.com/tangency-labs/solidcraft/releases/download/v${version}/solidcraft-cli-${version}-macos-universal.zip";
-    hash = "sha256-xQvpllqbtCRrv3zCNHHG7vdPyFphTV2sVG0KV81XFqg=";
+    hash = "sha256-8yTsSf1Qsw1twYko2EdJuKcqEy5CM9r4ROQis8OLwlE=";
   };
 
   src = fetchurl sources.${stdenv.hostPlatform.system};
@@ -78,6 +78,8 @@ stdenv.mkDerivation (
       vulkan-loader
     ];
 
+    # Upstream dropped the solvecraft app in 0.44 (apps/ is now solidcraft,
+    # solidcraft-cli, solidcraft-web), so only these two binaries ship.
     installPhase =
       if stdenv.hostPlatform.isDarwin then
         ''
@@ -87,14 +89,12 @@ stdenv.mkDerivation (
           ln -s ../Applications/SolidCraft.app/Contents/MacOS/SolidCraft $out/bin/solidcraft
           unzip -q ${darwinCliSrc} -d cli
           install -Dm755 cli/*/solidcraft-cli $out/bin/solidcraft-cli
-          install -Dm755 cli/*/solvecraft-cli $out/bin/solvecraft-cli
           runHook postInstall
         ''
       else
         ''
           install -Dm755 bin/solidcraft $out/bin/solidcraft
           install -Dm755 bin/solidcraft-cli $out/bin/solidcraft-cli
-          install -Dm755 bin/solvecraft-cli $out/bin/solvecraft-cli
         '';
 
     # winit dlopens libwayland-client at runtime (likewise xkbcommon for
