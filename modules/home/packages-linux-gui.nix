@@ -8,6 +8,10 @@
 
   services.flatpak = {
     enable = true;
+    # Flatpaks don't track the flake, so nothing updates them unless asked.
+    # A systemd timer refreshes them in the background on the module's
+    # default schedule (weekly).
+    update.auto.enable = true;
     packages = [
       # iMessage client. Not in nixpkgs (only bluebubbles is, and that one
       # still needs a Mac running the BlueBubbles server), so it comes from
