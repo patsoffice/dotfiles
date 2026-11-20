@@ -121,6 +121,11 @@
       darwinConfigurations = {
         pjl-mbpro = helpers.mkDarwinHost {
           hostname = "pjl-mbpro";
+          class = "darwin-workstation";
+        };
+        bubbles = helpers.mkDarwinHost {
+          hostname = "bubbles";
+          class = "darwin-server";
         };
       };
 

@@ -220,6 +220,31 @@ let
     };
   };
 
+  # ── Darwin class definitions ─────────────────────────────────────────
+  # Mirrors classConfig above: system modules + home module set per class.
+  # Workstations get dev packages, the 1Password-backed homeBase, and
+  # Homebrew; servers get core Nix packages only, no Homebrew.
+
+  darwinClassConfig = {
+    darwin-workstation = {
+      systemModules = [
+        ../modules/darwin/base.nix
+        ../modules/darwin/homebrew.nix
+      ];
+      homeModules = coreHomeModules ++ workstationHomeModules;
+      homeBase = ../hostclass/darwin-workstation.nix;
+    };
+
+    darwin-server = {
+      systemModules = [
+        ../modules/darwin/base.nix
+        ../modules/darwin/server.nix
+      ];
+      homeModules = coreHomeModules;
+      homeBase = ../hostclass/darwin-server.nix;
+    };
+  };
+
   # ── Host constructors ────────────────────────────────────────────────
 
   mkNixosHost =
@@ -272,9 +297,13 @@ let
       hostname,
       username ? "pjl",
       system ? "aarch64-darwin",
+      class,
       extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
+    let
+      dc = darwinClassConfig.${class};
+    in
     nix-darwin.lib.darwinSystem {
       inherit system;
       specialArgs = {
@@ -282,8 +311,9 @@ let
       };
       modules = [
         ../hosts/${hostname}/default.nix
-        ../modules/darwin/base.nix
-        ../modules/darwin/homebrew.nix
+      ]
+      ++ dc.systemModules
+      ++ [
         home-manager.darwinModules.home-manager
         {
           home-manager = {
@@ -291,11 +321,7 @@ let
             useUserPackages = true;
             backupFileExtension = "hm-backup";
             users.${username} = {
-              imports =
-                coreHomeModules
-                ++ workstationHomeModules
-                ++ [ ../hostclass/darwin-workstation.nix ]
-                ++ extraHomeModules;
+              imports = dc.homeModules ++ [ dc.homeBase ] ++ extraHomeModules;
             };
           };
         }
