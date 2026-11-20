@@ -3,8 +3,10 @@
 # Apply system configuration
 switch:
     @if [ "$(uname)" = "Darwin" ]; then \
+        if command -v brew >/dev/null; then \
         brew update || true; \
         brew upgrade --greedy; \
+        fi; \
         sudo darwin-rebuild switch --flake .#$(hostname -s); \
     elif [ -f /etc/NIXOS ]; then \
         sudo nixos-rebuild switch --flake .#$(hostname -s); \
